@@ -1,0 +1,145 @@
+# TOPSIS composite risk score configuration — India (Assam) reference example.
+# See docs/topsis_risk_score.md for methodology detail.
+#
+# I/O locations are not set here; the district lookup and outputs are fixed names
+# resolved under --data-dir (run this example with --data-dir contrib/india/example/data).
+
+[weights]
+flood_hazard        = 4
+exposure            = 1
+vulnerability       = 2
+government_response = 2
+
+[classification]
+n_bins = 5
+
+[cumulative_vars]
+variables = [
+    "total_tender_awarded_value",
+    "sdrf_sanctions_awarded_value",
+    "sdrf_tenders_awarded_value",
+    "preparedness_measures_tenders_awarded_value",
+    "immediate_measures_tenders_awarded_value",
+    "others_tenders_awarded_value",
+]
+
+# District-level indicator columns and their aggregation rules.
+# Keys are snake_case column names (kebab-cased automatically on output).
+# Values are pandas aggregation functions: "sum", "mean", "max", "min", or "first".
+# Remove any row whose column is not present in your data.
+[indicators]
+total_tender_awarded_value                            = "sum"
+sopd_tenders_awarded_value                            = "sum"
+sdrf_sanctions_awarded_value                          = "first"
+sdrf_tenders_awarded_value                            = "sum"
+ridf_tenders_awarded_value                            = "sum"
+ltif_tenders_awarded_value                            = "sum"
+cidf_tenders_awarded_value                            = "sum"
+preparedness_measures_tenders_awarded_value           = "sum"
+immediate_measures_tenders_awarded_value              = "sum"
+others_tenders_awarded_value                          = "sum"
+others_tenders_awarded_value_fy_cumsum                = "sum"
+total_tender_awarded_value_fy_cumsum                  = "sum"
+sdrf_sanctions_awarded_value_fy_cumsum                = "first"
+sdrf_tenders_awarded_value_fy_cumsum                  = "sum"
+preparedness_measures_tenders_awarded_value_fy_cumsum = "sum"
+immediate_measures_tenders_awarded_value_fy_cumsum    = "sum"
+total_expenditure_value                               = "sum"
+immediate_measures_expenditure_value                  = "sum"
+others_expenditure_value                              = "sum"
+sdrf_expenditure_value                                = "sum"
+repair_and_restoration_expenditure_value              = "sum"
+total_animals_washed_away                             = "sum"
+total_animals_affected                                = "sum"
+total_houses_fully_damaged                            = "sum"
+embankments_affected                                  = "sum"
+roads_damaged                                         = "sum"
+bridges_damaged                                       = "sum"
+embankments_breached                                  = "sum"
+total_population                                      = "sum"
+inundation_intensity_sum                              = "sum"
+total_households                                      = "sum"
+human_lives_lost                                      = "sum"
+elderly_population                                    = "sum"
+schools_count                                         = "sum"
+health_centres_count                                  = "sum"
+road_length                                           = "sum"
+rail_length                                           = "sum"
+sum_rain                                              = "sum"
+rc_area                                               = "sum"
+young_population                                      = "sum"
+net_sown_area_ha                                      = "sum"
+rail_count                                            = "sum"
+population_affected_total                             = "sum"
+crop_area                                             = "sum"
+relief_camps                                          = "sum"
+relief_centers                                        = "sum"
+relief_inmates                                        = "sum"
+rc_no_sanitation_households_pct                       = "mean"
+drainage_density                                      = "mean"
+inundation_pct                                        = "mean"
+inundation_intensity_mean_nonzero                     = "mean"
+inundation_intensity_mean                             = "mean"
+electricity_access                                    = "mean"
+rc_piped_water_households_pct                         = "mean"
+mean_sex_ratio                                        = "mean"
+mean_rain                                             = "mean"
+elevation_mean                                        = "mean"
+mean_ndvi                                             = "mean"
+mean_ndbi                                             = "mean"
+riverlevel_mean                                       = "mean"
+mean_cn                                               = "mean"
+slope_mean                                            = "mean"
+avg_tele                                              = "mean"
+distance_from_river                                   = "mean"
+water                                                 = "mean"
+trees                                                 = "mean"
+rangeland                                             = "mean"
+crops                                                 = "mean"
+flooded_vegetation                                    = "mean"
+built_area                                            = "mean"
+bare_ground                                           = "mean"
+clouds                                                = "mean"
+efficiency                                            = "mean"
+topsis_score                                          = "mean"
+max_rain                                              = "max"
+riverlevel_max                                        = "max"
+riverlevel_min                                        = "min"
+financial_year                                        = "first"
+
+# Decimal places to round output columns to. Omit a column to leave it unrounded.
+[rounding]
+avg_tele                          = 1
+electricity_access                = 1
+mean_sex_ratio                    = 2
+inundation_intensity_mean_nonzero = 2
+rc_piped_water_households_pct     = 2
+rc_no_sanitation_households_pct   = 2
+inundation_intensity_sum          = 2
+max_rain                          = 2
+mean_rain                         = 2
+sum_rain                          = 2
+elderly_population                = 0
+young_population                  = 0
+total_population                  = 0
+rail_length                       = 0
+road_length                       = 0
+elevation_mean                    = 0
+slope_mean                        = 0
+crop_area                         = 0
+
+# Optional, geography-specific post-processing of the final output.
+# Keys are snake_case column names (kebab-cased automatically on output).
+
+# Multiply a column in place by a constant factor (here: fraction -> percentage).
+[derivations.scale]
+inundation_pct = 100
+
+# Create a new column as the row-wise sum of components (only if all are present).
+[derivations.sum]
+total_infrastructure_damage = ["total_houses_fully_damaged", "roads_damaged", "bridges_damaged"]
+
+# Rename output columns (missing names are ignored). Tenders flagged as
+# "Preparedness Measures" are surfaced on the platform as restoration measures.
+[renames]
+preparedness_measures_tenders_awarded_value = "restoration_measures_tenders_awarded_value"

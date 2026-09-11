@@ -1,0 +1,139 @@
+# Scores configuration — India (Assam) reference example.
+# I/O locations are supplied at run time via --data-dir / --input-file; run this
+# example with: --data-dir contrib/india/example/data
+#
+# The master input must use the fixed structural column names time_period,
+# unit_id and parent_unit (these are not configurable).
+
+# ===========================================================================
+# Flood hazard score. See docs/score_hazard.md.
+# ===========================================================================
+[hazard.inputs]
+variables = [
+    "inundation_intensity_mean_nonzero",
+    "inundation_intensity_sum",
+    "drainage_density",
+    "mean_rain",
+    "max_rain",
+]
+
+[hazard.classification]
+quantile_thresholds = [0.35, 0.60, 0.80, 0.95]
+classes             = [1, 2, 3, 4, 5]
+
+[hazard.output]
+file      = "factor_scores_l1_flood-hazard.csv"
+plot_file = "hazard_distribution.png"
+
+[hazard.plot]
+figsize = [15, 6]
+dpi     = 300
+
+# ===========================================================================
+# Exposure score. See docs/score_exposure.md.
+# ===========================================================================
+[exposure.inputs]
+variables = [
+    "total_population",
+    "total_households",
+]
+
+[exposure.classification]
+classes = [1, 2, 3, 4, 5]
+
+[exposure.output]
+file = "factor_scores_l1_exposure.csv"
+
+# ===========================================================================
+# Vulnerability score (DEA). See docs/score_vulnerability.md.
+# ===========================================================================
+[vulnerability.inputs]
+# Structural condition variables used as DEA inputs.
+condition_vars = [
+    "mean_sex_ratio",
+    "schools_count",
+    "health_centres_count",
+    "rail_length",
+    "road_length",
+    "net_sown_area_ha",
+    "electricity_access",
+    "rc_piped_water_households_pct",
+    "rc_no_sanitation_households_pct",
+    "elderly_population",
+    "embankments_breached",
+]
+
+# Observed flood damage variables used as DEA outputs.
+damage_vars = [
+    "human_lives_lost",
+    "population_affected_total",
+    "crop_area",
+    "embankments_affected",
+    "roads_damaged",
+    "bridges_damaged",
+]
+
+# Condition variables where a higher value means better resilience.
+inverted_inputs = [
+    "schools_count",
+    "health_centres_count",
+    "rail_length",
+    "road_length",
+    "electricity_access",
+    "rc_piped_water_households_pct",
+]
+
+# Condition variables with negative polarity used in damage weighting.
+neg_inputs = [
+    "rc_no_sanitation_households_pct",
+    "elderly_population",
+    "embankments_breached",
+]
+
+# Per-capita normalisation applied before scoring: variable = denominator_column.
+[vulnerability.normalisation.per_capita]
+population_affected_total  = "total_population"
+human_lives_lost           = "total_population"
+total_animals_affected     = "total_population"
+total_houses_fully_damaged = "total_population"
+
+# Per-area normalisation applied before scoring: variable = denominator_column.
+[vulnerability.normalisation.per_area]
+crop_area                 = "net_sown_area_ha"
+roads_damaged             = "rc_area"
+bridges_damaged           = "rc_area"
+embankments_breached      = "rc_area"
+elderly_population         = "rc_area"
+rail_length               = "rc_area"
+schools_count             = "rc_area"
+health_centres_count      = "rc_area"
+road_length               = "rc_area"
+net_sown_area_ha          = "rc_area"
+embankments_affected      = "rc_area"
+
+[vulnerability.classification]
+n_classes         = 5
+damage_threshold  = 0.0001
+
+[vulnerability.output]
+file = "factor_scores_l1_vulnerability.csv"
+
+# ===========================================================================
+# Government response score. See docs/score_government_response.md.
+# ===========================================================================
+[govtresponse.inputs]
+variables = [
+    "total_tender_awarded_value",
+    "sdrf_sanctions_awarded_value",
+    "sdrf_tenders_awarded_value",
+]
+
+[govtresponse.fiscal_year]
+# India fiscal calendar: April–March.
+start_month = 4
+
+[govtresponse.classification]
+classes = [5, 4, 3, 2, 1]
+
+[govtresponse.output]
+file = "factor_scores_l1_government-response.csv"

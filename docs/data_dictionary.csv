@@ -1,0 +1,39 @@
+indicatorSlug,indicatorTitle,factor,unit,description,datasource
+unit_id,Geographic unit ID,key,ID,"Stable unique identifier for each geographic unit (any scheme; not tied to a national code)",sample
+parent_unit,Parent unit,key,name,"Parent unit name used for parent-level aggregation in the TOPSIS step",sample
+time_period,Time period,key,YYYY-MM,"Month identifier, e.g. 2022-07",sample
+area_sqkm,Unit area,key,km^2,"Area of the geographic unit in square kilometres (per-area normalisation denominator)",sample
+inundation_intensity_mean_nonzero,Mean inundation intensity,hazard,index,"Mean flood inundation intensity over flooded pixels",sample
+inundation_intensity_sum,Cumulative inundation intensity,hazard,index,"Sum of inundation intensity across the unit",sample
+drainage_density,Drainage density,hazard,km/km^2,"Stream length per unit area",sample
+mean_rain,Mean rainfall,hazard,mm,"Mean rainfall in the unit for the month",sample
+max_rain,Maximum rainfall,hazard,mm,"Maximum rainfall pixel value in the unit for the month",sample
+total_population,Total population,exposure,persons,"Total estimated population of the unit",sample
+total_households,Total households,exposure,households,"Total number of households in the unit",sample
+mean_sex_ratio,Sex ratio,vulnerability,females per 1000 males,"Demographic balance indicator",sample
+schools_count,Schools,vulnerability,count,"Number of schools in the unit",sample
+health_centres_count,Health centres,vulnerability,count,"Number of health centres in the unit",sample
+rail_length,Rail length,vulnerability,km,"Length of rail track in the unit",sample
+road_length,Road length,vulnerability,km,"Length of roads in the unit",sample
+net_sown_area_ha,Net sown area,vulnerability,hectares,"Agricultural sown area",sample
+electricity_access,Electricity access,vulnerability,score 0-1,"Share/score of electricity access",sample
+piped_water_households_pct,Piped water coverage,vulnerability,percent,"Percentage of households with piped water",sample
+no_sanitation_households_pct,No sanitation,vulnerability,percent,"Percentage of households without sanitation",sample
+elderly_population,Elderly population,vulnerability,persons,"Population above retirement age",sample
+flood_protection_failures,Flood-protection failures,vulnerability,count,"Failures of flood-protection structures (e.g. breached defences)",sample
+human_lives_lost,Lives lost,vulnerability,persons,"Deaths attributed to flooding",sample
+population_affected_total,Population affected,vulnerability,persons,"People affected by flooding",sample
+crop_area,Crop area damaged,vulnerability,hectares,"Damaged crop area",sample
+flood_protection_damaged,Flood-protection damage,vulnerability,count,"Damage to flood-protection structures",sample
+roads_damaged,Roads damaged,vulnerability,count,"Road segments damaged by flooding",sample
+bridges_damaged,Bridges damaged,vulnerability,count,"Bridges damaged by flooding",sample
+total_procurement_value,Total procurement,government-response,currency,"Total value of disaster-related contracts awarded",sample
+disaster_fund_sanctions_value,Disaster fund sanctions,government-response,currency,"Value of disaster-fund disbursements sanctioned",sample
+disaster_fund_procurement_value,Disaster fund procurement,government-response,currency,"Value of disaster-fund-financed contracts awarded",sample
+flood-hazard,Flood hazard class,output,class 1-5,"Hazard factor score (1 lowest, 5 highest)",MODEL
+exposure,Exposure class,output,class 1-5,"Exposure factor score (1 lowest, 5 highest)",MODEL
+vulnerability,Vulnerability class,output,class 1-5,"Vulnerability factor score (1 lowest, 5 highest)",MODEL
+government-response,Government response class,output,class 1-5,"Government-response score (inverted: 1 strongest response, 5 weakest)",MODEL
+efficiency,DEA efficiency,output,score 0-1,"Data Envelopment Analysis efficiency used to derive vulnerability",MODEL
+risk-score,Overall flood risk class,output,class 1-5,"Composite risk score from TOPSIS aggregation (1 lowest, 5 highest)",MODEL
+topsis-score,TOPSIS score,output,score 0-1,"Continuous TOPSIS closeness coefficient underlying the risk class",MODEL

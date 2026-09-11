@@ -1,0 +1,27 @@
+__pycache__/
+.DS_Store
+.idea/
+.vscode/
+.venv/
+
+# Packaging artifacts.
+build/
+dist/
+*.egg-info/
+
+# Test / tooling artifacts.
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+
+# The top-level data/ is the default --data-dir: a scratch directory for sample
+# inputs (`drsm generate-sample-data`) and pipeline outputs. Nothing in it is
+# version-controlled.
+/data/
+
+# Generated pipeline outputs in the India example (its inputs ARE tracked).
+contrib/india/example/data/factor_scores_l1_*.csv
+contrib/india/example/data/risk_score.csv
+contrib/india/example/data/risk_score_district.csv
+contrib/india/example/data/hazard_distribution.png
