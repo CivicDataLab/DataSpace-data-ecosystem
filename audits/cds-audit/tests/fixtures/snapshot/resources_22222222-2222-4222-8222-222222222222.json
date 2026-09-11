@@ -1,0 +1,65 @@
+{
+ "data": {
+  "datasetResources": [
+   {
+    "id": "aaaaaaaa-0002-4000-8000-000000000002",
+    "name": "Receipts",
+    "description": "",
+    "type": "FILE",
+    "fileDetails": {
+     "format": "CSV",
+     "size": 1000.0,
+     "file": {
+      "name": "resources/Revenue Receipts Final.csv"
+     }
+    },
+    "schema": [
+     {
+      "fieldName": "Year",
+      "format": "STRING",
+      "description": "Description of column Year"
+     },
+     {
+      "fieldName": "Head of Account",
+      "format": "STRING",
+      "description": "Description of column Head of Account"
+     },
+     {
+      "fieldName": "Amount (Rs. Crore)",
+      "format": "STRING",
+      "description": "Description of column Amount (Rs. Crore)"
+     }
+    ],
+    "previewData": {
+     "columns": [
+      "Year",
+      "Head of Account",
+      "Amount (Rs. Crore)"
+     ],
+     "rows": [
+      [
+       "2018-19",
+       "Tax revenue",
+       "1,23,456"
+      ],
+      [
+       "2019-20",
+       "Tax revenue",
+       "1,31,002"
+      ],
+      [
+       "2020-21",
+       "Non-tax revenue",
+       "12,440"
+      ],
+      [
+       "2021-22",
+       "Non-tax revenue",
+       "NA"
+      ]
+     ]
+    }
+   }
+  ]
+ }
+}

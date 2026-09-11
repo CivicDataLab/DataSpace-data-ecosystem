@@ -1,0 +1,29 @@
+{
+ "data": {
+  "getDataset": {
+   "id": "33333333-3333-4333-8333-333333333333",
+   "title": "Annual report on anganwadi centres",
+   "description": "Annual report on anganwadi centres.",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "license": "CC_BY_4_0_ATTRIBUTION",
+   "isIndividualDataset": false,
+   "tags": [],
+   "user": null,
+   "organization": {
+    "name": "Example Child Rights Trust",
+    "logo": ""
+   },
+   "sectors": [
+    {
+     "name": "Child Rights"
+    }
+   ],
+   "geographies": [],
+   "formats": [
+    "PDF"
+   ],
+   "metadata": []
+  }
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "data": {
+  "datasetResources": [
+   {
+    "id": "aaaaaaaa-0007-4000-8000-000000000007",
+    "name": "Literacy",
+    "description": "",
+    "type": "FILE",
+    "fileDetails": {
+     "format": "CSV",
+     "size": 1000.0,
+     "file": {
+      "name": "resources/literacy_assam_2011_v1.csv"
+     }
+    },
+    "schema": [
+     {
+      "fieldName": "district_name",
+      "format": "STRING",
+      "description": "Description of column district_name"
+     },
+     {
+      "fieldName": "literacyRate",
+      "format": "NUMBER",
+      "description": "Description of column literacyRate"
+     },
+     {
+      "fieldName": "female_literacy_pct",
+      "format": "NUMBER",
+      "description": "Description of column female_literacy_pct"
+     },
+     {
+      "fieldName": "Population 2011",
+      "format": "INTEGER",
+      "description": "Description of column Population 2011"
+     }
+    ],
+    "previewData": {
+     "columns": [
+      "district_name",
+      "literacyRate",
+      "female_literacy_pct",
+      "Population 2011"
+     ],
+     "rows": [
+      [
+       "Barpetá",
+       63.8,
+       58.1,
+       1693622
+      ],
+      [
+       "Barpetá",
+       63.8,
+       58.1,
+       1693622
+      ],
+      [
+       "Dhemaji",
+       72.1,
+       104.3,
+       686133
+      ]
+     ]
+    }
+   }
+  ]
+ }
+}

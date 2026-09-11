@@ -1,0 +1,188 @@
+# CivicDataSpace dataset audit — scoring rules
+#
+# Every check maps to one section of "Dataset Uploading guidelines for CivicDataSpace".
+# Weights are relative; a dataset's score is sum(weight * check_score) / sum(weight)
+# over the checks that apply to it (checks marked "na" drop out of the denominator).
+# Defaults split 60 points to metadata (section 1) and 40 to the data itself (section 2).
+
+api:
+  # Production backend. The public site (civicdataspace.in) is a Next.js front end
+  # that calls this host for search (REST) and dataset details (GraphQL).
+  base_url: "https://api.datakeep.civicdays.in"
+  search_path: "/api/search/dataset/"
+  graphql_path: "/api/graphql"
+  download_path: "/api/download/resource/{resource_id}"
+  public_site: "https://civicdataspace.in"
+  page_size: 36
+  sort: "recent"
+  timeout_seconds: 30
+  max_retries: 3
+  pause_between_requests: 0.25   # be polite to the API
+  user_agent: "cds-audit/0.1 (+https://github.com/CivicDataLab)"
+
+weights:
+  "1.1_title": 8
+  "1.2_description": 12
+  "1.3_publisher": 5
+  "1.5_tags": 5
+  "1.6_sectors": 5
+  "1.7_geography": 7
+  "1.8_date_of_creation": 5
+  "1.9_license": 7
+  "1.10_source_website": 6
+  "2.1_file_format": 8
+  "2.2_encoding": 4
+  "2.3_column_naming": 7
+  "2.4_data_types": 6
+  "2.5_units": 4
+  "2.6_missing_values": 3
+  "2.7_data_quality": 4
+  "2.8_file_naming": 4
+
+# A dataset with any outright failing check cannot be graded better than this band,
+# however high its weighted score (stops strong-on-average datasets hiding a hard failure).
+grade_cap_on_fail: "Fair"
+
+grades:            # lower bound (inclusive) of each band, checked top-down
+  - {min: 85, label: "Good"}
+  - {min: 70, label: "Fair"}
+  - {min: 50, label: "Needs improvement"}
+  - {min: 0,  label: "Poor"}
+
+title:
+  max_length: 60
+  # Characters allowed besides letters, digits and whitespace. Anything else is flagged.
+  allowed_punctuation: "-–—(),.:'’"
+  # Upper-case tokens that should not be flagged as abbreviations.
+  abbreviation_allowlist: []
+
+description:
+  min_sentences: 2
+  max_sentences: 5
+  periodicity_terms: [hourly, daily, weekly, fortnightly, monthly, quarterly, half-yearly,
+    biannual, annual, annually, yearly, year-wise, yearwise, decadal, "financial year",
+    "fiscal year", "one-time", "one time", "real-time", "real time", "every year", "each year",
+    "per year", "census year", "seasonal"]
+  periodicity_patterns: ['every (\w+ )?(years?|months?|weeks?|days?|hours?)', 'once (a|every) (year|month|week|day)']
+  purpose_terms: ["to support", "intended", "can be used", "could be used", "useful for",
+    "helps", "to help", "enables", "to enable", "for research", "for analysis", "to assess",
+    "to track", "to monitor", "to understand", "to inform", "purpose", "aims to", "supports",
+    "used to", "used for", "designed to"]
+  source_terms: ["compiled by", "collected by", "published by", "sourced from", "source:",
+    "data from", "provided by", "released by", "according to", "obtained from", "extracted from",
+    "scraped from", "derived from", "taken from", "prepared by", "maintained by", "reported by",
+    "uses the", "based on"]
+  source_entity_terms: [ministry, department, directorate, census, survey, bureau, commission,
+    authority, board, corporation, institute, government, govt, nic, "data.gov.in", portal,
+    agency, organisation, organization, council, office, "worldpop", "imd", "nfhs", "nsso"]
+
+geography_terms:   # used to detect a geography mention in titles/descriptions
+  - India
+  - national
+  - nationwide
+  - state-wise
+  - district
+  - districts
+  - block
+  - village
+  - revenue circle
+  - tehsil
+  - taluka
+  - ward
+  - city
+  - municipal
+  - Andhra Pradesh
+  - Arunachal Pradesh
+  - Assam
+  - Bihar
+  - Chhattisgarh
+  - Goa
+  - Gujarat
+  - Haryana
+  - Himachal Pradesh
+  - Jharkhand
+  - Karnataka
+  - Kerala
+  - Madhya Pradesh
+  - Maharashtra
+  - Manipur
+  - Meghalaya
+  - Mizoram
+  - Nagaland
+  - Odisha
+  - Punjab
+  - Rajasthan
+  - Sikkim
+  - Tamil Nadu
+  - Telangana
+  - Tripura
+  - Uttar Pradesh
+  - Uttarakhand
+  - West Bengal
+  - Andaman and Nicobar
+  - Chandigarh
+  - Dadra and Nagar Haveli
+  - Daman and Diu
+  - Delhi
+  - Jammu and Kashmir
+  - Ladakh
+  - Lakshadweep
+  - Puducherry
+
+tags:
+  # Optional: paste the platform's predefined tag list to flag free-text tags.
+  predefined: []
+
+license:
+  platform_default: "CC_BY_4_0_ATTRIBUTION"
+  godl_value: "GOVERNMENT_OPEN_DATA_LICENSE"
+  government_domains: [".gov.in", ".nic.in", "data.gov.in", ".gov", "india.gov.in"]
+  government_publisher_terms: [ministry, department, directorate, "government of", govt,
+    commission, "state data centre", "district administration", "municipal corporation"]
+
+formats:
+  open: [CSV, TSV, JSON, GEOJSON, PARQUET, SHP, SHAPEFILE, ZIP, XML, ODS]
+  proprietary_tabular: [XLS, XLSX]
+  geospatial: [GEOJSON, SHP, SHAPEFILE, KML, GPKG]
+  not_machine_readable: [PDF, DOC, DOCX, PPT, PPTX, PNG, JPG, JPEG, GIF, TXT]
+
+columns:
+  max_length: 40
+  ambiguous_patterns: ['^(col|column|field|var|unnamed|attr)[ _:]?\d*$', '^[a-z]$', '^\d+$']
+  ambiguous_allowlist: [x, y, id]
+
+units:
+  # Tokens inside a column name (split on _ or camelCase) that indicate a documented unit.
+  unit_tokens: [c, celsius, degc, k, kelvin, mm, cm, m, km, sqkm, sqm, km2, m2, ha, hectare,
+    hectares, kg, g, mg, t, tonne, tonnes, l, ml, kl, mld, m3, cumec, cumecs, hpa, pa, kpa,
+    ms, mps, kmph, kwh, mwh, kw, mw, gw, w, pct, percent, percentage, perc, ratio, index, idx,
+    score, rate, per, per1000, perlakh, per100000, lakh, crore, inr, rs, rupees, usd, count,
+    num, number, nos, population, pop, persons, households, days, hours, hrs, mins, years, yrs, months,
+    mm_day, deg, degrees, db, ppm, ppb, ugm3, mgl, ntu, cr, lakhs, crores, thousand, mn, bn]
+  non_si_tokens: [fahrenheit, degf, miles, mile, mph, inch, inches, feet, ft, lbs, lb, pounds,
+    gallon, gallons, acre, acres, knots, psi, mmhg, bigha, bighas]
+  # Numeric columns with these names are identifiers/time keys, not measurements.
+  identifier_patterns: ['_(no|num|number)$', '(^|_)(id|code|lgd|pin|pincode|year|month|day|fy|sno|s_no|sl_no|serial|rank|week|quarter|lat|latitude|lon|lng|long|longitude|zip|objectid|fid)($|_)']
+
+missing_values:
+  accepted: ["", "nan", "NaN", "NULL", "null", "None"]
+  sentinel_numbers: [-999, -9999, -99999, -99, 9999, 99999, 999999]
+  placeholder_strings: ["NA", "N/A", "n/a", "na", "N.A.", "-", "--", "---", "—", "–", "nil",
+    "Nil", "NIL", "not available", "Not Available", "#N/A", "?", ".", "missing", "Missing",
+    "none", "NONE", "*"]
+
+quality:
+  percent_name_pattern: '(pct|percent|percentage|perc|_share|share_|%)'
+  temperature_name_pattern: '(temp|temperature)'
+  temperature_range_c: [-90, 60]
+  count_name_pattern: '(^|_)(count|population|pop|no_of|num_of|number_of|households|persons)($|_)'
+  latitude_name_pattern: '^(lat|latitude)$'
+  longitude_name_pattern: '^(lon|lng|long|longitude)$'
+
+file_naming:
+  # {dataset_theme}_{region}_{time_period}_v{version}.{format}
+  pattern: '^[a-z0-9]+(_[a-z0-9]+)*_v\d+(\.\d+)*\.[a-z0-9]+$'
+
+deep:
+  max_file_mb: 25          # skip byte-level inspection for files larger than this
+  sample_rows: 50000       # rows read per file for data checks

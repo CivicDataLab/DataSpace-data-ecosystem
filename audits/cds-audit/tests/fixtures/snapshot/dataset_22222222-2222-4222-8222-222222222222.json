@@ -1,0 +1,53 @@
+{
+ "data": {
+  "getDataset": {
+   "id": "22222222-2222-4222-8222-222222222222",
+   "title": "State Revenue & Receipts 2018-26",
+   "description": "Revenue receipts include tax and non-tax revenues. Capital receipts include borrowings and loan recoveries. Together they form the total receipts of the government.",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "license": "CC_BY_4_0_ATTRIBUTION",
+   "isIndividualDataset": false,
+   "tags": [
+    {
+     "value": "Public Finance"
+    }
+   ],
+   "user": null,
+   "organization": {
+    "name": "Example Budget Lab",
+    "logo": ""
+   },
+   "sectors": [
+    {
+     "name": "Public Finance"
+    }
+   ],
+   "geographies": [
+    {
+     "name": "Assam",
+     "type": "STATE"
+    }
+   ],
+   "formats": [
+    "CSV"
+   ],
+   "metadata": [
+    {
+     "metadataItem": {
+      "label": "Date of Creation",
+      "dataType": "DATE"
+     },
+     "value": "15/04/2024"
+    },
+    {
+     "metadataItem": {
+      "label": "Source Website",
+      "dataType": "URL"
+     },
+     "value": "https://finance.assam.gov.in/budget"
+    }
+   ]
+  }
+ }
+}

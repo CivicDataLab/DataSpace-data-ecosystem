@@ -1,0 +1,19 @@
+# Copy to config/overrides.yaml and pass with:  cds-audit run --rules config/overrides.yaml
+# Only the keys you set here override the defaults in src/cds_audit/rules.yaml.
+
+# Point at a different backend (e.g. the dev environment)
+# api:
+#   base_url: "https://dev.api.civicdataspace.in"
+
+# Weigh metadata more heavily for a catalogue-hygiene sprint
+# weights:
+#   "1.2_description": 20
+#   "2.5_units": 2
+
+# Allow abbreviations that the team has agreed are acceptable in titles
+# title:
+#   abbreviation_allowlist: [GST, NFHS, IMD]
+
+# Paste the platform's predefined tag list to flag free-text tags
+# tags:
+#   predefined: ["Public Health", "Environment", "Infrastructure"]

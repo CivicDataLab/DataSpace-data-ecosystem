@@ -1,0 +1,56 @@
+{
+ "data": {
+  "getDataset": {
+   "id": "77777777-7777-4777-8777-777777777777",
+   "title": "Literacy by district in Assam, Census 2011",
+   "description": "District-wise literacy rates for Assam from the Census of India 2011. Figures are decadal census counts compiled by the Example Education Forum. The data helps track gender gaps in literacy.",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "license": "GOVERNMENT_OPEN_DATA_LICENSE",
+   "isIndividualDataset": false,
+   "tags": [
+    {
+     "value": "Literacy"
+    },
+    {
+     "value": "Census"
+    }
+   ],
+   "user": null,
+   "organization": {
+    "name": "Example Education Forum",
+    "logo": ""
+   },
+   "sectors": [
+    {
+     "name": "Gender"
+    }
+   ],
+   "geographies": [
+    {
+     "name": "Assam",
+     "type": "STATE"
+    }
+   ],
+   "formats": [
+    "CSV"
+   ],
+   "metadata": [
+    {
+     "metadataItem": {
+      "label": "Date of Creation",
+      "dataType": "DATE"
+     },
+     "value": "2013-04-30"
+    },
+    {
+     "metadataItem": {
+      "label": "Source Website",
+      "dataType": "URL"
+     },
+     "value": "https://censusindia.gov.in"
+    }
+   ]
+  }
+ }
+}

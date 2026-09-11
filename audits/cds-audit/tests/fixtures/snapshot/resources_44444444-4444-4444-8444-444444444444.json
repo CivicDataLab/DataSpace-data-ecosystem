@@ -1,0 +1,85 @@
+{
+ "data": {
+  "datasetResources": [
+   {
+    "id": "aaaaaaaa-0004-4000-8000-000000000004",
+    "name": "Survey",
+    "description": "",
+    "type": "FILE",
+    "fileDetails": {
+     "format": "XLSX",
+     "size": 1000.0,
+     "file": {
+      "name": "resources/Sanitation Survey.xlsx"
+     }
+    },
+    "schema": [
+     {
+      "fieldName": "District Name",
+      "format": "STRING",
+      "description": "Description of column District Name"
+     },
+     {
+      "fieldName": "Date of Survey",
+      "format": "STRING",
+      "description": "Description of column Date of Survey"
+     },
+     {
+      "fieldName": "Households Surveyed",
+      "format": "STRING",
+      "description": "Description of column Households Surveyed"
+     },
+     {
+      "fieldName": "Toilet Coverage %",
+      "format": "STRING",
+      "description": "Description of column Toilet Coverage %"
+     },
+     {
+      "fieldName": "Has Piped Water",
+      "format": "STRING",
+      "description": "Description of column Has Piped Water"
+     }
+    ],
+    "previewData": {
+     "columns": [
+      "District Name",
+      "Date of Survey",
+      "Households Surveyed",
+      "Toilet Coverage %",
+      "Has Piped Water"
+     ],
+     "rows": [
+      [
+       "Kamrup",
+       "12/03/2021",
+       "1,204",
+       87.5,
+       "Yes"
+      ],
+      [
+       "Nagaon",
+       "13/03/2021",
+       "980",
+       112.0,
+       "No"
+      ],
+      [
+       "Cachar",
+       "14/03/2021",
+       -999,
+       64.2,
+       "Yes"
+      ],
+      [
+       "Dhubri",
+       "N/A",
+       "1,110",
+       -999,
+       "No"
+      ]
+     ]
+    }
+   }
+  ]
+ }
+}

@@ -1,0 +1,346 @@
+{
+ "results": [
+  {
+   "id": "11111111-1111-4111-8111-111111111111",
+   "title": "Daily rainfall for Bihar districts (2000–2020)",
+   "description": "This dataset provides daily rainfall and minimum temperature for all districts of Bihar from 2000 to 2020. It was compiled by the Example Climate Institute from gridded station records. It is intended to support flood risk assessment and agricultural planning.",
+   "slug": "daily-rainfall-for-bihar-districts-(2000–2020)",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "status": "PUBLISHED",
+   "dataset_type": "DATA",
+   "metadata": [
+    {
+     "metadata_item": {
+      "label": "Date of Creation"
+     },
+     "value": "2021-03-15"
+    },
+    {
+     "metadata_item": {
+      "label": "Source Website"
+     },
+     "value": "https://climate-institute.example.org/rainfall"
+    }
+   ],
+   "tags": [
+    "Rainfall",
+    "Temperature",
+    "Flood risk"
+   ],
+   "sectors": [
+    "Climate Action"
+   ],
+   "formats": [
+    "CSV"
+   ],
+   "catalogs": [],
+   "geographies": [
+    "Bihar"
+   ],
+   "has_charts": false,
+   "download_count": 0,
+   "is_individual_dataset": false,
+   "organization": {
+    "name": "Example Climate Institute",
+    "logo": ""
+   },
+   "user": null
+  },
+  {
+   "id": "22222222-2222-4222-8222-222222222222",
+   "title": "State Revenue & Receipts 2018-26",
+   "description": "Revenue receipts include tax and non-tax revenues. Capital receipts include borrowings and loan recoveries. Together they form the total receipts of the government.",
+   "slug": "state-revenue-&-receipts-2018-26",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "status": "PUBLISHED",
+   "dataset_type": "DATA",
+   "metadata": [
+    {
+     "metadata_item": {
+      "label": "Date of Creation"
+     },
+     "value": "15/04/2024"
+    },
+    {
+     "metadata_item": {
+      "label": "Source Website"
+     },
+     "value": "https://finance.assam.gov.in/budget"
+    }
+   ],
+   "tags": [
+    "Public Finance"
+   ],
+   "sectors": [
+    "Public Finance"
+   ],
+   "formats": [
+    "CSV"
+   ],
+   "catalogs": [],
+   "geographies": [
+    "Assam"
+   ],
+   "has_charts": false,
+   "download_count": 0,
+   "is_individual_dataset": false,
+   "organization": {
+    "name": "Example Budget Lab",
+    "logo": ""
+   },
+   "user": null
+  },
+  {
+   "id": "33333333-3333-4333-8333-333333333333",
+   "title": "Annual report on anganwadi centres",
+   "description": "Annual report on anganwadi centres.",
+   "slug": "annual-report-on-anganwadi-centres",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "status": "PUBLISHED",
+   "dataset_type": "DATA",
+   "metadata": [],
+   "tags": [],
+   "sectors": [
+    "Child Rights"
+   ],
+   "formats": [
+    "PDF"
+   ],
+   "catalogs": [],
+   "geographies": [],
+   "has_charts": false,
+   "download_count": 0,
+   "is_individual_dataset": false,
+   "organization": {
+    "name": "Example Child Rights Trust",
+    "logo": ""
+   },
+   "user": null
+  },
+  {
+   "id": "44444444-4444-4444-8444-444444444444",
+   "title": "Sanitation survey — Assam districts 2021",
+   "description": "Household sanitation survey across districts of Assam in 2021. Data collected by field surveyors of the Example WASH Collective.",
+   "slug": "sanitation-survey-—-assam-districts-2021",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "status": "PUBLISHED",
+   "dataset_type": "DATA",
+   "metadata": [
+    {
+     "metadata_item": {
+      "label": "Date of Creation"
+     },
+     "value": "2021-06-01"
+    },
+    {
+     "metadata_item": {
+      "label": "Source Website"
+     },
+     "value": "wash-collective.example"
+    }
+   ],
+   "tags": [
+    "Sanitation",
+    "Water"
+   ],
+   "sectors": [
+    "Urban Development"
+   ],
+   "formats": [
+    "XLSX"
+   ],
+   "catalogs": [],
+   "geographies": [
+    "Assam"
+   ],
+   "has_charts": false,
+   "download_count": 0,
+   "is_individual_dataset": false,
+   "organization": {
+    "name": "Example WASH Collective",
+    "logo": ""
+   },
+   "user": null
+  },
+  {
+   "id": "55555555-5555-4555-8555-555555555555",
+   "title": "court cases pending",
+   "description": "Pending cases by court.",
+   "slug": "court-cases-pending",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "status": "PUBLISHED",
+   "dataset_type": "DATA",
+   "metadata": [],
+   "tags": [
+    "Law and Justice",
+    "Courts",
+    "Court"
+   ],
+   "sectors": [
+    "Law and Justice"
+   ],
+   "formats": [
+    "CSV"
+   ],
+   "catalogs": [],
+   "geographies": [
+    "India"
+   ],
+   "has_charts": false,
+   "download_count": 0,
+   "is_individual_dataset": true,
+   "organization": null,
+   "user": {
+    "name": "A. Researcher",
+    "bio": "",
+    "profile_picture": ""
+   }
+  },
+  {
+   "id": "66666666-6666-4666-8666-666666666666",
+   "title": "GUWAHATI WARD BOUNDARIES",
+   "description": "Ward boundaries for Guwahati city. Digitised by the Example Urban Observatory from municipal maps in 2022. Useful for ward-level planning and service mapping.",
+   "slug": "guwahati-ward-boundaries",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "status": "PUBLISHED",
+   "dataset_type": "DATA",
+   "metadata": [
+    {
+     "metadata_item": {
+      "label": "Date of Creation"
+     },
+     "value": "2022-08-30"
+    },
+    {
+     "metadata_item": {
+      "label": "Source Website"
+     },
+     "value": "https://urban-observatory.example.org/wards"
+    }
+   ],
+   "tags": [
+    "Boundaries",
+    "Wards"
+   ],
+   "sectors": [
+    "Urban Development"
+   ],
+   "formats": [
+    "GEOJSON"
+   ],
+   "catalogs": [],
+   "geographies": [
+    "Assam"
+   ],
+   "has_charts": false,
+   "download_count": 0,
+   "is_individual_dataset": false,
+   "organization": {
+    "name": "Example Urban Observatory",
+    "logo": ""
+   },
+   "user": null
+  },
+  {
+   "id": "77777777-7777-4777-8777-777777777777",
+   "title": "Literacy by district in Assam, Census 2011",
+   "description": "District-wise literacy rates for Assam from the Census of India 2011. Figures are decadal census counts compiled by the Example Education Forum. The data helps track gender gaps in literacy.",
+   "slug": "literacy-by-district-in-assam,-census-2011",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "status": "PUBLISHED",
+   "dataset_type": "DATA",
+   "metadata": [
+    {
+     "metadata_item": {
+      "label": "Date of Creation"
+     },
+     "value": "2013-04-30"
+    },
+    {
+     "metadata_item": {
+      "label": "Source Website"
+     },
+     "value": "https://censusindia.gov.in"
+    }
+   ],
+   "tags": [
+    "Literacy",
+    "Census"
+   ],
+   "sectors": [
+    "Gender"
+   ],
+   "formats": [
+    "CSV"
+   ],
+   "catalogs": [],
+   "geographies": [
+    "Assam"
+   ],
+   "has_charts": false,
+   "download_count": 0,
+   "is_individual_dataset": false,
+   "organization": {
+    "name": "Example Education Forum",
+    "logo": ""
+   },
+   "user": null
+  },
+  {
+   "id": "88888888-8888-4888-8888-888888888888",
+   "title": "NFHS-5 district fact sheet indicators on maternal and child health for Uttar Pradesh",
+   "description": "This dataset contains district fact sheet indicators from the National Family Health Survey round 5. It covers maternal health, child nutrition and immunisation. Indicators are reported for every district of Uttar Pradesh. The survey was conducted in 2019–21 by the Example Health Ministry. Values are percentages of the relevant population. The data can be used to prioritise district health interventions. Survey rounds are released roughly every five years.",
+   "slug": "nfhs-5-district-fact-sheet-indicators-on-maternal-and-child-health-for-uttar-pradesh",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "status": "PUBLISHED",
+   "dataset_type": "DATA",
+   "metadata": [
+    {
+     "metadata_item": {
+      "label": "Date of Creation"
+     },
+     "value": "2022-05-06"
+    },
+    {
+     "metadata_item": {
+      "label": "Source Website"
+     },
+     "value": "https://rchiips.org/nfhs"
+    }
+   ],
+   "tags": [
+    "Maternal health",
+    "Nutrition"
+   ],
+   "sectors": [
+    "Gender",
+    "Child Rights"
+   ],
+   "formats": [
+    "CSV"
+   ],
+   "catalogs": [],
+   "geographies": [
+    "India"
+   ],
+   "has_charts": false,
+   "download_count": 0,
+   "is_individual_dataset": false,
+   "organization": {
+    "name": "Example Health Data Lab",
+    "logo": ""
+   },
+   "user": null
+  }
+ ],
+ "total": 8,
+ "aggregations": {}
+}

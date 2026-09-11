@@ -1,0 +1,24 @@
+{
+ "data": {
+  "datasetResources": [
+   {
+    "id": "aaaaaaaa-0006-4000-8000-000000000006",
+    "name": "Wards",
+    "description": "",
+    "type": "FILE",
+    "fileDetails": {
+     "format": "GEOJSON",
+     "size": 1000.0,
+     "file": {
+      "name": "resources/guwahati_wards.geojson"
+     }
+    },
+    "schema": [],
+    "previewData": {
+     "columns": [],
+     "rows": []
+    }
+   }
+  ]
+ }
+}

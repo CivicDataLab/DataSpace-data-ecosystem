@@ -1,0 +1,24 @@
+{
+ "data": {
+  "datasetResources": [
+   {
+    "id": "aaaaaaaa-0003-4000-8000-000000000003",
+    "name": "Report",
+    "description": "",
+    "type": "FILE",
+    "fileDetails": {
+     "format": "PDF",
+     "size": 1000.0,
+     "file": {
+      "name": "resources/report.pdf"
+     }
+    },
+    "schema": [],
+    "previewData": {
+     "columns": [],
+     "rows": []
+    }
+   }
+  ]
+ }
+}

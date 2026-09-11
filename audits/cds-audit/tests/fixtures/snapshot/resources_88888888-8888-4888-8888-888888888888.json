@@ -1,0 +1,69 @@
+{
+ "data": {
+  "datasetResources": [
+   {
+    "id": "aaaaaaaa-0008-4000-8000-000000000008",
+    "name": "Indicators",
+    "description": "",
+    "type": "FILE",
+    "fileDetails": {
+     "format": "CSV",
+     "size": 1000.0,
+     "file": {
+      "name": "resources/health_up_nfhs5_2019_2021_v1.0.csv"
+     }
+    },
+    "schema": [
+     {
+      "fieldName": "district_name",
+      "format": "STRING",
+      "description": "Description of column district_name"
+     },
+     {
+      "fieldName": "institutional_births_pct",
+      "format": "NUMBER",
+      "description": "Description of column institutional_births_pct"
+     },
+     {
+      "fieldName": "stunted_children",
+      "format": "NUMBER",
+      "description": "Description of column stunted_children"
+     },
+     {
+      "fieldName": "anaemic_women",
+      "format": "NUMBER",
+      "description": "Description of column anaemic_women"
+     }
+    ],
+    "previewData": {
+     "columns": [
+      "district_name",
+      "institutional_births_pct",
+      "stunted_children",
+      "anaemic_women"
+     ],
+     "rows": [
+      [
+       "Agra",
+       85.2,
+       38.1,
+       50.4
+      ],
+      [
+       "Lucknow",
+       90.1,
+       32.0,
+       47.9
+      ],
+      [
+       "Varanasi",
+       88.7,
+       36.4,
+       ""
+      ]
+     ]
+    }
+   }
+  ]
+ }
+}

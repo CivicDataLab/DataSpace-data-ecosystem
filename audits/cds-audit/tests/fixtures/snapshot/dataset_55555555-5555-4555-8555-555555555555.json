@@ -1,0 +1,43 @@
+{
+ "data": {
+  "getDataset": {
+   "id": "55555555-5555-4555-8555-555555555555",
+   "title": "court cases pending",
+   "description": "Pending cases by court.",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "license": "OPEN_DATABASE_LICENSE",
+   "isIndividualDataset": true,
+   "tags": [
+    {
+     "value": "Law and Justice"
+    },
+    {
+     "value": "Courts"
+    },
+    {
+     "value": "Court"
+    }
+   ],
+   "user": {
+    "fullName": "A. Researcher"
+   },
+   "organization": null,
+   "sectors": [
+    {
+     "name": "Law and Justice"
+    }
+   ],
+   "geographies": [
+    {
+     "name": "India",
+     "type": "COUNTRY"
+    }
+   ],
+   "formats": [
+    "CSV"
+   ],
+   "metadata": []
+  }
+ }
+}

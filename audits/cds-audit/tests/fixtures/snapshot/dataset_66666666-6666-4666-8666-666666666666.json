@@ -1,0 +1,56 @@
+{
+ "data": {
+  "getDataset": {
+   "id": "66666666-6666-4666-8666-666666666666",
+   "title": "GUWAHATI WARD BOUNDARIES",
+   "description": "Ward boundaries for Guwahati city. Digitised by the Example Urban Observatory from municipal maps in 2022. Useful for ward-level planning and service mapping.",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "license": "OPEN_DATA_COMMONS_BY_ATTRIBUTION",
+   "isIndividualDataset": false,
+   "tags": [
+    {
+     "value": "Boundaries"
+    },
+    {
+     "value": "Wards"
+    }
+   ],
+   "user": null,
+   "organization": {
+    "name": "Example Urban Observatory",
+    "logo": ""
+   },
+   "sectors": [
+    {
+     "name": "Urban Development"
+    }
+   ],
+   "geographies": [
+    {
+     "name": "Assam",
+     "type": "STATE"
+    }
+   ],
+   "formats": [
+    "GEOJSON"
+   ],
+   "metadata": [
+    {
+     "metadataItem": {
+      "label": "Date of Creation",
+      "dataType": "DATE"
+     },
+     "value": "2022-08-30"
+    },
+    {
+     "metadataItem": {
+      "label": "Source Website",
+      "dataType": "URL"
+     },
+     "value": "https://urban-observatory.example.org/wards"
+    }
+   ]
+  }
+ }
+}

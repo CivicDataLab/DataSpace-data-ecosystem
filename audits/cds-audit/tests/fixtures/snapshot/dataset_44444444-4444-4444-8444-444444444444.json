@@ -1,0 +1,56 @@
+{
+ "data": {
+  "getDataset": {
+   "id": "44444444-4444-4444-8444-444444444444",
+   "title": "Sanitation survey — Assam districts 2021",
+   "description": "Household sanitation survey across districts of Assam in 2021. Data collected by field surveyors of the Example WASH Collective.",
+   "created": "2025-01-01T00:00:00Z",
+   "modified": "2026-09-01T00:00:00Z",
+   "license": "CC_BY_SA_4_0_ATTRIBUTION_SHARE_ALIKE",
+   "isIndividualDataset": false,
+   "tags": [
+    {
+     "value": "Sanitation"
+    },
+    {
+     "value": "Water"
+    }
+   ],
+   "user": null,
+   "organization": {
+    "name": "Example WASH Collective",
+    "logo": ""
+   },
+   "sectors": [
+    {
+     "name": "Urban Development"
+    }
+   ],
+   "geographies": [
+    {
+     "name": "Assam",
+     "type": "STATE"
+    }
+   ],
+   "formats": [
+    "XLSX"
+   ],
+   "metadata": [
+    {
+     "metadataItem": {
+      "label": "Date of Creation",
+      "dataType": "DATE"
+     },
+     "value": "2021-06-01"
+    },
+    {
+     "metadataItem": {
+      "label": "Source Website",
+      "dataType": "URL"
+     },
+     "value": "wash-collective.example"
+    }
+   ]
+  }
+ }
+}

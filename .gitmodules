@@ -1,0 +1,3 @@
+[submodule "collaboratives/femhealth-data-collaborative"]
+	path = collaboratives/femhealth-data-collaborative
+	url = https://github.com/CivicDataLab/femhealth-data-collaborative.git

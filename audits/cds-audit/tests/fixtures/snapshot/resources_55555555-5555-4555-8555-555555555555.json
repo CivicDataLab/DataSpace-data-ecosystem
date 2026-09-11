@@ -1,0 +1,60 @@
+{
+ "data": {
+  "datasetResources": [
+   {
+    "id": "aaaaaaaa-0005-4000-8000-000000000005",
+    "name": "Cases",
+    "description": "",
+    "type": "FILE",
+    "fileDetails": {
+     "format": "CSV",
+     "size": 1000.0,
+     "file": {
+      "name": "resources/cases_v2_aB3xYz1.csv"
+     }
+    },
+    "schema": [
+     {
+      "fieldName": "courtName",
+      "format": "STRING",
+      "description": "Description of column courtName"
+     },
+     {
+      "fieldName": "pendingCases",
+      "format": "INTEGER",
+      "description": "Description of column pendingCases"
+     },
+     {
+      "fieldName": "col1",
+      "format": "STRING",
+      "description": "Description of column col1"
+     }
+    ],
+    "previewData": {
+     "columns": [
+      "courtName",
+      "pendingCases",
+      "col1"
+     ],
+     "rows": [
+      [
+       "High Court A",
+       1200,
+       "x"
+      ],
+      [
+       "High Court B",
+       900,
+       "y"
+      ],
+      [
+       "High Court A",
+       1200,
+       "x"
+      ]
+     ]
+    }
+   }
+  ]
+ }
+}
