@@ -236,13 +236,16 @@ def build() -> None:
                 meta["note"] = "no file in fixture"
             else:
                 (OUT / "files" / f"{r['id']}.bin").write_bytes(r["blob"])
-            (OUT / "files" / f"{r['id']}.meta.json").write_text(json.dumps(meta))
-        (OUT / f"dataset_{d['id']}.json").write_text(json.dumps(detail, indent=1, ensure_ascii=False))
+            (OUT / "files" / f"{r['id']}.meta.json").write_text(json.dumps(meta), encoding="utf-8")
+        (OUT / f"dataset_{d['id']}.json").write_text(
+            json.dumps(detail, indent=1, ensure_ascii=False), encoding="utf-8")
         (OUT / f"resources_{d['id']}.json").write_text(
-            json.dumps({"data": {"datasetResources": resources}}, indent=1, ensure_ascii=False))
+            json.dumps({"data": {"datasetResources": resources}}, indent=1, ensure_ascii=False), encoding="utf-8")
     search = {"results": results, "total": len(results), "aggregations": {}}
-    (OUT / "search_page-1_size-36_sort-recent.json").write_text(json.dumps(search, indent=1, ensure_ascii=False))
-    (OUT / "README.md").write_text("SYNTHETIC fixture data for tests. Not real CivicDataSpace datasets.\n")
+    (OUT / "search_page-1_size-36_sort-recent.json").write_text(
+        json.dumps(search, indent=1, ensure_ascii=False), encoding="utf-8")
+    (OUT / "README.md").write_text(
+        "SYNTHETIC fixture data for tests. Not real CivicDataSpace datasets.\n", encoding="utf-8")
     print(f"Wrote {len(DATASETS)} synthetic datasets to {OUT}")
 
 

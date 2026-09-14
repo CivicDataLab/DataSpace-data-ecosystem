@@ -7,7 +7,7 @@ def _run(tmp_path, snapshot, *extra):
     out = tmp_path / "out"
     code = main(["run", "--offline", "--cache", str(snapshot), "--out", str(out), "--workers", "1", *extra])
     assert code == 0
-    return out, json.loads((out / "audit.json").read_text())
+    return out, json.loads((out / "audit.json").read_text(encoding="utf-8"))
 
 
 def test_light_run_writes_all_reports(tmp_path, snapshot):
@@ -21,7 +21,7 @@ def test_light_run_writes_all_reports(tmp_path, snapshot):
     # sorted weakest first
     scores = [d["score"] for d in data["datasets"]]
     assert scores == sorted(scores)
-    html = (out / "report.html").read_text()
+    html = (out / "report.html").read_text(encoding="utf-8")
     assert "Annual report on anganwadi centres" in html and "<\\/" not in html.split("const D =")[0]
 
 

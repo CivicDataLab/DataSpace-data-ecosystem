@@ -76,6 +76,17 @@ pre-commit run --all-files
 
 ---
 
+## AI-assisted contributions
+
+Parts of this repository's code and documentation are developed with the help of AI coding assistants (e.g.
+Claude Code, GitHub Copilot). AI-assisted output goes through the same review, testing, and maintainer
+sign-off as any other contribution before it is merged.
+
+If you use an AI assistant for a substantial part of a contribution, note this in your PR description. You remain responsible for the correctness of the contribution and for certifying you have the right to submit it
+(see the DCO note below).
+
+---
+
 ## License
 
 By contributing, you agree that your contributions will be licensed under the [GNU AGPL v3.0](LICENSE). Sample and derived data contributions are accepted under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/).

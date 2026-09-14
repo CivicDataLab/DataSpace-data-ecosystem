@@ -169,7 +169,7 @@ class DataSpaceClient:
         meta_p = self.cache / "files" / f"{resource_id}.meta.json" if self.cache else None
         bin_p = self.cache / "files" / f"{resource_id}.bin" if self.cache else None
         if meta_p and meta_p.exists():
-            meta = json.loads(meta_p.read_text())
+            meta = json.loads(meta_p.read_text(encoding="utf-8"))
             blob = bin_p.read_bytes() if bin_p and bin_p.exists() else None
             return blob, meta.get("filename", ""), meta.get("note", "")
         if self.offline:
@@ -199,7 +199,7 @@ class DataSpaceClient:
             blob = bytes(buf)
         resp.close()
         if meta_p:
-            meta_p.write_text(json.dumps({"filename": filename, "note": note}))
+            meta_p.write_text(json.dumps({"filename": filename, "note": note}), encoding="utf-8")
             if blob is not None and bin_p:
                 bin_p.write_bytes(blob)
         time.sleep(self.cfg.get("pause_between_requests", 0.25))
