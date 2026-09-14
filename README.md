@@ -45,6 +45,7 @@ DataSpace-data-ecosystem/
 │       └── data_dictionary_template.csv  Reusable indicator data-dictionary schema
 │
 ├── canonical_entities/       Canonical reference data, organised by source/region
+│   ├── metadata-standards/  DataSpace <-> DCAT v3 <-> Dublin Core <-> Croissant metadata mapping
 │   └── india/
 │       ├── maps/            Admin boundary download + transformation tooling (NIC ArcGIS service)
 │       └── example/         Reference dataset showing the shape canonical outputs should take
@@ -83,6 +84,18 @@ cds-audit run     # audit the whole catalogue -> reports/
 
 See [`audits/cds-audit/README.md`](audits/cds-audit/README.md) for the full guide, scoring rules, and CI
 scheduling.
+
+### Convert dataset metadata to DCAT / Croissant
+
+```bash
+cd canonical_entities/metadata-standards
+pip install pyyaml
+python convert.py dcat example_dataset.json
+python convert.py gaps example_dataset.json
+```
+
+See [`canonical_entities/metadata-standards/README.md`](canonical_entities/metadata-standards/README.md)
+for the full mapping reference (the platform's metadata supermodel).
 
 ### Fetch admin boundaries (India)
 

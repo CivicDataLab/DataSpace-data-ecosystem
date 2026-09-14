@@ -1,0 +1,992 @@
+# Metadata supermodel — CivicDataSpace <-> DCAT v3 <-> Dublin Core <-> Croissant
+#
+# This is the canonical, machine-readable reference reconciling CivicDataSpace's current
+# dataset metadata schema with three external metadata standards:
+#   - DCAT v3      (W3C Data Catalog Vocabulary, plus the proposed India extension "DCAT-IN")
+#   - Dublin Core   (DCMI Metadata Terms)
+#   - Croissant     (MLCommons' ML-dataset metadata format, layered on schema.org)
+#
+# Source: "DataSpace Metadata_Croissant_DCAT_mapping.xlsx" (CivicDataLab, 2026). Each top-level
+# key below corresponds to one sheet of that workbook, transcribed faithfully so this file can be
+# regenerated / diffed against a future revision of the source spreadsheet.
+#
+# `match_type` values (how well a CivicDataSpace field maps onto the external standard):
+#   exact       - one-to-one concept match, no loss
+#   partial     - the concept exists on both sides but cardinality, structure, or vocabulary differs
+#   gap         - the concept has no equivalent in the target standard
+#   unmappable  - platform-internal field with no external-standard meaning
+#
+# See README.md in this directory for how this file is used (by convert.py and by the platform).
+
+version: 1
+source_document: "DataSpace Metadata_Croissant_DCAT_mapping.xlsx"
+
+standards:
+  dcat:
+    name: "DCAT v3 (Data Catalog Vocabulary)"
+    url: "https://www.w3.org/TR/vocab-dcat-3/"
+  dcatin:
+    name: "DCAT-IN (proposed India OGD extension to DCAT v3)"
+    url: null  # not yet published as a stable spec; fields marked "Being added/proposed to DCAT-IN"
+  dublin_core:
+    name: "Dublin Core Metadata Terms (DCMI)"
+    url: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
+  croissant:
+    name: "Croissant (MLCommons ML-dataset metadata format)"
+    url: "https://mlcommons.org/croissant/"
+  vcard:
+    name: "vCard Ontology"
+    url: "http://www.w3.org/2006/vcard/ns"
+  prov:
+    name: "PROV-O (W3C Provenance Ontology)"
+    url: "https://www.w3.org/TR/prov-o/"
+  foaf:
+    name: "FOAF (Friend of a Friend)"
+    url: "http://xmlns.com/foaf/spec/"
+
+# ---------------------------------------------------------------------------------------------
+# Sheet: "DataSpace Metadata" — CivicDataSpace's own current dataset metadata fields.
+# ---------------------------------------------------------------------------------------------
+dataspace_metadata_fields:
+  - field: id
+    input_type: "Automated"
+    definition: "Unique generated numerical ID for dataset"
+  - field: title
+    input_type: "Free text input"
+    definition: "Dataset title, input by contributor"
+  - field: description
+    input_type: "Free text input"
+    definition: "Dataset description"
+  - field: slug
+    input_type: "Automated"
+    definition: null
+  - field: organization
+    input_type: "Free text input"
+    definition: "Contributing organisation"
+  - field: created
+    input_type: "Controlled user input"
+    definition: "Date created - needs clarification whether this is the original creation date of the dataset, or the dataset's creation date on DataSpace"
+  - field: modified
+    input_type: "Controlled user input"
+    definition: "As above; but also, this should be linked to the dataset versioning feature"
+  - field: tags
+    input_type: "Semi-controlled user input"
+    definition: "Keywords that help with dataset search - users can select previously input keywords, or supply their own"
+  - field: license
+    input_type: "Controlled user input"
+    definition: "Applicable license - we allow a few fixed entry options, but this needs expansion"
+  - field: sectors
+    input_type: "Controlled user input"
+    definition: "Users can select from a list of CDL-defined sectors"
+  - field: geographies
+    input_type: "Controlled user input"
+    definition: "Geographical range of the dataset, if applicable"
+  - field: resources
+    input_type: "Free text input"
+    definition: "Files linked to the dataset"
+  - field: formats
+    input_type: "Automated"
+    definition: "File formats of the associated files - not a user-entered field"
+  - field: user
+    input_type: null
+    definition: null
+  - field: similarDatasets
+    input_type: "Automated"
+    definition: "Platform level, and dynamic. Doesn't need to be a metadata field"
+  - field: isIndividualDataset
+    input_type: null
+    definition: "Helps to link to catalogs? to be verified"
+  - field: metadata
+    input_type: null
+    definition: "Guessed to be \"what metadata standard does this conform to?\" - needs confirmation"
+  - field: promptMetadata
+    input_type: null
+    definition: null
+  - field: datasetType
+    input_type: null
+    definition: "What are the types? - needs confirmation"
+  - field: dataspace
+    input_type: null
+    definition: "Unclear field"
+  - field: accessType
+    input_type: null
+    definition: "Unclear field; might be for restricted-access datasets - in that case it maps to dcat:accessRights"
+  - field: downloadCount
+    input_type: null
+    definition: "No DCAT equivalent"
+  - field: status
+    input_type: null
+    definition: "No DCAT equivalent / not user facing"
+
+# ---------------------------------------------------------------------------------------------
+# Sheet: "DataSpace metadata mapping" — each CivicDataSpace field (or DCAT/Croissant structural
+# concept where no single field applies) mapped to its DCAT and Croissant equivalent.
+# `dataspace_field: null` rows describe a structural concept (e.g. the Dataset/Distribution
+# container itself) rather than one named CivicDataSpace field.
+# ---------------------------------------------------------------------------------------------
+dataspace_dcat_croissant_mapping:
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: exact
+    dcat: "dcat:Dataset"
+    croissant: "Dataset"
+    notes: "Core concept matches exactly"
+  - dataspace_field: title
+    input_type: "Free Text"
+    match_type: exact
+    dcat: "dct:title"
+    croissant: "name"
+    notes: "Dataset title"
+  - dataspace_field: description
+    input_type: "Free Text"
+    match_type: exact
+    dcat: "dct:description"
+    croissant: "description"
+    notes: "Dataset description"
+  - dataspace_field: organization
+    input_type: "Free Text"
+    match_type: exact
+    dcat: "dct:publisher"
+    croissant: "creator"
+    notes: "Creator entity (see 'Open questions' in README - organization/user <-> creator/publisher looks swapped)"
+  - dataspace_field: user
+    input_type: "Free Text"
+    match_type: exact
+    dcat: "dct:creator"
+    croissant: "publisher"
+    notes: "Publishing entity (see 'Open questions' in README)"
+  - dataspace_field: license
+    input_type: "Controlled"
+    match_type: exact
+    dcat: "dct:license"
+    croissant: "license"
+    notes: "License URL"
+  - dataspace_field: created
+    input_type: "Controlled"
+    match_type: exact
+    dcat: "dct:issued"
+    croissant: "datePublished"
+    notes: "Publication date"
+  - dataspace_field: modified
+    input_type: "Controlled"
+    match_type: exact
+    dcat: "dct:modified"
+    croissant: "dateModified"
+    notes: "Last update date"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: exact
+    dcat: "dcat:distribution"
+    croissant: "distribution"
+    notes: "Links dataset to distributions"
+  - dataspace_field: resources
+    input_type: "Free Text"
+    match_type: exact
+    dcat: "dcat:Distribution"
+    croissant: "FileObject (single file)"
+    notes: "Direct representation of a downloadable file"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: exact
+    dcat: "dcat:downloadURL"
+    croissant: "contentUrl"
+    notes: "File download link"
+  - dataspace_field: formats
+    input_type: "Free Text"
+    match_type: exact
+    dcat: "dct:format"
+    croissant: "encodingFormat"
+    notes: "MIME type"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: exact
+    dcat: "dcat:byteSize"
+    croissant: "contentSize"
+    notes: "File size"
+  - dataspace_field: geographies
+    input_type: "Controlled"
+    match_type: exact
+    dcat: "dcterms:spatial"
+    croissant: null
+    notes: null
+  - dataspace_field: null
+    input_type: "Controlled"
+    match_type: exact
+    dcat: "dcterms:temporal"
+    croissant: null
+    notes: "No corresponding CivicDataSpace field currently exists for temporal coverage"
+  - dataspace_field: sectors
+    input_type: "Controlled"
+    match_type: partial
+    dcat: "dcat:theme"
+    croissant: null
+    notes: null
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "Multiple dcat:Distribution OR single archive"
+    croissant: "FileSet"
+    notes: "DCAT lacks grouping semantics"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "dct:conformsTo (external schema like CSVW/JSON Schema)"
+    croissant: "RecordSet"
+    notes: "No native schema modeling"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "dct:type (dataset-level only) or external vocabularies"
+    croissant: "DataType"
+    notes: "No field-level typing"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "prov:Activity + prov:wasGeneratedBy"
+    croissant: "Transform"
+    notes: "Requires PROV-O (external)"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "dct:relation OR dct:hasPart OR separate dataset"
+    croissant: "Annotation"
+    notes: "No annotation model"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "dct:issued + dct:modified + dct:hasVersion / owl:versionInfo"
+    croissant: "Version"
+    notes: "No dedicated version field"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "prov:wasGeneratedBy"
+    croissant: "Provenance"
+    notes: "External ontology required"
+  - dataspace_field: id
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "dct:identifier"
+    croissant: "Identifier"
+    notes: "Must be explicitly added (Croissant uses @id)"
+  - dataspace_field: tags
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "dcat:keyword OR dct:subject"
+    croissant: "Keywords"
+    notes: "Depends on controlled vs free text"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "dct:language"
+    croissant: "Language"
+    notes: "Requires normalization (ISO codes/URIs)"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: partial
+    dcat: "dcat:landingPage"
+    croissant: "URL / Landing Page"
+    notes: "Requires interpretation of intent"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: gap
+    dcat: null
+    croissant: "Field"
+    notes: "No column-level metadata in DCAT"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: gap
+    dcat: null
+    croissant: "RecordSet (internal structure)"
+    notes: "DCAT cannot represent tables/rows"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: gap
+    dcat: null
+    croissant: "ML DataTypes (e.g. BoundingBox)"
+    notes: "No semantic ML typing"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: gap
+    dcat: null
+    croissant: "Annotation (structured ML concept)"
+    notes: "No native annotation model"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: gap
+    dcat: null
+    croissant: "Transform (native concept)"
+    notes: "Only possible via external PROV-O"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: gap
+    dcat: null
+    croissant: "FileSet (grouping semantics)"
+    notes: "No file grouping or pattern support"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: gap
+    dcat: null
+    croissant: "Checksum (sha256)"
+    notes: "No integrity verification property"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: gap
+    dcat: null
+    croissant: "Containment (containedIn)"
+    notes: "No file hierarchy modeling"
+  - dataspace_field: null
+    input_type: "Free Text"
+    match_type: gap
+    dcat: "dct:accessRights exists only in DCAT"
+    croissant: "Access Control (Croissant side)"
+    notes: "Not defined in Croissant"
+  - dataspace_field: status
+    input_type: "Free Text"
+    match_type: gap
+    dcat: "status"
+    croissant: null
+    notes: "DCAT equivalent as recorded in the source sheet; not a namespaced DCAT term"
+  - dataspace_field: dataspace
+    input_type: null
+    match_type: unmappable
+    dcat: null
+    croissant: null
+    notes: null
+  - dataspace_field: accessType
+    input_type: null
+    match_type: unmappable
+    dcat: null
+    croissant: null
+    notes: null
+
+# ---------------------------------------------------------------------------------------------
+# Sheet: "Fixed List Options" — controlled-vocabulary placeholders. The source sheet only had
+# column headers with no values filled in; canonical value lists still need to be authored.
+# ---------------------------------------------------------------------------------------------
+controlled_vocabularies:
+  license:
+    status: "not yet defined"
+    values: []
+  geographies:
+    status: "not yet defined"
+    values: []
+  sectors:
+    status: "not yet defined"
+    values: []
+
+# ---------------------------------------------------------------------------------------------
+# Sheet: "Data Registry DCATv3 mapping re" — a separate registry (e.g. an indicator/data
+# registry such as the IDS-DRR data registry) mapped to DCAT v3 / Dublin Core.
+# ---------------------------------------------------------------------------------------------
+data_registry_dcat_mapping:
+  - column: "Category"
+    dcat: null
+    cardinality: null
+    value_type: "Local"
+    definition: "Original registry column. Kept for continuity; not part of DCAT."
+  - column: "Dataset / Source"
+    dcat: "dcterms:title"
+    cardinality: "Mandatory (1..1)"
+    value_type: "rdfs:Literal"
+    definition: "A name given to the dataset. DCAT v3 mandatory."
+  - column: "Indicator(s)"
+    dcat: "dcat:keyword"
+    cardinality: "Recommended (0..n)"
+    value_type: "rdfs:Literal"
+    definition: "Keyword or tag describing the dataset; used here for the indicator list."
+  - column: "Spatial resolution"
+    dcat: "dcat:spatialResolutionInMeters / dct:spatial granularity"
+    cardinality: "Optional (0..n)"
+    value_type: "xsd:decimal / Literal"
+    definition: "Minimum spatial separation resolvable in the dataset (admin level here)."
+  - column: "Temporal Resolution"
+    dcat: "dcat:temporalResolution"
+    cardinality: "Optional (0..n)"
+    value_type: "xsd:duration"
+    definition: "Minimum time period resolvable in the dataset (e.g. monthly, annual)."
+  - column: "Comments"
+    dcat: "dcterms:description"
+    cardinality: "Mandatory (1..1)"
+    value_type: "rdfs:Literal"
+    definition: "A free-text account of the dataset. DCAT v3 mandatory."
+  - column: "Link"
+    dcat: "dcat:landingPage"
+    cardinality: "Recommended (0..n)"
+    value_type: "foaf:Document"
+    definition: "A web page providing access to the dataset, its publisher, etc."
+  - column: "Identifier"
+    dcat: "dcterms:identifier"
+    cardinality: "Recommended (0..n)"
+    value_type: "rdfs:Literal"
+    definition: "A unique identifier of the dataset (e.g. DOI, catalog UUID, slug)."
+  - column: "Publisher"
+    dcat: "dcterms:publisher"
+    cardinality: "Recommended (0..1)"
+    value_type: "foaf:Agent"
+    definition: "An entity (organization) responsible for making the dataset available."
+  - column: "Creator"
+    dcat: "dcterms:creator"
+    cardinality: "Optional (0..n)"
+    value_type: "foaf:Agent"
+    definition: "An entity responsible for producing the dataset."
+  - column: "Contact Point"
+    dcat: "dcat:contactPoint"
+    cardinality: "Recommended (0..n)"
+    value_type: "vcard:Kind"
+    definition: "Relevant contact information for the dataset (email / vcard)."
+  - column: "Theme / Category"
+    dcat: "dcat:theme"
+    cardinality: "Recommended (0..n)"
+    value_type: "skos:Concept"
+    definition: "Main category of the dataset. Use a controlled vocabulary (e.g. EU data theme)."
+  - column: "Language"
+    dcat: "dcterms:language"
+    cardinality: "Recommended (0..n)"
+    value_type: "dcterms:LinguisticSystem"
+    definition: "Language of the dataset. Use ISO 639-1/3 codes."
+  - column: "Spatial Coverage"
+    dcat: "dcterms:spatial"
+    cardinality: "Recommended (0..n)"
+    value_type: "dcterms:Location"
+    definition: "Geographic region covered by the dataset."
+  - column: "Temporal Coverage (start)"
+    dcat: "dcterms:temporal -> dcat:startDate"
+    cardinality: "Recommended (0..1)"
+    value_type: "xsd:date"
+    definition: "Start of the period covered by the dataset."
+  - column: "Temporal Coverage (end)"
+    dcat: "dcterms:temporal -> dcat:endDate"
+    cardinality: "Recommended (0..1)"
+    value_type: "xsd:date"
+    definition: "End of the period covered by the dataset."
+  - column: "Update / Modification Date"
+    dcat: "dcterms:modified"
+    cardinality: "Recommended (0..1)"
+    value_type: "xsd:date"
+    definition: "Most recent date on which the dataset was changed."
+  - column: "Accrual Periodicity (frequency)"
+    dcat: "dcterms:accrualPeriodicity"
+    cardinality: "Recommended (0..1)"
+    value_type: "dcterms:Frequency"
+    definition: "Frequency at which the dataset is updated (use Dublin Core Frequency)."
+  - column: "License"
+    dcat: "dcterms:license"
+    cardinality: "Mandatory at Distribution (1..1)"
+    value_type: "dcterms:LicenseDocument"
+    definition: "Legal document under which the dataset is made available."
+  - column: "Access URL"
+    dcat: "dcat:accessURL"
+    cardinality: "Mandatory at Distribution (1..1)"
+    value_type: "rdfs:Resource"
+    definition: "URL giving access to the dataset's distribution."
+  - column: "Format"
+    dcat: "dcterms:format"
+    cardinality: "Recommended (0..1)"
+    value_type: "dcterms:MediaTypeOrExtent"
+    definition: "File format of the distribution (e.g. CSV, XLSX, PDF, JSON)."
+
+# ---------------------------------------------------------------------------------------------
+# Sheet: "Complete DCAT metadata mapping" — the full DCAT v3 / Dublin Core element catalog,
+# independent of CivicDataSpace, grouped by the category the source sheet placed it under:
+#   core           - direct, agreed mapping
+#   contact_point  - vCard sub-properties of dcat:contactPoint (Chief Data Officer information)
+#   ambiguous      - present on the OGD side but without one clean, agreed mapping yet
+#   gap            - available in Dublin Core / DCAT but not present in current OGD metadata
+# The sheet's final "Unmapped metadata elements in OGD not present in DCAT/Dublin Core" section
+# contained only empty placeholder rows (no fields identified yet) and is omitted here.
+# ---------------------------------------------------------------------------------------------
+dcat_dublincore_catalog:
+  - dublin_core_element: "Title"
+    dcat: "dcterms:title"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/dcterms:title/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_title"
+  - dublin_core_element: "Description"
+    dcat: "dcterms:description"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_description"
+  - dublin_core_element: "Subject"
+    dcat: "dcat:theme"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/subject/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_theme"
+  - dublin_core_element: "Date Created"
+    dcat: "dcterms:created"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/created/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#dataset-series-properties"
+  - dublin_core_element: "Date Issued"
+    dcat: "dcterms:issued"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/issued/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_release_date"
+  - dublin_core_element: "Date Modified"
+    dcat: "dcterms:modified"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/modified/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_update_date"
+  - dublin_core_element: "Type"
+    dcat: "dcterms:type"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/type/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_type"
+  - dublin_core_element: "Extent"
+    dcat: "dcat:ByteSize"
+    applies_to: "Distribution"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/extent/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:distribution_size"
+  - dublin_core_element: "Format (or MediaType)"
+    dcat: "dcat:mediaType"
+    applies_to: "Distribution"
+    requirement: "Optional"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:distribution_media_type"
+  - dublin_core_element: "Relation"
+    dcat: "dcterms:relation"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/relation"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_relation"
+  - dublin_core_element: "Identifier"
+    dcat: "dcterms:identifier"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/elements/1.1/identifier"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_identifier"
+  - dublin_core_element: "Identifier"
+    dcat: "dcat:landingPage"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/elements/1.1/identifier"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_identifier"
+  - dublin_core_element: "Identifier"
+    dcat: "foaf:homePage"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: null
+    dcat_doc: null
+  - dublin_core_element: "Source"
+    dcat: "dcterms:source"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/elements/1.1/source"
+    dcat_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/elements/1.1/source"
+  - dublin_core_element: "Spatial Coverage"
+    dcat: "dcterms:spatial"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/spatial/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:dataset_spatial"
+  - dublin_core_element: "Temporal Coverage"
+    dcat: "dcterms:temporal"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/temporal/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:dataset_temporal"
+  - dublin_core_element: "Jurisdiction"
+    dcat: "dcatin:jurisdictionLevel"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/Jurisdiction/"
+    dcat_doc: "Being added to DCAT-IN"
+  - dublin_core_element: "Rights Statement"
+    dcat: "dcatin:applicableLegislation"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/RightsStatement/"
+    dcat_doc: "Being added to DCAT-IN"
+  - dublin_core_element: "Access Rights"
+    dcat: "dcterms:accessRight"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/accessRights/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_access_rights"
+  - dublin_core_element: "Accrual Periodicity"
+    dcat: "dct:accrualPeriodicity"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/accrualPeriodicity/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:dataset_frequency"
+  - dublin_core_element: "Coverage"
+    dcat: "dcat:temporalResolution"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/coverage/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:dataset_temporal_resolution"
+  - dublin_core_element: "Subject"
+    dcat: "dcat:Keywords"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/subject/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_keyword"
+  - dublin_core_element: "Subject"
+    dcat: "dcat:theme"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/subject/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_theme"
+  - dublin_core_element: "Relation [Download URL]"
+    dcat: "dcat:downloadURL"
+    applies_to: "Distribution"
+    requirement: "Optional"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/relation"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_relation"
+  - dublin_core_element: "Relation [Access URL]"
+    dcat: "dcat:accessURL"
+    applies_to: "Distribution, Dataset"
+    requirement: "Optional"
+    value_type: "Controlled"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/relation"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_relation"
+  - dublin_core_element: "Depiction (foaf:depiction)"
+    dcat: "foaf:depiction"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "http://xmlns.com/foaf/spec/#term_depiction"
+    dcat_doc: "http://xmlns.com/foaf/spec/#term_depiction"
+  - dublin_core_element: "Relation [Catalog Title]"
+    dcat: "dcat:inCatalog"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Free Text"
+    category: core
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/relation"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#inverse-properties"
+  # Chief Data Officer Information: dcat:contactPoint, expressed via vCard sub-properties.
+  - dublin_core_element: "Chief Data Officer Information - vCard:fn"
+    dcat: "dcat:contactPoint / vCard:fn"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: contact_point
+    dublin_core_doc: null
+    dcat_doc: "vCard Ontology - for describing People and Organizations"
+  - dublin_core_element: "Chief Data Officer Information - vcard:title"
+    dcat: "dcat:contactPoint / vcard:title"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: contact_point
+    dublin_core_doc: null
+    dcat_doc: "vCard Ontology - for describing People and Organizations"
+  - dublin_core_element: "Chief Data Officer Information - vcard:role"
+    dcat: "dcat:contactPoint / vcard:role"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: contact_point
+    dublin_core_doc: null
+    dcat_doc: "vCard Ontology - for describing People and Organizations"
+  - dublin_core_element: "Chief Data Officer Information - vcard:organization-name"
+    dcat: "dcat:contactPoint / vcard:organization-name"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: contact_point
+    dublin_core_doc: null
+    dcat_doc: "vCard Ontology - for describing People and Organizations"
+  - dublin_core_element: "Chief Data Officer Information - vcard:hasEmail"
+    dcat: "dcat:contactPoint / vcard:hasEmail"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: contact_point
+    dublin_core_doc: null
+    dcat_doc: "vCard Ontology - for describing People and Organizations"
+  - dublin_core_element: "Chief Data Officer Information - vcard:hasAddress"
+    dcat: "dcat:contactPoint / vcard:hasAddress"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: contact_point
+    dublin_core_doc: null
+    dcat_doc: "vCard Ontology - for describing People and Organizations"
+  - dublin_core_element: "Chief Data Officer Information - vcard:street-address"
+    dcat: "dcat:contactPoint / vcard:street-address"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: contact_point
+    dublin_core_doc: null
+    dcat_doc: "vCard Ontology - for describing People and Organizations"
+  - dublin_core_element: "Chief Data Officer Information - vcard:postal-code"
+    dcat: "dcat:contactPoint / vcard:postal-code"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: contact_point
+    dublin_core_doc: null
+    dcat_doc: "vCard Ontology - for describing People and Organizations"
+  - dublin_core_element: "Chief Data Officer Information - vcard:locality"
+    dcat: "dcat:contactPoint / vcard:locality"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: contact_point
+    dublin_core_doc: null
+    dcat_doc: "vCard Ontology - for describing People and Organizations"
+  # Ambiguous matches: present on the OGD side, no single agreed one-to-one mapping yet.
+  - dublin_core_element: "Rights"
+    dcat: "dcterms:rights"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Free"
+    category: ambiguous
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/rights/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_rights"
+  - dublin_core_element: "High Value Dataset Category"
+    dcat: "dcatin:hvdCategory"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Controlled"
+    category: ambiguous
+    dublin_core_doc: "Being proposed in DCAT-IN"
+    dcat_doc: "Being proposed in DCAT-IN"
+  - dublin_core_element: "Accrual Method"
+    dcat: "dcterms:accrualMethod"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: ambiguous
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/accrualMethod/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:dataset_frequency"
+  - dublin_core_element: "Creator"
+    dcat: "dcterms:creator"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free"
+    category: ambiguous
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_creator"
+  - dublin_core_element: "Publisher"
+    dcat: "dcterms:publisher"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: ambiguous
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/publisher/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_qualified_attribution"
+  - dublin_core_element: "Publisher"
+    dcat: "dcterms:publisher"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: ambiguous
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/publisher/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_publisher"
+  - dublin_core_element: "Publisher"
+    dcat: "prov:qualifiedAttribution"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: ambiguous
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/publisher/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_qualified_attribution"
+  - dublin_core_element: null
+    dcat: "prov:qualifiedAttribution (if there are multiple qualified attributions)"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: ambiguous
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/publisher/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_qualified_attribution"
+  # Gap: available in Dublin Core / DCAT but not present in current OGD metadata.
+  - dublin_core_element: "Note"
+    dcat: "dcatin:note"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "Being added to DCAT-IN"
+    dcat_doc: "Being added to DCAT-IN"
+  - dublin_core_element: "License"
+    dcat: "dcterms:license"
+    applies_to: "Dataset"
+    requirement: "Mandatory"
+    value_type: "Controlled"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/license/"
+    dcat_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/license/"
+  - dublin_core_element: "Language"
+    dcat: "dcterms:language"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Controlled"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_language"
+  - dublin_core_element: "Abstract"
+    dcat: "dcterms:abstract"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/abstract-model/"
+    dcat_doc: "Carried forward from Dublin Core, as the prefix shows"
+  - dublin_core_element: "Alternative Title"
+    dcat: "dcterms:alternative"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/alternative/"
+    dcat_doc: "Carried forward from Dublin Core, as the prefix shows"
+  - dublin_core_element: "Relation"
+    dcat: "dcat:endpointURL"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/relation-element/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_relation"
+    source_note: "Listed 4x in the source sheet (rows repeated verbatim); kept once here."
+  - dublin_core_element: "Relation [Has part]"
+    dcat: "dcterms:hasPart"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#hasPart"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:catalog_resource"
+  - dublin_core_element: "Relation [Is Part Of]"
+    dcat: "dcterms:isPartOf"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#isPartOf"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_relation"
+  - dublin_core_element: "Relation [Is Referenced By]"
+    dcat: "dcterms:isReferencedBy"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/isReferencedBy"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_relation"
+  - dublin_core_element: "Relation [Is Replaced By]"
+    dcat: "dcterms:isReplacedBy"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/isReplacedBy"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_relation"
+  - dublin_core_element: "Relation [Replaces]"
+    dcat: "dcterms:replaces"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/replaces"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_relation"
+  - dublin_core_element: "Relation [is Version Of]"
+    dcat: "dcterms:isVersionOf"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/isVersionOf"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_relation"
+  - dublin_core_element: "Relation [has Version]"
+    dcat: "dcterms:hasVersion"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/hasVersion"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_relation"
+  - dublin_core_element: "Description"
+    dcat: "dcat:endpointDescription"
+    applies_to: "Distribution"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/description/"
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#Property:data_service_endpoint_description"
+  - dublin_core_element: "Collection"
+    dcat: "dcat:DatasetSeries"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Free Text"
+    category: gap
+    dublin_core_doc: null
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#dataset-series"
+  - dublin_core_element: "Relation [Is Part Of]"
+    dcat: "dcat:inSeries"
+    applies_to: "Dataset"
+    requirement: "Optional"
+    value_type: "Controlled"
+    category: gap
+    dublin_core_doc: null
+    dcat_doc: "https://www.w3.org/TR/vocab-dcat-3/#dataset-series"
+
+# ---------------------------------------------------------------------------------------------
+# Unmapped: the source sheet reserved a section "Unmapped metadata elements in OGD not present
+# in DCAT/Dublin Core" for CivicDataSpace/OGD-specific fields with no external-standard
+# equivalent at all, but left every row as an empty "No mapping available" placeholder.
+# Kept here as an open list to fill in as such fields are identified (see dataspace_dcat_croissant_mapping
+# for the ones already known: dataspace, accessType, downloadCount, status).
+# ---------------------------------------------------------------------------------------------
+unmapped_elements: []

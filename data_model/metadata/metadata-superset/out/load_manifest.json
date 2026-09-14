@@ -1,0 +1,1434 @@
+{
+  "generated_at": "2026-09-14T21:25:59+00:00",
+  "namespace": "https://civicdataspace.in/id",
+  "vocabularies": {
+    "license": [
+      {
+        "key": "GODL-India",
+        "label": "Government Open Data License – India",
+        "code": "GODL-India",
+        "uri": "https://civicdataspace.in/id/licence/godl-india",
+        "scheme": "cdl",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": true,
+        "deprecated": false,
+        "alt_codes": {
+          "dataspace_enum": "GOVERNMENT_OPEN_DATA_LICENSE"
+        }
+      },
+      {
+        "key": "CC-BY-4.0",
+        "label": "Creative Commons Attribution 4.0",
+        "code": "CC-BY-4.0",
+        "uri": "http://creativecommons.org/licenses/by/4.0/",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": true,
+        "deprecated": false,
+        "alt_codes": {
+          "dataspace_enum": "CC_BY_4_0_ATTRIBUTION",
+          "authority_label": "Creative Commons Attribution 4.0 International",
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-4.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-SA-4.0",
+        "label": "Creative Commons Attribution-ShareAlike 4.0",
+        "code": "CC-BY-SA-4.0",
+        "uri": "http://creativecommons.org/licenses/by-sa/4.0/",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": true,
+        "deprecated": false,
+        "alt_codes": {
+          "dataspace_enum": "CC_BY_SA_4_0_ATTRIBUTION_SHARE_ALIKE",
+          "authority_label": "Creative Commons Attribution Share Alike 4.0 International",
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-SA-4.0.json"
+        }
+      },
+      {
+        "key": "ODC-By-1.0",
+        "label": "Open Data Commons Attribution License 1.0",
+        "code": "ODC-By-1.0",
+        "uri": "https://opendatacommons.org/licenses/by/1-0/",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": true,
+        "deprecated": false,
+        "alt_codes": {
+          "dataspace_enum": "OPEN_DATA_COMMONS_BY_ATTRIBUTION",
+          "authority_label": "Open Data Commons Attribution License v1.0",
+          "spdx_detail": "https://spdx.org/licenses/ODC-By-1.0.json"
+        }
+      },
+      {
+        "key": "ODbL-1.0",
+        "label": "Open Database License 1.0",
+        "code": "ODbL-1.0",
+        "uri": "https://opendatacommons.org/licenses/odbl/1-0/",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": true,
+        "deprecated": false,
+        "alt_codes": {
+          "dataspace_enum": "OPEN_DATABASE_LICENSE",
+          "authority_label": "Open Data Commons Open Database License v1.0",
+          "spdx_detail": "https://spdx.org/licenses/ODbL-1.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-1.0",
+        "label": "Creative Commons Attribution 1.0 Generic",
+        "code": "CC-BY-1.0",
+        "uri": "https://spdx.org/licenses/CC-BY-1.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-1.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-2.0",
+        "label": "Creative Commons Attribution 2.0 Generic",
+        "code": "CC-BY-2.0",
+        "uri": "https://spdx.org/licenses/CC-BY-2.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-2.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-2.5",
+        "label": "Creative Commons Attribution 2.5 Generic",
+        "code": "CC-BY-2.5",
+        "uri": "https://spdx.org/licenses/CC-BY-2.5",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-2.5.json"
+        }
+      },
+      {
+        "key": "CC-BY-2.5-AU",
+        "label": "Creative Commons Attribution 2.5 Australia",
+        "code": "CC-BY-2.5-AU",
+        "uri": "https://spdx.org/licenses/CC-BY-2.5-AU",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-2.5-AU.json"
+        }
+      },
+      {
+        "key": "CC-BY-3.0",
+        "label": "Creative Commons Attribution 3.0 Unported",
+        "code": "CC-BY-3.0",
+        "uri": "https://spdx.org/licenses/CC-BY-3.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-3.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-3.0-AT",
+        "label": "Creative Commons Attribution 3.0 Austria",
+        "code": "CC-BY-3.0-AT",
+        "uri": "https://spdx.org/licenses/CC-BY-3.0-AT",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-3.0-AT.json"
+        }
+      },
+      {
+        "key": "CC-BY-3.0-AU",
+        "label": "Creative Commons Attribution 3.0 Australia",
+        "code": "CC-BY-3.0-AU",
+        "uri": "https://spdx.org/licenses/CC-BY-3.0-AU",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-3.0-AU.json"
+        }
+      },
+      {
+        "key": "CC-BY-3.0-DE",
+        "label": "Creative Commons Attribution 3.0 Germany",
+        "code": "CC-BY-3.0-DE",
+        "uri": "https://spdx.org/licenses/CC-BY-3.0-DE",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-3.0-DE.json"
+        }
+      },
+      {
+        "key": "CC-BY-3.0-IGO",
+        "label": "Creative Commons Attribution 3.0 IGO",
+        "code": "CC-BY-3.0-IGO",
+        "uri": "https://spdx.org/licenses/CC-BY-3.0-IGO",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-3.0-IGO.json"
+        }
+      },
+      {
+        "key": "CC-BY-3.0-NL",
+        "label": "Creative Commons Attribution 3.0 Netherlands",
+        "code": "CC-BY-3.0-NL",
+        "uri": "https://spdx.org/licenses/CC-BY-3.0-NL",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-3.0-NL.json"
+        }
+      },
+      {
+        "key": "CC-BY-3.0-US",
+        "label": "Creative Commons Attribution 3.0 United States",
+        "code": "CC-BY-3.0-US",
+        "uri": "https://spdx.org/licenses/CC-BY-3.0-US",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-3.0-US.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-1.0",
+        "label": "Creative Commons Attribution Non Commercial 1.0 Generic",
+        "code": "CC-BY-NC-1.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-1.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-1.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-2.0",
+        "label": "Creative Commons Attribution Non Commercial 2.0 Generic",
+        "code": "CC-BY-NC-2.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-2.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-2.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-2.5",
+        "label": "Creative Commons Attribution Non Commercial 2.5 Generic",
+        "code": "CC-BY-NC-2.5",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-2.5",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-2.5.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-3.0",
+        "label": "Creative Commons Attribution Non Commercial 3.0 Unported",
+        "code": "CC-BY-NC-3.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-3.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-3.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-3.0-DE",
+        "label": "Creative Commons Attribution Non Commercial 3.0 Germany",
+        "code": "CC-BY-NC-3.0-DE",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-3.0-DE",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-3.0-DE.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-3.0-IGO",
+        "label": "Creative Commons Attribution Non Commercial 3.0 IGO",
+        "code": "CC-BY-NC-3.0-IGO",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-3.0-IGO",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-3.0-IGO.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-4.0",
+        "label": "Creative Commons Attribution Non Commercial 4.0 International",
+        "code": "CC-BY-NC-4.0",
+        "uri": "http://creativecommons.org/licenses/by-nc/4.0/",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-4.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-ND-1.0",
+        "label": "Creative Commons Attribution Non Commercial No Derivatives 1.0 Generic",
+        "code": "CC-BY-NC-ND-1.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-ND-1.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-ND-1.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-ND-2.0",
+        "label": "Creative Commons Attribution Non Commercial No Derivatives 2.0 Generic",
+        "code": "CC-BY-NC-ND-2.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-ND-2.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-ND-2.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-ND-2.5",
+        "label": "Creative Commons Attribution Non Commercial No Derivatives 2.5 Generic",
+        "code": "CC-BY-NC-ND-2.5",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-ND-2.5",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-ND-2.5.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-ND-3.0",
+        "label": "Creative Commons Attribution Non Commercial No Derivatives 3.0 Unported",
+        "code": "CC-BY-NC-ND-3.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-ND-3.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-ND-3.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-ND-3.0-DE",
+        "label": "Creative Commons Attribution Non Commercial No Derivatives 3.0 Germany",
+        "code": "CC-BY-NC-ND-3.0-DE",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-ND-3.0-DE",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-ND-3.0-DE.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-ND-3.0-IGO",
+        "label": "Creative Commons Attribution Non Commercial No Derivatives 3.0 IGO",
+        "code": "CC-BY-NC-ND-3.0-IGO",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-ND-3.0-IGO",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-ND-3.0-IGO.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-ND-4.0",
+        "label": "Creative Commons Attribution Non Commercial No Derivatives 4.0 International",
+        "code": "CC-BY-NC-ND-4.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-ND-4.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-ND-4.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-SA-1.0",
+        "label": "Creative Commons Attribution Non Commercial Share Alike 1.0 Generic",
+        "code": "CC-BY-NC-SA-1.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-SA-1.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-SA-1.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-SA-2.0",
+        "label": "Creative Commons Attribution Non Commercial Share Alike 2.0 Generic",
+        "code": "CC-BY-NC-SA-2.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-SA-2.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-SA-2.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-SA-2.0-DE",
+        "label": "Creative Commons Attribution Non Commercial Share Alike 2.0 Germany",
+        "code": "CC-BY-NC-SA-2.0-DE",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-SA-2.0-DE",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-SA-2.0-DE.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-SA-2.0-FR",
+        "label": "Creative Commons Attribution-NonCommercial-ShareAlike 2.0 France",
+        "code": "CC-BY-NC-SA-2.0-FR",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-SA-2.0-FR",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-SA-2.0-FR.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-SA-2.0-UK",
+        "label": "Creative Commons Attribution Non Commercial Share Alike 2.0 England and Wales",
+        "code": "CC-BY-NC-SA-2.0-UK",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-SA-2.0-UK",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-SA-2.0-UK.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-SA-2.5",
+        "label": "Creative Commons Attribution Non Commercial Share Alike 2.5 Generic",
+        "code": "CC-BY-NC-SA-2.5",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-SA-2.5",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-SA-2.5.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-SA-3.0",
+        "label": "Creative Commons Attribution Non Commercial Share Alike 3.0 Unported",
+        "code": "CC-BY-NC-SA-3.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-SA-3.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-SA-3.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-SA-3.0-DE",
+        "label": "Creative Commons Attribution Non Commercial Share Alike 3.0 Germany",
+        "code": "CC-BY-NC-SA-3.0-DE",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-SA-3.0-DE",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-SA-3.0-DE.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-SA-3.0-IGO",
+        "label": "Creative Commons Attribution Non Commercial Share Alike 3.0 IGO",
+        "code": "CC-BY-NC-SA-3.0-IGO",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-SA-3.0-IGO",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-SA-3.0-IGO.json"
+        }
+      },
+      {
+        "key": "CC-BY-NC-SA-4.0",
+        "label": "Creative Commons Attribution Non Commercial Share Alike 4.0 International",
+        "code": "CC-BY-NC-SA-4.0",
+        "uri": "https://spdx.org/licenses/CC-BY-NC-SA-4.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-NC-SA-4.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-ND-1.0",
+        "label": "Creative Commons Attribution No Derivatives 1.0 Generic",
+        "code": "CC-BY-ND-1.0",
+        "uri": "https://spdx.org/licenses/CC-BY-ND-1.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-ND-1.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-ND-2.0",
+        "label": "Creative Commons Attribution No Derivatives 2.0 Generic",
+        "code": "CC-BY-ND-2.0",
+        "uri": "https://spdx.org/licenses/CC-BY-ND-2.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-ND-2.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-ND-2.5",
+        "label": "Creative Commons Attribution No Derivatives 2.5 Generic",
+        "code": "CC-BY-ND-2.5",
+        "uri": "https://spdx.org/licenses/CC-BY-ND-2.5",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-ND-2.5.json"
+        }
+      },
+      {
+        "key": "CC-BY-ND-3.0",
+        "label": "Creative Commons Attribution No Derivatives 3.0 Unported",
+        "code": "CC-BY-ND-3.0",
+        "uri": "https://spdx.org/licenses/CC-BY-ND-3.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-ND-3.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-ND-3.0-DE",
+        "label": "Creative Commons Attribution No Derivatives 3.0 Germany",
+        "code": "CC-BY-ND-3.0-DE",
+        "uri": "https://spdx.org/licenses/CC-BY-ND-3.0-DE",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-ND-3.0-DE.json"
+        }
+      },
+      {
+        "key": "CC-BY-ND-4.0",
+        "label": "Creative Commons Attribution No Derivatives 4.0 International",
+        "code": "CC-BY-ND-4.0",
+        "uri": "https://spdx.org/licenses/CC-BY-ND-4.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-ND-4.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-SA-1.0",
+        "label": "Creative Commons Attribution Share Alike 1.0 Generic",
+        "code": "CC-BY-SA-1.0",
+        "uri": "https://spdx.org/licenses/CC-BY-SA-1.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-SA-1.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-SA-2.0",
+        "label": "Creative Commons Attribution Share Alike 2.0 Generic",
+        "code": "CC-BY-SA-2.0",
+        "uri": "https://spdx.org/licenses/CC-BY-SA-2.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-SA-2.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-SA-2.0-UK",
+        "label": "Creative Commons Attribution Share Alike 2.0 England and Wales",
+        "code": "CC-BY-SA-2.0-UK",
+        "uri": "https://spdx.org/licenses/CC-BY-SA-2.0-UK",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-SA-2.0-UK.json"
+        }
+      },
+      {
+        "key": "CC-BY-SA-2.1-JP",
+        "label": "Creative Commons Attribution Share Alike 2.1 Japan",
+        "code": "CC-BY-SA-2.1-JP",
+        "uri": "https://spdx.org/licenses/CC-BY-SA-2.1-JP",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-SA-2.1-JP.json"
+        }
+      },
+      {
+        "key": "CC-BY-SA-2.5",
+        "label": "Creative Commons Attribution Share Alike 2.5 Generic",
+        "code": "CC-BY-SA-2.5",
+        "uri": "https://spdx.org/licenses/CC-BY-SA-2.5",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-SA-2.5.json"
+        }
+      },
+      {
+        "key": "CC-BY-SA-3.0",
+        "label": "Creative Commons Attribution Share Alike 3.0 Unported",
+        "code": "CC-BY-SA-3.0",
+        "uri": "https://spdx.org/licenses/CC-BY-SA-3.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-SA-3.0.json"
+        }
+      },
+      {
+        "key": "CC-BY-SA-3.0-AT",
+        "label": "Creative Commons Attribution Share Alike 3.0 Austria",
+        "code": "CC-BY-SA-3.0-AT",
+        "uri": "https://spdx.org/licenses/CC-BY-SA-3.0-AT",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-SA-3.0-AT.json"
+        }
+      },
+      {
+        "key": "CC-BY-SA-3.0-DE",
+        "label": "Creative Commons Attribution Share Alike 3.0 Germany",
+        "code": "CC-BY-SA-3.0-DE",
+        "uri": "https://spdx.org/licenses/CC-BY-SA-3.0-DE",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-SA-3.0-DE.json"
+        }
+      },
+      {
+        "key": "CC-BY-SA-3.0-IGO",
+        "label": "Creative Commons Attribution-ShareAlike 3.0 IGO",
+        "code": "CC-BY-SA-3.0-IGO",
+        "uri": "https://spdx.org/licenses/CC-BY-SA-3.0-IGO",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-BY-SA-3.0-IGO.json"
+        }
+      },
+      {
+        "key": "CC-PDDC",
+        "label": "Creative Commons Public Domain Dedication and Certification",
+        "code": "CC-PDDC",
+        "uri": "https://spdx.org/licenses/CC-PDDC",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-PDDC.json"
+        }
+      },
+      {
+        "key": "CC-PDM-1.0",
+        "label": "Creative    Commons Public Domain Mark 1.0 Universal",
+        "code": "CC-PDM-1.0",
+        "uri": "https://spdx.org/licenses/CC-PDM-1.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-PDM-1.0.json"
+        }
+      },
+      {
+        "key": "CC-SA-1.0",
+        "label": "Creative Commons Share Alike 1.0 Generic",
+        "code": "CC-SA-1.0",
+        "uri": "https://spdx.org/licenses/CC-SA-1.0",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": false,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC-SA-1.0.json"
+        }
+      },
+      {
+        "key": "CC0-1.0",
+        "label": "Creative Commons Zero v1.0 Universal",
+        "code": "CC0-1.0",
+        "uri": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": true,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/CC0-1.0.json"
+        }
+      },
+      {
+        "key": "PDDL-1.0",
+        "label": "Open Data Commons Public Domain Dedication & License 1.0",
+        "code": "PDDL-1.0",
+        "uri": "https://opendatacommons.org/licenses/pddl/1-0/",
+        "scheme": "spdx",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": true,
+        "deprecated": false,
+        "alt_codes": {
+          "spdx_detail": "https://spdx.org/licenses/PDDL-1.0.json"
+        }
+      }
+    ],
+    "geography": [
+      {
+        "key": "country:IN",
+        "label": "India",
+        "code": "IN",
+        "uri": "https://www.wikidata.org/entity/Q668",
+        "scheme": "iso3166-1",
+        "tier": "COUNTRY",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "region:north-east-india",
+        "label": "North East India",
+        "code": "north-east-india",
+        "uri": "https://civicdataspace.in/id/geography/region/north-east-india",
+        "scheme": "cdl",
+        "tier": "REGION",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "region:southern-asia",
+        "label": "Southern Asia",
+        "code": "southern-asia",
+        "uri": "https://civicdataspace.in/id/geography/region/southern-asia",
+        "scheme": "cdl",
+        "tier": "REGION",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {
+          "un_m49": "034"
+        }
+      }
+    ],
+    "sector": [
+      {
+        "key": "eu-theme:AGRI",
+        "label": "Agriculture, fisheries, forestry and food",
+        "code": "AGRI",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/AGRI",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:ECON",
+        "label": "Economy and finance",
+        "code": "ECON",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/ECON",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:EDUC",
+        "label": "Education, culture and sport",
+        "code": "EDUC",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/EDUC",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:ENER",
+        "label": "Energy",
+        "code": "ENER",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/ENER",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:ENVI",
+        "label": "Environment",
+        "code": "ENVI",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/ENVI",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:GOVE",
+        "label": "Government and public sector",
+        "code": "GOVE",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/GOVE",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:HEAL",
+        "label": "Health",
+        "code": "HEAL",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/HEAL",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:INTR",
+        "label": "International issues",
+        "code": "INTR",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/INTR",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:JUST",
+        "label": "Justice, legal system and public safety",
+        "code": "JUST",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/JUST",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:REGI",
+        "label": "Regions and cities",
+        "code": "REGI",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/REGI",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:SOCI",
+        "label": "Population and society",
+        "code": "SOCI",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/SOCI",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:TECH",
+        "label": "Science and technology",
+        "code": "TECH",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/TECH",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "eu-theme:TRAN",
+        "label": "Transport",
+        "code": "TRAN",
+        "uri": "http://publications.europa.eu/resource/authority/data-theme/TRAN",
+        "scheme": "eu-data-theme",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "RESOLVABLE",
+        "visible_on_platform": false,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {}
+      },
+      {
+        "key": "cdl:child-rights",
+        "label": "Child Rights",
+        "code": "child-rights",
+        "uri": "https://civicdataspace.in/id/sector/child-rights",
+        "scheme": "cdl",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {
+          "eu_data_theme": "SOCI",
+          "eu_match_type": "broadMatch",
+          "dac_crs": "16010"
+        }
+      },
+      {
+        "key": "cdl:climate-action",
+        "label": "Climate Action",
+        "code": "climate-action",
+        "uri": "https://civicdataspace.in/id/sector/climate-action",
+        "scheme": "cdl",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {
+          "eu_data_theme": "ENVI",
+          "eu_match_type": "broadMatch",
+          "sdg": "13"
+        }
+      },
+      {
+        "key": "cdl:coastal",
+        "label": "Coastal",
+        "code": "coastal",
+        "uri": "https://civicdataspace.in/id/sector/coastal",
+        "scheme": "cdl",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {
+          "eu_data_theme": "ENVI",
+          "eu_match_type": "broadMatch",
+          "sdg": "14"
+        }
+      },
+      {
+        "key": "cdl:gender",
+        "label": "Gender",
+        "code": "gender",
+        "uri": "https://civicdataspace.in/id/sector/gender",
+        "scheme": "cdl",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {
+          "eu_data_theme": "SOCI",
+          "eu_match_type": "broadMatch",
+          "dac_crs": "15170",
+          "sdg": "5"
+        }
+      },
+      {
+        "key": "cdl:disaster-risk-reduction",
+        "label": "Disaster Risk Reduction",
+        "code": "disaster-risk-reduction",
+        "uri": "https://civicdataspace.in/id/sector/disaster-risk-reduction",
+        "scheme": "cdl",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {
+          "eu_data_theme": "ENVI",
+          "eu_match_type": "broadMatch",
+          "dac_crs": "74020"
+        }
+      },
+      {
+        "key": "cdl:law-and-justice",
+        "label": "Law and Justice",
+        "code": "law-and-justice",
+        "uri": "https://civicdataspace.in/id/sector/law-and-justice",
+        "scheme": "cdl",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {
+          "eu_data_theme": "JUST",
+          "eu_match_type": "closeMatch",
+          "sdg": "16"
+        }
+      },
+      {
+        "key": "cdl:public-finance",
+        "label": "Public Finance",
+        "code": "public-finance",
+        "uri": "https://civicdataspace.in/id/sector/public-finance",
+        "scheme": "cdl",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {
+          "eu_data_theme": "GOVE",
+          "eu_match_type": "closeMatch"
+        }
+      },
+      {
+        "key": "cdl:urban-development",
+        "label": "Urban Development",
+        "code": "urban-development",
+        "uri": "https://civicdataspace.in/id/sector/urban-development",
+        "scheme": "cdl",
+        "tier": "",
+        "parent_key": "",
+        "visibility": "PICKABLE",
+        "visible_on_platform": true,
+        "is_active": true,
+        "is_open": null,
+        "deprecated": false,
+        "alt_codes": {
+          "eu_data_theme": "REGI",
+          "eu_match_type": "closeMatch",
+          "sdg": "11"
+        }
+      }
+    ]
+  }
+}

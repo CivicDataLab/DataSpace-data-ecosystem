@@ -2,7 +2,7 @@ __pycache__/
 *.pyc
 *.egg-info/
 .venv/
-## reports/
+reports/
 snapshots/
 .pytest_cache/
 config/overrides.yaml

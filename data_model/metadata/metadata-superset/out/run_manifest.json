@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-09-14T21:25:59+00:00",
+  "offline": false,
+  "vocabularies": {
+    "license": 60,
+    "geography": 3,
+    "sector": 21
+  },
+  "http": [
+    {
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json",
+      "status": "fetched",
+      "at": "2026-09-14T21:25:58+00:00"
+    }
+  ]
+}

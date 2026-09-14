@@ -1,0 +1,6 @@
+enum_value,spdx_id,key,label,is_open,notes
+GOVERNMENT_OPEN_DATA_LICENSE,,GODL-India,Government Open Data License – India,true,
+CC_BY_4_0_ATTRIBUTION,CC-BY-4.0,,Creative Commons Attribution 4.0,true,
+CC_BY_SA_4_0_ATTRIBUTION_SHARE_ALIKE,CC-BY-SA-4.0,,Creative Commons Attribution-ShareAlike 4.0,true,platform default
+OPEN_DATA_COMMONS_BY_ATTRIBUTION,ODC-By-1.0,,Open Data Commons Attribution License 1.0,true,
+OPEN_DATABASE_LICENSE,ODbL-1.0,,Open Database License 1.0,true,

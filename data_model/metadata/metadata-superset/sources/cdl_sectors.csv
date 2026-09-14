@@ -1,0 +1,9 @@
+name,slug,parent_slug,in_build,eu_data_theme,match_type,dac_crs,sdg,notes
+Child Rights,child-rights,,true,SOCI,broadMatch,16010,,
+Climate Action,climate-action,,true,ENVI,broadMatch,,13,
+Coastal,coastal,,true,ENVI,broadMatch,,14,
+Gender,gender,,true,SOCI,broadMatch,15170,5,cross-cutting; may belong as a facet
+Disaster Risk Reduction,disaster-risk-reduction,,true,ENVI,broadMatch,74020,,
+Law and Justice,law-and-justice,,true,JUST,closeMatch,,16,
+Public Finance,public-finance,,true,GOVE,closeMatch,,,
+Urban Development,urban-development,,true,REGI,closeMatch,,11,

@@ -1,0 +1,22 @@
+{
+  "id": 4231,
+  "title": "Assam Flood-Affected Villages (2019-2023)",
+  "description": "Village-level flood impact records for Assam, compiled annually from district disaster management reports.",
+  "organization": "Assam State Disaster Management Authority",
+  "user": "adhithya",
+  "license": "Government Open Data License - India",
+  "created": "2024-02-10",
+  "modified": "2025-06-01",
+  "tags": ["flood", "disaster-risk", "assam"],
+  "sectors": ["Disaster Risk Reduction"],
+  "geographies": [{"name": "Assam", "type": "state"}],
+  "formats": ["CSV"],
+  "resources": [
+    {
+      "id": 9001,
+      "download_url": "https://civicdataspace.in/download/resource/9001",
+      "format": "CSV",
+      "size": 184320
+    }
+  ]
+}

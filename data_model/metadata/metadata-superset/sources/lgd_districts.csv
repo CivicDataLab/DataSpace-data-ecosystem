@@ -1,0 +1,3 @@
+lgd_district_code,district_name,lgd_state_code,census_2011_code,wikidata_uri,valid_from,valid_to,notes
+# download the District master from lgdirectory.gov.in and paste rows here
+# set valid_to on districts that have since been split or merged

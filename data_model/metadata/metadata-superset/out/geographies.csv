@@ -1,0 +1,4 @@
+vocabulary,key,label,code,uri,scheme,tier,parent_key,in_build,visible_on_platform,visibility,is_active,is_open,deprecated,needs_review,review_reason,sources,alt_codes,notes
+geography,region:north-east-india,North East India,north-east-india,https://civicdataspace.in/id/geography/region/north-east-india,cdl,REGION,,False,True,PICKABLE,True,,False,False,,cdl,un_m49=,no external authority covers this grouping
+geography,region:southern-asia,Southern Asia,southern-asia,https://civicdataspace.in/id/geography/region/southern-asia,cdl,REGION,,False,True,PICKABLE,True,,False,False,,cdl,un_m49=034,UN M49 region
+geography,country:IN,India,IN,https://www.wikidata.org/entity/Q668,iso3166-1,COUNTRY,,False,True,PICKABLE,True,,False,False,,iso3166,,visibility rule: country-and-above

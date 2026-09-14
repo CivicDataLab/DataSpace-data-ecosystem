@@ -53,8 +53,9 @@ recommendation) that span more than one collaborative.
 
 **[`canonical_entities/`](../canonical_entities/)** — the shared reference data every collaborative would
 otherwise have to source itself: admin boundary shapefiles, metadata standards, analysis skill definitions.
-Organised by country/region where the source data is (e.g. `india/maps/` for NIC-sourced boundaries), since the
-upstream sources themselves are not generic.
+Region-specific sources are organised by country/region (e.g. `india/maps/` for NIC-sourced boundaries); global
+references that aren't tied to one region — like [`metadata-standards/`](../canonical_entities/metadata-standards/),
+the DCAT v3 / Dublin Core / Croissant mapping for CivicDataSpace's own dataset schema — sit at the top level.
 
 ## Adding to this repo
 

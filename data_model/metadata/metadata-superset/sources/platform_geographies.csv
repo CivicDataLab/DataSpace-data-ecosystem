@@ -1,0 +1,2 @@
+name,type
+# export from the live Geography table: SELECT name, type FROM geography;
