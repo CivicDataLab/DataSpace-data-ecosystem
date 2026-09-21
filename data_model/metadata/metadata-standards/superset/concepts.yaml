@@ -1,0 +1,1110 @@
+# The metadata field superset — one entry per canonical concept
+# =============================================================
+#
+# A "concept" is a thing you can say about a dataset, independent of the
+# standard you say it in. "The date this dataset was last changed" is one
+# concept; dcterms:modified and Croissant's dateModified are two spellings of
+# it. This file holds the concepts. standards/*.yaml holds the spellings.
+#
+# Adding a standard must never require touching this file. Adding a *concept*
+# that no current standard expresses is fine and expected — that is what makes
+# this a superset rather than an intersection.
+#
+# Field reference
+# ---------------
+#   key                   stable identifier; the join key used by every
+#                         standard binding and by crosswalk.json. Never rename
+#                         one — bindings and stored data point at it.
+#   node                  which resource the concept hangs off:
+#                         dataset | distribution | contact_point | record_set
+#   value_type            how a backend should serialise/parse the value:
+#                         literal | langstring | date | datetime | uri |
+#                         number | bytes | duration | media_type | agent |
+#                         concept | location | period | frequency | checksum |
+#                         vcard | structured
+#   repeatable            true if the concept takes a list
+#   obligation            mandatory | recommended | optional
+#                         Obligation of the *concept*, as the DCAT v3 / OGD
+#                         profile treats it. A standard may disagree; the
+#                         binding can override it.
+#   dataspace_field       the platform's own field name, or null if the
+#                         platform has no field for this concept yet
+#   dataspace_input_type  automated | free_text | controlled | semi_controlled
+#   visible_on_dataspace  yes/no — surfaced in the platform UI (contributor
+#                         form or dataset page). Editable; see README.
+#   controlled_vocabulary license | geography | sector — the concept's values
+#                         come from a fixed list built by
+#                         ../../metadata-superset/
+#   direction             both | export_only | import_only | none
+#                         What an import/export function may do with it:
+#                           both         read on import, write on export
+#                           export_only  platform-derived; emit it, never let
+#                                        an incoming record overwrite it
+#                           import_only  accepted from a source, not re-emitted
+#                           none         platform-internal, not metadata
+#
+# Concepts absent from a standard's bindings are gaps in that standard. The
+# build reports them; you do not list them here.
+
+version: 1
+source_document: "../DataSpace Metadata_Croissant_DCAT_mapping.xlsx"
+
+concepts:
+
+  # ---------------------------------------------------------------- identity
+  - key: identifier
+    label: Identifier
+    definition: A unique identifier for the dataset (platform ID, DOI, catalog UUID).
+    node: dataset
+    value_type: literal
+    repeatable: false
+    obligation: mandatory
+    dataspace_field: id
+    dataspace_input_type: automated
+    visible_on_dataspace: "yes"
+    direction: export_only
+    notes: >-
+      Croissant uses @id for this. On import the incoming identifier is kept in
+      source_identifier, never written over the platform's own ID.
+
+  - key: source_identifier
+    label: Source identifier
+    definition: The identifier this dataset carried on the platform it was imported from.
+    node: dataset
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: >-
+      Not in the source workbook. Added because round-tripping a federated
+      record is impossible without somewhere to keep its origin ID.
+
+  - key: slug
+    label: Slug
+    definition: URL-safe short name for the dataset on the platform.
+    node: dataset
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: slug
+    dataspace_input_type: automated
+    visible_on_dataspace: "yes"
+    direction: export_only
+    notes: No standard equivalent; it is the path component of landing_page.
+
+  - key: title
+    label: Title
+    definition: A name given to the dataset.
+    node: dataset
+    value_type: langstring
+    repeatable: false
+    obligation: mandatory
+    dataspace_field: title
+    dataspace_input_type: free_text
+    visible_on_dataspace: "yes"
+    direction: both
+
+  - key: alternative_title
+    label: Alternative title
+    definition: An alternative name for the dataset.
+    node: dataset
+    value_type: langstring
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: description
+    label: Description
+    definition: A free-text account of the dataset.
+    node: dataset
+    value_type: langstring
+    repeatable: false
+    obligation: mandatory
+    dataspace_field: description
+    dataspace_input_type: free_text
+    visible_on_dataspace: "yes"
+    direction: both
+
+  - key: abstract
+    label: Abstract
+    definition: A summary of the dataset, shorter than the description.
+    node: dataset
+    value_type: langstring
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  # ------------------------------------------------------------ what it is about
+  - key: keyword
+    label: Keywords
+    definition: Free-text tags describing the dataset, used for search.
+    node: dataset
+    value_type: literal
+    repeatable: true
+    obligation: recommended
+    dataspace_field: tags
+    dataspace_input_type: semi_controlled
+    visible_on_dataspace: "yes"
+    direction: both
+
+  - key: theme
+    label: Theme / Sector
+    definition: The category the dataset belongs to, from a controlled scheme.
+    node: dataset
+    value_type: concept
+    repeatable: true
+    obligation: recommended
+    dataspace_field: sectors
+    dataspace_input_type: controlled
+    visible_on_dataspace: "yes"
+    controlled_vocabulary: sector
+    direction: both
+    notes: >-
+      Partial match. CDL sectors are the platform's own scheme; export maps
+      them onto EU data themes, which collapses several sectors onto one theme.
+
+  - key: dataset_type
+    label: Dataset type
+    definition: The nature or genre of the dataset.
+    node: dataset
+    value_type: concept
+    repeatable: false
+    obligation: recommended
+    dataspace_field: datasetType
+    dataspace_input_type: controlled
+    visible_on_dataspace: "no"
+    direction: both
+    notes: The platform's set of types is undefined in the source workbook.
+
+  - key: language
+    label: Language
+    definition: Language of the dataset, as an ISO 639 code or URI.
+    node: dataset
+    value_type: concept
+    repeatable: true
+    obligation: recommended
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: Requires normalisation to ISO codes/URIs on import.
+
+  # ------------------------------------------------------------------ who
+  - key: publisher
+    label: Publisher
+    definition: The entity responsible for making the dataset available.
+    node: dataset
+    value_type: agent
+    repeatable: false
+    obligation: recommended
+    dataspace_field: organization
+    dataspace_input_type: free_text
+    visible_on_dataspace: "yes"
+    direction: both
+    notes: >-
+      The workbook maps organization to dct:publisher but Croissant creator,
+      and user to dct:creator but Croissant publisher. That inversion is
+      preserved here as recorded; see the open question in the README.
+
+  - key: creator
+    label: Creator
+    definition: The entity responsible for producing the dataset.
+    node: dataset
+    value_type: agent
+    repeatable: true
+    obligation: optional
+    dataspace_field: user
+    dataspace_input_type: free_text
+    visible_on_dataspace: "yes"
+    direction: both
+
+  - key: qualified_attribution
+    label: Qualified attribution
+    definition: A role-qualified link to an agent, for multiple contributors.
+    node: dataset
+    value_type: structured
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: Needed when a dataset has several publishers with distinct roles.
+
+  - key: contact_point
+    label: Contact point
+    definition: Contact information for the dataset, as a vCard.
+    node: dataset
+    value_type: vcard
+    repeatable: true
+    obligation: recommended
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: Sub-fields are the contact_* concepts on the contact_point node.
+
+  # ------------------------------------------------------------ rights
+  - key: license
+    label: License
+    definition: The legal document under which the dataset is made available.
+    node: dataset
+    value_type: uri
+    repeatable: false
+    obligation: mandatory
+    dataspace_field: license
+    dataspace_input_type: controlled
+    visible_on_dataspace: "yes"
+    controlled_vocabulary: license
+    direction: both
+    notes: >-
+      Must serialise as a resolvable LicenseDocument URI, not the enum label.
+      Resolve through the license vocabulary before emitting.
+
+  - key: rights
+    label: Rights statement
+    definition: A statement about rights held in and over the dataset.
+    node: dataset
+    value_type: langstring
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: access_rights
+    label: Access rights
+    definition: Whether the dataset is public, restricted, or non-public.
+    node: dataset
+    value_type: concept
+    repeatable: false
+    obligation: recommended
+    dataspace_field: accessType
+    dataspace_input_type: controlled
+    visible_on_dataspace: "no"
+    direction: both
+    notes: >-
+      The workbook calls accessType unclear and marks it unmappable. It lines
+      up with dcterms:accessRights if it means public/restricted; confirm
+      against the platform before relying on this binding.
+
+  # ------------------------------------------------------------------ when
+  - key: issued
+    label: Date issued
+    definition: The date the dataset was first published.
+    node: dataset
+    value_type: date
+    repeatable: false
+    obligation: mandatory
+    dataspace_field: created
+    dataspace_input_type: controlled
+    visible_on_dataspace: "yes"
+    direction: both
+    notes: >-
+      The platform's "created" is mapped to issued, not dcterms:created. The
+      workbook flags that it is unclear whether this is the original creation
+      date or the upload date.
+
+  - key: created
+    label: Date created
+    definition: The date the dataset itself was created, before publication.
+    node: dataset
+    value_type: date
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: modified
+    label: Date modified
+    definition: The most recent date the dataset was changed.
+    node: dataset
+    value_type: date
+    repeatable: false
+    obligation: mandatory
+    dataspace_field: modified
+    dataspace_input_type: controlled
+    visible_on_dataspace: "yes"
+    direction: both
+    notes: Should be driven by the platform's versioning, per the workbook.
+
+  - key: accrual_periodicity
+    label: Update frequency
+    definition: How often the dataset is updated.
+    node: dataset
+    value_type: frequency
+    repeatable: false
+    obligation: recommended
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: Use the Dublin Core Frequency vocabulary.
+
+  - key: accrual_method
+    label: Accrual method
+    definition: How the dataset is added to.
+    node: dataset
+    value_type: concept
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: version
+    label: Version
+    definition: The version designator of the dataset.
+    node: dataset
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: both
+    notes: >-
+      DCAT has no single version field; the workbook records the combination
+      of issued + modified + dcterms:hasVersion as the partial match.
+
+  # ------------------------------------------------------------- where / when covered
+  - key: spatial_coverage
+    label: Spatial coverage
+    definition: The geographic region the dataset covers.
+    node: dataset
+    value_type: location
+    repeatable: true
+    obligation: mandatory
+    dataspace_field: geographies
+    dataspace_input_type: controlled
+    visible_on_dataspace: "yes"
+    controlled_vocabulary: geography
+    direction: both
+    notes: >-
+      Must serialise as a resolvable place URI. The platform stores name
+      strings today; resolve through the geography vocabulary first.
+
+  - key: spatial_resolution
+    label: Spatial resolution
+    definition: Minimum spatial separation resolvable in the dataset.
+    node: dataset
+    value_type: number
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: >-
+      DCAT expects metres. The registry sheet uses admin level (district,
+      village), which needs a conversion or a separate literal field.
+
+  - key: temporal_coverage_start
+    label: Temporal coverage (start)
+    definition: Start of the period the dataset covers.
+    node: dataset
+    value_type: date
+    repeatable: false
+    obligation: recommended
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: both
+    notes: Serialises inside a dcterms:temporal PeriodOfTime node.
+
+  - key: temporal_coverage_end
+    label: Temporal coverage (end)
+    definition: End of the period the dataset covers.
+    node: dataset
+    value_type: date
+    repeatable: false
+    obligation: recommended
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: both
+
+  - key: temporal_resolution
+    label: Temporal resolution
+    definition: Minimum time period resolvable in the dataset.
+    node: dataset
+    value_type: duration
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  # ------------------------------------------------------------- links out
+  - key: landing_page
+    label: Landing page
+    definition: A web page giving access to the dataset and its publisher.
+    node: dataset
+    value_type: uri
+    repeatable: false
+    obligation: recommended
+    dataspace_field: null
+    dataspace_input_type: automated
+    visible_on_dataspace: "yes"
+    direction: export_only
+    notes: Constructed from slug at export time.
+
+  - key: homepage
+    label: Homepage
+    definition: The publisher's home page for the dataset.
+    node: dataset
+    value_type: uri
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: source
+    label: Source
+    definition: A related resource the dataset is derived from.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: depiction
+    label: Depiction
+    definition: An image representing the dataset.
+    node: dataset
+    value_type: uri
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: in_catalog
+    label: In catalog
+    definition: The catalog the dataset is listed in.
+    node: dataset
+    value_type: uri
+    repeatable: false
+    obligation: recommended
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: export_only
+
+  - key: in_series
+    label: In series
+    definition: The dataset series this dataset belongs to.
+    node: dataset
+    value_type: uri
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: conforms_to
+    label: Conforms to
+    definition: An established standard or schema the dataset conforms to.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: metadata
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: both
+    notes: >-
+      The workbook guesses the platform's "metadata" field means "which
+      standard does this conform to?". Treated as conformsTo on that reading;
+      confirm before relying on it. This is also DCAT's stand-in for
+      Croissant's RecordSet schema.
+
+  # ------------------------------------------------------------- relations
+  - key: relation
+    label: Related resource
+    definition: A resource with an unspecified relationship to the dataset.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: has_part
+    label: Has part
+    definition: A resource included either physically or logically in the dataset.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: is_part_of
+    label: Is part of
+    definition: A resource the dataset is included in.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: is_referenced_by
+    label: Is referenced by
+    definition: A resource that references the dataset.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: replaces
+    label: Replaces
+    definition: A resource the dataset supplants.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: is_replaced_by
+    label: Is replaced by
+    definition: A resource that supplants the dataset.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: is_version_of
+    label: Is version of
+    definition: A resource the dataset is a version of.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: has_version
+    label: Has version
+    definition: A version of the dataset.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: provenance
+    label: Provenance
+    definition: A statement of changes in ownership and custody of the dataset.
+    node: dataset
+    value_type: structured
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: DCAT needs the external PROV-O ontology for this.
+
+  # ------------------------------------------------------- India OGD extension
+  - key: jurisdiction_level
+    label: Jurisdiction level
+    definition: The administrative level the dataset's authority operates at.
+    node: dataset
+    value_type: concept
+    repeatable: false
+    obligation: recommended
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: DCAT-IN, not yet a stable published spec.
+
+  - key: applicable_legislation
+    label: Applicable legislation
+    definition: The legislation mandating the dataset's creation or publication.
+    node: dataset
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: DCAT-IN.
+
+  - key: hvd_category
+    label: High-value dataset category
+    definition: The high-value dataset category the dataset falls in.
+    node: dataset
+    value_type: concept
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: DCAT-IN.
+
+  - key: note
+    label: Note
+    definition: A free-text note about the dataset.
+    node: dataset
+    value_type: langstring
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: DCAT-IN.
+
+  # ------------------------------------------------------------ distribution
+  - key: distribution
+    label: Distribution
+    definition: An accessible form of the dataset — a downloadable file or an API.
+    node: dataset
+    value_type: structured
+    repeatable: true
+    obligation: mandatory
+    dataspace_field: resources
+    dataspace_input_type: free_text
+    visible_on_dataspace: "yes"
+    direction: both
+    notes: The link from dataset to its distribution nodes.
+
+  - key: access_url
+    label: Access URL
+    definition: A URL giving access to the distribution.
+    node: distribution
+    value_type: uri
+    repeatable: false
+    obligation: mandatory
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: both
+    notes: >-
+      DCAT requires this on every Distribution. Where the platform has only a
+      download URL, use it for both.
+
+  - key: download_url
+    label: Download URL
+    definition: A direct link to the downloadable file.
+    node: distribution
+    value_type: uri
+    repeatable: false
+    obligation: recommended
+    dataspace_field: download_url
+    dataspace_input_type: automated
+    visible_on_dataspace: "yes"
+    direction: both
+
+  - key: media_type
+    label: Format / media type
+    definition: The file format of the distribution.
+    node: distribution
+    value_type: media_type
+    repeatable: false
+    obligation: recommended
+    dataspace_field: format
+    dataspace_input_type: automated
+    visible_on_dataspace: "yes"
+    direction: both
+    notes: >-
+      The platform's dataset-level "formats" is the set of its resources'
+      formats, derived rather than entered.
+
+  - key: byte_size
+    label: Byte size
+    definition: The size of the distribution in bytes.
+    node: distribution
+    value_type: bytes
+    repeatable: false
+    obligation: optional
+    dataspace_field: size
+    dataspace_input_type: automated
+    visible_on_dataspace: "yes"
+    direction: both
+
+  - key: checksum
+    label: Checksum
+    definition: A hash of the distribution's contents, for integrity checking.
+    node: distribution
+    value_type: checksum
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: both
+    notes: Croissant requires sha256 on a FileObject; DCAT has no such property.
+
+  - key: distribution_title
+    label: Distribution title
+    definition: A name given to the distribution.
+    node: distribution
+    value_type: langstring
+    repeatable: false
+    obligation: optional
+    dataspace_field: name
+    dataspace_input_type: free_text
+    visible_on_dataspace: "yes"
+    direction: both
+
+  - key: endpoint_url
+    label: Endpoint URL
+    definition: The root location of an API-based distribution.
+    node: distribution
+    value_type: uri
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: endpoint_description
+    label: Endpoint description
+    definition: A description of the services available at the endpoint.
+    node: distribution
+    value_type: uri
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  # --------------------------------------------------- ML structure (Croissant)
+  - key: file_set
+    label: File set
+    definition: A group of files described by a pattern rather than individually.
+    node: dataset
+    value_type: structured
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: DCAT has no grouping semantics; the nearest is many Distributions.
+
+  - key: containment
+    label: Containment
+    definition: Which file or archive a file is contained in.
+    node: distribution
+    value_type: uri
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: DCAT cannot model file hierarchy.
+
+  - key: record_set
+    label: Record set
+    definition: A table within the dataset — its columns and their semantics.
+    node: dataset
+    value_type: structured
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: >-
+      The main DCAT gap. This is the concept that makes a dataset ML-readable,
+      and it is also what schemas/data_dictionary_template.csv captures.
+
+  - key: field
+    label: Field
+    definition: One column of a record set, with a name, description and type.
+    node: record_set
+    value_type: structured
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: No column-level metadata exists in DCAT.
+
+  - key: data_type
+    label: Data type
+    definition: The semantic type of a field (including ML types like BoundingBox).
+    node: record_set
+    value_type: uri
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: transform
+    label: Transform
+    definition: A transformation applied to source data to produce a field.
+    node: record_set
+    value_type: structured
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: Expressible in DCAT only through external PROV-O.
+
+  - key: annotation
+    label: Annotation
+    definition: A structured ML annotation over the data.
+    node: dataset
+    value_type: structured
+    repeatable: true
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  # ------------------------------------------------------- contact point parts
+  - key: contact_name
+    label: Contact name
+    definition: Formatted name of the contact.
+    node: contact_point
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: contact_title
+    label: Contact title
+    definition: Job title of the contact.
+    node: contact_point
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: contact_role
+    label: Contact role
+    definition: Role the contact plays for this dataset.
+    node: contact_point
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: contact_organization
+    label: Contact organisation
+    definition: Organisation the contact belongs to.
+    node: contact_point
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: contact_email
+    label: Contact email
+    definition: Email address of the contact.
+    node: contact_point
+    value_type: uri
+    repeatable: false
+    obligation: recommended
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: "Serialises as a mailto: URI."
+
+  - key: contact_address
+    label: Contact address
+    definition: Postal address of the contact.
+    node: contact_point
+    value_type: structured
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+    notes: Nests the contact_street_address / locality / postal_code concepts.
+
+  - key: contact_street_address
+    label: Contact street address
+    definition: Street address of the contact.
+    node: contact_point
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: contact_locality
+    label: Contact locality
+    definition: Town or city of the contact's address.
+    node: contact_point
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  - key: contact_postal_code
+    label: Contact postal code
+    definition: Postal code of the contact's address.
+    node: contact_point
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: null
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: import_only
+
+  # ------------------------------------------------------ platform-internal
+  # Real platform fields with no metadata meaning. Listed so that an import or
+  # export function has an explicit answer for every field it will encounter,
+  # rather than silently ignoring some.
+  - key: status
+    label: Status
+    definition: Publication workflow state of the dataset on the platform.
+    node: dataset
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: status
+    dataspace_input_type: automated
+    visible_on_dataspace: "no"
+    direction: none
+    notes: >-
+      Croissant has a status concept; the workbook records no DCAT equivalent
+      and marks it not user-facing.
+
+  - key: download_count
+    label: Download count
+    definition: Number of times the dataset has been downloaded.
+    node: dataset
+    value_type: number
+    repeatable: false
+    obligation: optional
+    dataspace_field: downloadCount
+    dataspace_input_type: automated
+    visible_on_dataspace: "yes"
+    direction: none
+    notes: Usage statistic, not metadata. No DCAT equivalent.
+
+  - key: similar_datasets
+    label: Similar datasets
+    definition: Datasets the platform computes as related.
+    node: dataset
+    value_type: structured
+    repeatable: true
+    obligation: optional
+    dataspace_field: similarDatasets
+    dataspace_input_type: automated
+    visible_on_dataspace: "yes"
+    direction: none
+    notes: Platform-level and dynamic; the workbook says it need not be metadata.
+
+  - key: is_individual_dataset
+    label: Is individual dataset
+    definition: Whether the record is a standalone dataset or part of a collection.
+    node: dataset
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: isIndividualDataset
+    dataspace_input_type: automated
+    visible_on_dataspace: "no"
+    direction: none
+    notes: >-
+      The workbook suspects this links to catalogs. If confirmed, it belongs
+      with in_catalog / in_series rather than here.
+
+  - key: dataspace
+    label: Dataspace
+    definition: Unclear platform field.
+    node: dataset
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: dataspace
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: none
+    notes: Marked unclear and unmappable in the source workbook.
+
+  - key: prompt_metadata
+    label: Prompt metadata
+    definition: Unclear platform field.
+    node: dataset
+    value_type: literal
+    repeatable: false
+    obligation: optional
+    dataspace_field: promptMetadata
+    dataspace_input_type: null
+    visible_on_dataspace: "no"
+    direction: none
+    notes: Undefined in the source workbook.

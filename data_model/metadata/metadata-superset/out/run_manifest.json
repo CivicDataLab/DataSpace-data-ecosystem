@@ -1,16 +1,28 @@
 {
-  "generated_at": "2026-09-14T21:25:59+00:00",
-  "offline": false,
+  "generated_at": "2026-09-21T11:07:42+00:00",
+  "offline": true,
   "vocabularies": {
-    "license": 60,
-    "geography": 3,
-    "sector": 21
+    "license": {
+      "rows": 60,
+      "visible_on_dataspace": 7,
+      "needs_review": 0
+    },
+    "geography": {
+      "rows": 8048,
+      "visible_on_dataspace": 39,
+      "needs_review": 42
+    },
+    "sector": {
+      "rows": 21,
+      "visible_on_dataspace": 8,
+      "needs_review": 0
+    }
   },
   "http": [
     {
       "url": "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json",
-      "status": "fetched",
-      "at": "2026-09-14T21:25:58+00:00"
+      "status": "cache",
+      "at": "2026-09-21T11:07:42+00:00"
     }
   ]
 }

@@ -1,0 +1,313 @@
+# DCAT v3 — how each superset concept is spelled in this standard
+#
+# One file per standard. Adding a standard means adding a file like this one
+# and nothing else: concepts.yaml does not change, and the build picks the
+# file up automatically.
+#
+# A binding may override the concept's node, value_type, repeatable or
+# obligation where this standard differs. Anything it does not state is
+# inherited from the concept.
+#
+#   match: exact    one-to-one, no loss
+#          partial  the concept exists but cardinality, structure or
+#                   vocabulary differs — say how in notes
+#          gap      this standard cannot express the concept. Listing it as a
+#                   gap is a deliberate statement; omitting the concept
+#                   entirely means the same thing but records no reasoning.
+
+id: dcat
+name: "DCAT v3 (Data Catalog Vocabulary)"
+version: "3"
+url: "https://www.w3.org/TR/vocab-dcat-3/"
+serialisation: json-ld
+uri_style: node   # how a URI value is written: node = {"@id": ...}, string = plain
+
+context:
+  dcat: "http://www.w3.org/ns/dcat#"
+  dcterms: "http://purl.org/dc/terms/"
+  foaf: "http://xmlns.com/foaf/0.1/"
+  vcard: "http://www.w3.org/2006/vcard/ns#"
+  prov: "http://www.w3.org/ns/prov#"
+  dcatin: "https://example.org/dcat-in#"   # placeholder: DCAT-IN has no published namespace
+  xsd: "http://www.w3.org/2001/XMLSchema#"
+  owl: "http://www.w3.org/2002/07/owl#"
+
+# The @type each node carries when serialised.
+node_types:
+  dataset: "dcat:Dataset"
+  distribution: "dcat:Distribution"
+  contact_point: "vcard:Kind"
+
+bindings:
+  identifier:
+    property: "dcterms:identifier"
+    match: exact
+  title:
+    property: "dcterms:title"
+    match: exact
+  alternative_title:
+    property: "dcterms:alternative"
+    match: exact
+  description:
+    property: "dcterms:description"
+    match: exact
+  abstract:
+    property: "dcterms:abstract"
+    match: exact
+  keyword:
+    property: "dcat:keyword"
+    match: partial
+    notes: >-
+      dcat:keyword or dcterms:subject, depending on whether the values are
+      free text or come from a controlled scheme. The platform's tags are
+      semi-controlled, so keyword is the safer target.
+  theme:
+    property: "dcat:theme"
+    match: partial
+    notes: >-
+      Expects a skos:Concept from a published scheme. CDL sectors collapse
+      onto EU data themes many-to-one; the mapping is lossy in that direction
+      and not reversible.
+  dataset_type:
+    property: "dcterms:type"
+    match: partial
+    notes: Dataset-level only. DCAT has no field-level typing.
+  language:
+    property: "dcterms:language"
+    match: exact
+  publisher:
+    property: "dcterms:publisher"
+    match: exact
+    value_type: agent
+  creator:
+    property: "dcterms:creator"
+    match: exact
+    value_type: agent
+  qualified_attribution:
+    property: "prov:qualifiedAttribution"
+    match: partial
+    notes: Requires PROV-O, which is outside DCAT proper.
+  contact_point:
+    property: "dcat:contactPoint"
+    match: exact
+    notes: Nests a vcard:Kind node built from the contact_* concepts.
+  license:
+    property: "dcterms:license"
+    match: exact
+    notes: >-
+      Mandatory at Distribution in the registry profile. Emit the steward URI
+      from the license vocabulary, never the platform's enum label.
+  rights:
+    property: "dcterms:rights"
+    match: exact
+  access_rights:
+    property: "dcterms:accessRights"
+    match: partial
+    notes: Croissant has no equivalent; this is DCAT-only.
+  issued:
+    property: "dcterms:issued"
+    match: exact
+  created:
+    property: "dcterms:created"
+    match: exact
+  modified:
+    property: "dcterms:modified"
+    match: exact
+  accrual_periodicity:
+    property: "dcterms:accrualPeriodicity"
+    match: exact
+  accrual_method:
+    property: "dcterms:accrualMethod"
+    match: exact
+  version:
+    property: "owl:versionInfo"
+    match: partial
+    notes: >-
+      DCAT has no dedicated version field. The workbook records the
+      combination issued + modified + dcterms:hasVersion / owl:versionInfo.
+      owl:versionInfo is used here because dcterms:hasVersion means "a version
+      of this exists over there" - binding both concepts to it would make an
+      incoming hasVersion impossible to route.
+  spatial_coverage:
+    property: "dcterms:spatial"
+    match: exact
+    value_type: location
+  spatial_resolution:
+    property: "dcat:spatialResolutionInMeters"
+    match: partial
+    notes: >-
+      DCAT wants metres. The registry records admin level instead, which does
+      not convert cleanly — carry it as a literal or drop it.
+  temporal_coverage_start:
+    property: "dcat:startDate"
+    node: period
+    parent_property: "dcterms:temporal"
+    match: exact
+    notes: Nested inside a dcterms:PeriodOfTime node.
+  temporal_coverage_end:
+    property: "dcat:endDate"
+    node: period
+    parent_property: "dcterms:temporal"
+    match: exact
+  temporal_resolution:
+    property: "dcat:temporalResolution"
+    match: exact
+    value_type: duration
+  landing_page:
+    property: "dcat:landingPage"
+    match: exact
+  homepage:
+    property: "foaf:homepage"
+    match: exact
+  source:
+    property: "dcterms:source"
+    match: exact
+  depiction:
+    property: "foaf:depiction"
+    match: exact
+  in_catalog:
+    property: "dcat:inCatalog"
+    match: exact
+  in_series:
+    property: "dcat:inSeries"
+    match: exact
+  conforms_to:
+    property: "dcterms:conformsTo"
+    match: partial
+    notes: DCAT's only way to point at an external schema such as CSVW.
+  relation:
+    property: "dcterms:relation"
+    match: exact
+  has_part:
+    property: "dcterms:hasPart"
+    match: exact
+  is_part_of:
+    property: "dcterms:isPartOf"
+    match: exact
+  is_referenced_by:
+    property: "dcterms:isReferencedBy"
+    match: exact
+  replaces:
+    property: "dcterms:replaces"
+    match: exact
+  is_replaced_by:
+    property: "dcterms:isReplacedBy"
+    match: exact
+  is_version_of:
+    property: "dcterms:isVersionOf"
+    match: exact
+  has_version:
+    property: "dcterms:hasVersion"
+    match: exact
+  provenance:
+    property: "prov:wasGeneratedBy"
+    match: partial
+    notes: Requires PROV-O.
+  jurisdiction_level:
+    property: "dcatin:jurisdictionLevel"
+    match: partial
+    notes: DCAT-IN, proposed. Namespace is a placeholder until it publishes.
+  applicable_legislation:
+    property: "dcatin:applicableLegislation"
+    match: partial
+    notes: DCAT-IN, proposed.
+  hvd_category:
+    property: "dcatin:hvdCategory"
+    match: partial
+    notes: DCAT-IN, proposed.
+  note:
+    property: "dcatin:note"
+    match: partial
+    notes: DCAT-IN, proposed.
+
+  # --- distribution ------------------------------------------------------
+  distribution:
+    property: "dcat:distribution"
+    match: exact
+  access_url:
+    property: "dcat:accessURL"
+    match: exact
+  download_url:
+    property: "dcat:downloadURL"
+    match: exact
+  media_type:
+    property: "dcat:mediaType"
+    match: exact
+    notes: >-
+      dcterms:format is the looser alternative the workbook also records. Use
+      mediaType when the value is a real MIME type, format otherwise.
+  byte_size:
+    property: "dcat:byteSize"
+    match: exact
+  distribution_title:
+    property: "dcterms:title"
+    match: exact
+  endpoint_url:
+    property: "dcat:endpointURL"
+    match: exact
+  endpoint_description:
+    property: "dcat:endpointDescription"
+    match: exact
+
+  # --- contact point parts ----------------------------------------------
+  contact_name:
+    property: "vcard:fn"
+    match: exact
+  contact_title:
+    property: "vcard:title"
+    match: exact
+  contact_role:
+    property: "vcard:role"
+    match: exact
+  contact_organization:
+    property: "vcard:organization-name"
+    match: exact
+  contact_email:
+    property: "vcard:hasEmail"
+    match: exact
+  contact_address:
+    property: "vcard:hasAddress"
+    match: exact
+  contact_street_address:
+    property: "vcard:street-address"
+    parent_property: "vcard:hasAddress"
+    match: exact
+  contact_locality:
+    property: "vcard:locality"
+    parent_property: "vcard:hasAddress"
+    match: exact
+  contact_postal_code:
+    property: "vcard:postal-code"
+    parent_property: "vcard:hasAddress"
+    match: exact
+
+  # --- declared gaps -----------------------------------------------------
+  # Recorded rather than omitted, because "DCAT cannot do this" is the single
+  # most useful thing this file says to someone exporting an ML dataset.
+  checksum:
+    match: gap
+    notes: No integrity-verification property in DCAT. Croissant requires sha256.
+  file_set:
+    match: gap
+    notes: No file grouping or pattern support; nearest is many Distributions.
+  containment:
+    match: gap
+    notes: No file hierarchy modelling.
+  record_set:
+    match: gap
+    notes: Cannot represent tables or rows. Use conforms_to to point outward.
+  field:
+    match: gap
+    notes: No column-level metadata.
+  data_type:
+    match: gap
+    notes: No semantic or ML typing.
+  transform:
+    match: gap
+    notes: Possible only via external PROV-O.
+  annotation:
+    match: gap
+    notes: No native annotation model.
+  status:
+    match: gap
+    notes: Publication workflow state is not a DCAT concept.

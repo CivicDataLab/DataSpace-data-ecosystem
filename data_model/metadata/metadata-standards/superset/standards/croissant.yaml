@@ -1,0 +1,241 @@
+# Croissant (MLCommons) — schema.org-based ML dataset metadata
+#
+# Croissant is data-shaped where DCAT is catalog-shaped: it describes the
+# columns, types and semantics inside the files, not just the files. So the
+# gap list here is the mirror image of DCAT's - Croissant has RecordSet and
+# Field and no accessRights, no landing page, no catalog membership.
+#
+# Property names are plain schema.org keys, not prefixed IRIs, which is how
+# Croissant JSON-LD is written in practice.
+
+id: croissant
+name: "Croissant (MLCommons ML-dataset metadata format)"
+version: "1.0"
+url: "https://mlcommons.org/croissant/"
+serialisation: json-ld
+uri_style: string   # how a URI value is written: node = {"@id": ...}, string = plain
+
+context:
+  "@vocab": "https://schema.org/"
+  cr: "http://mlcommons.org/croissant/"
+  sc: "https://schema.org/"
+
+node_types:
+  dataset: "Dataset"
+  distribution: "cr:FileObject"
+  record_set: "cr:RecordSet"
+
+bindings:
+  identifier:
+    property: "identifier"
+    match: partial
+    notes: Croissant also uses @id as the node identity; emit both.
+  title:
+    property: "name"
+    match: exact
+  alternative_title:
+    property: "alternateName"
+    match: exact
+  description:
+    property: "description"
+    match: exact
+  keyword:
+    property: "keywords"
+    match: partial
+    notes: Free text only; no controlled-scheme distinction.
+  publisher:
+    property: "creator"
+    match: partial
+    notes: >-
+      The source workbook maps the platform's organization to dct:publisher
+      but to Croissant creator, and user the other way round. Preserved as
+      recorded - see the open question in the README before relying on it.
+  creator:
+    property: "publisher"
+    match: partial
+    notes: See publisher; the inversion is as recorded in the workbook.
+  license:
+    property: "license"
+    match: exact
+    notes: A license URL, same steward URI as DCAT.
+  issued:
+    property: "datePublished"
+    match: exact
+  modified:
+    property: "dateModified"
+    match: exact
+  created:
+    property: "dateCreated"
+    match: exact
+  version:
+    property: "version"
+    match: exact
+    notes: >-
+      Croissant has a dedicated version field, which is the one place it is
+      stricter than DCAT.
+  language:
+    property: "inLanguage"
+    match: exact
+  landing_page:
+    property: "url"
+    match: partial
+    notes: Requires interpretation of intent - url is not specifically a landing page.
+  homepage:
+    property: "url"
+    match: partial
+  source:
+    property: "isBasedOn"
+    match: partial
+  conforms_to:
+    property: "conformsTo"
+    match: exact
+    notes: Croissant uses this to declare the Croissant spec version itself.
+  is_part_of:
+    property: "isPartOf"
+    match: exact
+  has_part:
+    property: "hasPart"
+    match: exact
+  status:
+    property: "creativeWorkStatus"
+    match: partial
+    notes: >-
+      The workbook records a Croissant status concept against a DCAT gap.
+      creativeWorkStatus is the schema.org property that carries it.
+  spatial_coverage:
+    property: "spatialCoverage"
+    match: partial
+    notes: >-
+      schema.org Place, not a dcterms:Location. Accepts a name string, so an
+      export can succeed while carrying no resolvable URI - check the value.
+  temporal_coverage_start:
+    property: "temporalCoverage"
+    match: partial
+    notes: >-
+      One ISO 8601 interval string ("2019-01-01/2023-12-31"), not two fields.
+      Both start and end serialise into it.
+  temporal_coverage_end:
+    property: "temporalCoverage"
+    match: partial
+    notes: See temporal_coverage_start; both concepts share one property.
+
+  # --- distribution / files ---------------------------------------------
+  distribution:
+    property: "distribution"
+    match: exact
+  download_url:
+    property: "contentUrl"
+    match: exact
+  media_type:
+    property: "encodingFormat"
+    match: exact
+  byte_size:
+    property: "contentSize"
+    match: exact
+  distribution_title:
+    property: "name"
+    match: exact
+  checksum:
+    property: "sha256"
+    match: exact
+    notes: Required on a FileObject. DCAT has nothing equivalent.
+  containment:
+    property: "containedIn"
+    match: exact
+  file_set:
+    property: "cr:FileSet"
+    match: exact
+    notes: A group of files given by an includes/excludes pattern.
+
+  # --- ML structure ------------------------------------------------------
+  record_set:
+    property: "cr:recordSet"
+    match: exact
+  field:
+    property: "cr:field"
+    node: record_set
+    match: exact
+  data_type:
+    property: "dataType"
+    node: record_set
+    match: exact
+    notes: Includes ML types such as cr:BoundingBox.
+  transform:
+    property: "cr:transform"
+    node: record_set
+    match: exact
+  annotation:
+    property: "cr:annotation"
+    match: exact
+
+  # --- declared gaps -----------------------------------------------------
+  theme:
+    match: gap
+    notes: >-
+      No controlled theme scheme. Sectors have to go out as keywords, which
+      loses the vocabulary binding.
+  access_rights:
+    match: gap
+    notes: >-
+      Not defined in Croissant. The workbook notes dcterms:accessRights exists
+      only on the DCAT side.
+  contact_point:
+    match: gap
+  contact_name:
+    match: gap
+  contact_title:
+    match: gap
+  contact_role:
+    match: gap
+  contact_organization:
+    match: gap
+  contact_email:
+    match: gap
+  contact_address:
+    match: gap
+  contact_street_address:
+    match: gap
+  contact_locality:
+    match: gap
+  contact_postal_code:
+    match: gap
+  rights:
+    match: gap
+  accrual_periodicity:
+    match: gap
+  accrual_method:
+    match: gap
+  in_catalog:
+    match: gap
+  in_series:
+    match: gap
+  access_url:
+    match: gap
+    notes: Croissant assumes a direct contentUrl; there is no API-access concept.
+  endpoint_url:
+    match: gap
+  endpoint_description:
+    match: gap
+  depiction:
+    match: gap
+  jurisdiction_level:
+    match: gap
+  applicable_legislation:
+    match: gap
+  hvd_category:
+    match: gap
+  note:
+    match: gap
+  spatial_resolution:
+    match: gap
+  temporal_resolution:
+    match: gap
+  provenance:
+    match: gap
+    notes: cr:transform covers field derivation, not dataset custody history.
+  qualified_attribution:
+    match: gap
+  dataset_type:
+    match: gap
+  abstract:
+    match: gap

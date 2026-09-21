@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-09-21T11:33:35+00:00",
+  "concepts": 80,
+  "concepts_with_platform_field": 26,
+  "concepts_visible_on_dataspace": 20,
+  "standards": {
+    "croissant": {
+      "exact": 25,
+      "partial": 11,
+      "gap": 31,
+      "unbound": 13
+    },
+    "dcat": {
+      "exact": 51,
+      "partial": 13,
+      "gap": 9,
+      "unbound": 7
+    },
+    "dublin_core": {
+      "exact": 28,
+      "partial": 8,
+      "gap": 19,
+      "unbound": 25
+    }
+  },
+  "workbook_properties_unbound": [
+    "dcterms:accessRight"
+  ],
+  "warnings": [
+    "landing_page: direction=export_only but no dataspace_field - the export must construct this value itself",
+    "in_catalog: direction=export_only but no dataspace_field - the export must construct this value itself",
+    "croissant: 'temporalCoverage' on dataset imports to 2 concepts (temporal_coverage_start, temporal_coverage_end) - ambiguous on import",
+    "croissant: 'url' on dataset imports to 2 concepts (landing_page, homepage) - ambiguous on import",
+    "dublin_core: 'dcterms:identifier' on dataset imports to 2 concepts (identifier, download_url) - ambiguous on import",
+    "dublin_core: 'dcterms:subject' on dataset imports to 2 concepts (keyword, theme) - ambiguous on import",
+    "dublin_core: 'dcterms:temporal' on dataset imports to 2 concepts (temporal_coverage_start, temporal_coverage_end) - ambiguous on import",
+    "1 workbook properties are bound to no concept: dcterms:accessRight"
+  ]
+}

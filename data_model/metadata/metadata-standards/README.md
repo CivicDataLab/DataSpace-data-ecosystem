@@ -32,12 +32,28 @@ DCAT — and CivicDataSpace today — doesn't capture.
 ## Files
 
 ```
-canonical_entities/metadata-standards/
-├── mapping.yaml           The metadata supermodel — machine-readable, one section per source sheet
-├── convert.py             Converts a DataSpace dataset's metadata to DCAT / Croissant JSON-LD
-├── example_dataset.json   Sample dataset used by convert.py's usage examples below
+data_model/metadata/metadata-standards/
+├── mapping.yaml           Transcription of the source workbook, one section per sheet
+├── convert.py             Hand-coded DataSpace -> DCAT / Croissant converter
+├── example_dataset.json   Sample dataset used by the usage examples below
+├── superset/              The field superset and the import/export crosswalk
 └── README.md              This file
 ```
+
+### Which file do I want?
+
+| If you are… | Use |
+|---|---|
+| building import or export against a standard | [`superset/`](superset/) — load `superset/out/crosswalk.json` |
+| checking this reference against the spreadsheet | `mapping.yaml` — one section per sheet, diffable |
+| looking for which *values* a field may take | [`../metadata-superset/`](../metadata-superset/) |
+
+`mapping.yaml` is organised by spreadsheet sheet, so the same concept appears in several
+sections with different spellings and nothing records which direction a field may travel.
+[`superset/`](superset/) reorganises the same material by concept and adds value types,
+cardinality, node placement and a direction flag — the things an importer needs. `convert.py`
+predates it and hardcodes one function per standard; `superset/crosswalk.py` does both
+directions from data and names no standard in its code.
 
 ### `mapping.yaml`
 
@@ -103,9 +119,11 @@ platform's dataset schema next:
   `publisher`. This looks backwards from the usual convention (the organization that publishes a
   dataset is normally the *publisher*; the person/system that produced it is the *creator*).
   Confirm intent before wiring this into a production converter.
-- **Controlled vocabularies** (License, Geographies, Sectors) have no canonical value list yet —
-  `mapping.yaml`'s `controlled_vocabularies` section is a placeholder until the platform team
-  publishes one.
+- **Controlled vocabularies** (License, Geographies, Sectors) are now built in
+  [`../metadata-superset/`](../metadata-superset/) — 60 licences, 8,048 geographies, 21 sectors,
+  each with a resolvable URI. `mapping.yaml`'s `controlled_vocabularies` section is still the
+  empty placeholder transcribed from the source sheet; the crosswalk in
+  [`superset/`](superset/) links the three concepts to the built lists instead.
 - **`metadata`, `promptMetadata`, `datasetType`, `dataspace`, `accessType`**: the current
   CivicDataSpace schema includes these fields, but their purpose isn't fully documented (see the
   `definition` values transcribed as-is in `dataspace_metadata_fields`). They're marked

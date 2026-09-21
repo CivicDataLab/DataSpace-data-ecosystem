@@ -1,54 +1,65 @@
 #!/usr/bin/env python3
 """
-build_vocab_superlists.py
-=========================
+build-vocab-superset.py
+=======================
 
-Builds a "super list" for each DataSpace fixed-entry vocabulary (license,
+Builds a superset list for each DataSpace fixed-entry vocabulary (license,
 geography, sector) by merging a range of canonical sources with the values
 currently live in the platform.
 
-The output is deliberately a *superset*. Most rows are not meant to appear in
-the contributor UI. Every row therefore carries a visibility decision:
+One file per vocabulary
+-----------------------
+Each vocabulary produces exactly one CSV. Every row carries a binary flag:
 
-    PICKABLE    shown in the contributor picker and as a search facet
-    RESOLVABLE  accepted on ingest / federation and resolvable by URI,
-                but hidden from human selection (e.g. non-open licences)
-    HIDDEN      known to the system, never offered, never auto-applied
-                (deprecated codes, superseded districts)
+    visible_on_dataspace    yes  offered in the contributor picker and as a
+                                 search facet
+                            no   known to the system and resolvable by URI,
+                                 but never offered for selection
 
-Visibility is decided by declarative rules in VISIBILITY_RULES, not scattered
-through the merge code, so changing what the platform shows is a config edit
-and a re-run rather than a patch.
+"no" is not the same as absent. Rows flagged "no" - non-open licences,
+superseded districts, external sector schemes - still load into the platform,
+so a federated record carrying one can be ingested and labelled, and a
+historical dataset that references one still resolves. They are simply never
+put in front of a contributor.
+
+The flag is meant to be edited. Rules in VISIBILITY_RULES set a default, but
+the CSV is the source of truth: change a yes to a no, re-run, and the edit is
+preserved. The build detects this by comparing visible_on_dataspace against
+visible_rule_default (what the rule said last time) and carrying the
+difference forward, so a hand-curated picker survives a refresh of the
+underlying authorities.
 
 Sources
 -------
 Fetched over the network (when available):
     SPDX License List        raw.githubusercontent.com/spdx/license-list-data
-    EU Data Theme NAL        publications.europa.eu authority table
-    EU Licence NAL           publications.europa.eu authority table
     Wikidata                 SPARQL, for dcterms:spatial URIs
 
-Local files (no usable public API — download once, commit, re-run):
-    LGD state / district masters     lgdirectory.gov.in
+Local files (no usable public API - generate or download once, commit, re-run):
+    LGD state / district / subdistrict masters
+                                     run fetch-india-geographies.py
     CDL sector list                  platform export or hand-maintained
     Platform current state           export of the live enum / tables
     OECD DAC CRS purpose codes       oecd.org
+    EU Licence NAL                   publications.europa.eu authority table
+
+EU data themes are pinned in EU_DATA_THEMES rather than fetched; the
+authority table has 13 entries and has not changed since 2015.
 
 Run `--init` to write templates for every local source, then fill them in.
 Run `--offline` to build from local files only.
 
 Outputs (to --out, default ./out):
-    licenses.csv  geographies.csv  sectors.csv   full superlists
-    *_pickable.csv                               visible subset only
-    superlists.xlsx                              one sheet per vocabulary
+    licenses.csv  geographies.csv  sectors.csv   one file per vocabulary
     load_manifest.json                           backend loader payload
     run_manifest.json                            source versions + fetch times
+    superlists.xlsx                              review workbook, --xlsx only
 
 Usage
 -----
-    python build_vocab_superlists.py --init
-    python build_vocab_superlists.py --sources ./sources --out ./out
-    python build_vocab_superlists.py --offline --only sectors
+    python build-vocab-superset.py --init
+    python build-vocab-superset.py --sources ./sources --out ./out
+    python build-vocab-superset.py --offline --only sectors
 """
 
 from __future__ import annotations
@@ -74,20 +85,10 @@ CDL_NAMESPACE = "https://civicdataspace.in/id"
 SPDX_LICENSES_URL = (
     "https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json"
 )
-EU_DATA_THEME_URL = (
-    "http://publications.europa.eu/resource/authority/data-theme"
-    "?useVersionInformation=true"
-)
-EU_LICENCE_NAL_URL = "http://publications.europa.eu/resource/authority/licence"
 WIKIDATA_SPARQL = "https://query.wikidata.org/sparql"
 
 USER_AGENT = "CivicDataSpace-vocab-builder/1.0 (https://civicdataspace.in)"
 HTTP_TIMEOUT = 30
-
-PICKABLE = "PICKABLE"
-RESOLVABLE = "RESOLVABLE"
-HIDDEN = "HIDDEN"
-
 
 # --------------------------------------------------------------------------
 # Record model
@@ -102,14 +103,18 @@ class VocabRecord:
     key: str                          # stable internal key (the merge identity)
     label: str                        # human-readable, platform-facing
     code: str = ""                    # authority code (SPDX id, LGD code, theme code)
+    object_id: str = ""               # hierarchical id, where the tier has one
     uri: str = ""                     # canonical resolvable URI
     scheme: str = ""                  # authority the code belongs to
-    tier: str = ""                    # geography: COUNTRY/STATE/UT/DISTRICT/REGION
+    tier: str = ""                    # geography: COUNTRY/STATE/UT/DISTRICT/
+                                      #            SUBDISTRICT/REGION
     parent_key: str = ""              # hierarchy, where the vocabulary has one
 
     # --- flags -------------------------------------------------------------
     in_build: bool = False            # present in the live platform today
-    visibility: str = RESOLVABLE      # PICKABLE | RESOLVABLE | HIDDEN
+    visible_on_dataspace: bool = False   # the editable yes/no; see module docstring
+    visible_rule_default: bool = False   # what VISIBILITY_RULES said, for edit detection
+    visibility_rule: str = ""            # which rule decided the default
     is_active: bool = True            # mirrors ResourceType.is_active semantics
     is_open: Optional[bool] = None    # licences only: Open Definition conformant
     deprecated: bool = False
@@ -121,23 +126,22 @@ class VocabRecord:
     alt_codes: Dict[str, str] = field(default_factory=dict)
     notes: str = ""
 
-    @property
-    def visible_on_platform(self) -> bool:
-        """Single boolean the API/UI can filter on."""
-        return self.visibility == PICKABLE and self.is_active and not self.deprecated
-
     def to_row(self) -> dict:
         d = asdict(self)
         d["sources"] = "|".join(sorted(set(self.sources)))
         d["alt_codes"] = "|".join(f"{k}={v}" for k, v in sorted(self.alt_codes.items()))
-        d["visible_on_platform"] = self.visible_on_platform
+        # yes/no rather than True/False: this column is edited by hand, and a
+        # spreadsheet will not quietly retype "yes" the way it does a boolean.
+        d["visible_on_dataspace"] = "yes" if self.visible_on_dataspace else "no"
+        d["visible_rule_default"] = "yes" if self.visible_rule_default else "no"
         return d
 
 
 COLUMNS = [
-    "vocabulary", "key", "label", "code", "uri", "scheme", "tier", "parent_key",
-    "in_build", "visible_on_platform", "visibility", "is_active", "is_open",
-    "deprecated", "needs_review", "review_reason", "sources", "alt_codes", "notes",
+    "vocabulary", "key", "label", "code", "object_id", "uri", "scheme", "tier",
+    "parent_key", "visible_on_dataspace", "visible_rule_default", "visibility_rule",
+    "in_build", "is_active", "is_open", "deprecated", "needs_review",
+    "review_reason", "sources", "alt_codes", "notes",
 ]
 
 
@@ -145,60 +149,116 @@ COLUMNS = [
 # Visibility rules
 # --------------------------------------------------------------------------
 #
-# Each rule is (name, predicate, visibility). The FIRST matching rule wins, so
-# order is the policy. Edit here to change what the platform offers.
+# Each rule is (name, predicate, visible). The FIRST matching rule wins, so
+# order is the policy. These set the *default* for visible_on_dataspace; a
+# hand edit in the output CSV overrides them and survives the next run.
 
 VisibilityRule = tuple
 
 
-def _rule(name: str, pred: Callable[[VocabRecord], bool], vis: str) -> VisibilityRule:
-    return (name, pred, vis)
+def _rule(name: str, pred: Callable[[VocabRecord], bool], visible: bool) -> VisibilityRule:
+    return (name, pred, visible)
 
 
 VISIBILITY_RULES: Dict[str, List[VisibilityRule]] = {
     "license": [
-        _rule("deprecated-or-superseded", lambda r: r.deprecated, HIDDEN),
+        _rule("deprecated-or-superseded", lambda r: r.deprecated, False),
         # Non-open licences are never offered, but must resolve so that
         # federated records carrying them can still be ingested and labelled.
-        _rule("not-open", lambda r: r.is_open is False, RESOLVABLE),
-        _rule("already-in-build", lambda r: r.in_build, PICKABLE),
+        _rule("not-open", lambda r: r.is_open is False, False),
+        _rule("already-in-build", lambda r: r.in_build, True),
         # Curated additions: the open licences we want contributors to reach.
         _rule(
             "curated-open-additions",
             lambda r: r.is_open is True
             and r.code in {"CC0-1.0", "PDDL-1.0", "ODC-By-1.0", "CC-BY-4.0"},
-            PICKABLE,
+            True,
         ),
-        _rule("default", lambda r: True, RESOLVABLE),
+        _rule("default", lambda r: True, False),
     ],
     "geography": [
-        _rule("superseded-unit", lambda r: r.deprecated, HIDDEN),
-        _rule("country-and-above", lambda r: r.tier in {"COUNTRY", "REGION"}, PICKABLE),
-        _rule("state-and-ut", lambda r: r.tier in {"STATE", "UT"}, PICKABLE),
-        # ~800 districts would swamp a picker and a facet list. They stay
-        # resolvable so dataset metadata can reference them precisely, and the
-        # UI reaches them through typeahead or state drill-down instead.
-        _rule("district", lambda r: r.tier == "DISTRICT", RESOLVABLE),
-        _rule("default", lambda r: True, RESOLVABLE),
+        _rule("superseded-unit", lambda r: r.deprecated, False),
+        _rule("country-and-above", lambda r: r.tier in {"COUNTRY", "REGION"}, True),
+        _rule("state-and-ut", lambda r: r.tier in {"STATE", "UT"}, True),
+        # ~800 districts and ~7,200 subdistricts would swamp a picker and a
+        # facet list. They stay loaded and resolvable so dataset metadata can
+        # reference them precisely, and the UI reaches them through typeahead
+        # or state drill-down instead.
+        _rule("district", lambda r: r.tier == "DISTRICT", False),
+        _rule("subdistrict", lambda r: r.tier == "SUBDISTRICT", False),
+        _rule("default", lambda r: True, False),
     ],
     "sector": [
-        _rule("deprecated", lambda r: r.deprecated, HIDDEN),
+        _rule("deprecated", lambda r: r.deprecated, False),
         # Only CDL's own scheme is contributor-facing. External schemes are
         # loaded as mapping targets for dcat:theme serialisation, not choices.
-        _rule("cdl-scheme", lambda r: r.scheme == "cdl", PICKABLE),
-        _rule("default", lambda r: True, RESOLVABLE),
+        _rule("cdl-scheme", lambda r: r.scheme == "cdl", True),
+        _rule("default", lambda r: True, False),
     ],
 }
 
 
 def apply_visibility(records: Iterable[VocabRecord]) -> None:
+    """Set the rule default. is_active and deprecated always force a no."""
     for rec in records:
-        for name, pred, vis in VISIBILITY_RULES.get(rec.vocabulary, []):
+        for name, pred, visible in VISIBILITY_RULES.get(rec.vocabulary, []):
             if pred(rec):
-                rec.visibility = vis
-                if not rec.notes:
-                    rec.notes = f"visibility rule: {name}"
+                visible = visible and rec.is_active and not rec.deprecated
+                rec.visible_rule_default = visible
+                rec.visible_on_dataspace = visible
+                rec.visibility_rule = name
                 break
+
+
+# --------------------------------------------------------------------------
+# Manual overrides
+# --------------------------------------------------------------------------
+
+
+def _yes(value: str) -> bool:
+    return str(value).strip().lower() in {"yes", "y", "true", "1"}
+
+
+def load_overrides(path: str) -> Dict[str, bool]:
+    """Recover hand edits from a previous run's output file.
+
+    A row whose visible_on_dataspace disagrees with the visible_rule_default
+    written beside it was edited by a human after that run. That is the whole
+    signal - no separate overrides file, no flag for the editor to remember to
+    set. Rows where the two agree are left to the rules, so a policy change in
+    VISIBILITY_RULES still takes effect everywhere it has not been overruled.
+    """
+    if not os.path.exists(path):
+        return {}
+    overrides: Dict[str, bool] = {}
+    with open(path, newline="", encoding="utf-8-sig") as fh:
+        for row in csv.DictReader(fh):
+            key = row.get("key", "")
+            effective = row.get("visible_on_dataspace")
+            default = row.get("visible_rule_default")
+            if not key or effective is None or default is None:
+                continue
+            if _yes(effective) != _yes(default):
+                overrides[key] = _yes(effective)
+    return overrides
+
+
+def apply_overrides(records: List[VocabRecord], overrides: Dict[str, bool]) -> int:
+    applied = 0
+    for rec in records:
+        if rec.key not in overrides:
+            continue
+        wanted = overrides[rec.key]
+        # An override cannot resurrect something the platform has retired.
+        if wanted and (rec.deprecated or not rec.is_active):
+            rec.notes = _append(
+                rec.notes, "manual 'yes' ignored: row is deprecated or inactive"
+            )
+            continue
+        rec.visible_on_dataspace = wanted
+        rec.visibility_rule = f"manual override (was: {rec.visibility_rule})"
+        applied += 1
+    return applied
 
 
 # --------------------------------------------------------------------------
@@ -313,7 +373,8 @@ def merge(records: List[VocabRecord]) -> List[VocabRecord]:
                     f"label conflict: '{base.label}' vs '{rec.label}' "
                     f"({'|'.join(rec.sources)})",
                 )
-        for attr in ("code", "uri", "scheme", "tier", "parent_key", "label"):
+        for attr in ("code", "object_id", "uri", "scheme", "tier",
+                     "parent_key", "label"):
             if not getattr(base, attr) and getattr(rec, attr):
                 setattr(base, attr, getattr(rec, attr))
         base.in_build = base.in_build or rec.in_build
@@ -457,6 +518,27 @@ def build_licenses(fetcher: Fetcher, sources_dir: str) -> List[VocabRecord]:
 
 ISO_COUNTRY = {"IN": ("India", "https://www.wikidata.org/entity/Q668")}
 
+# LGD codes are unique per tier on their own. object_id joins them down the
+# hierarchy anyway - "28-461-4850" - so an id sorts and prefix-matches into
+# its parent, and a district-keyed dataset joins to a subdistrict-keyed one
+# without a lookup table. Same convention as IDS-DRR's map_transformer.py,
+# which joins Census 2011 codes this way. Census codes are a *different*
+# numbering system (Andhra Pradesh is LGD 28, Census 37) and stay in
+# alt_codes, never in object_id.
+
+
+def _geo_uri(tier: str, object_id: str, wikidata: str) -> str:
+    """Prefer the Wikidata QID; fall back to a CDL-minted IRI.
+
+    dcterms:spatial wants something resolvable. Where Wikidata has the unit we
+    use its QID, because a federated consumer can dereference it. Where it does
+    not, the platform mints its own rather than leaving the field empty - an
+    LGD code with no URI is not a spatial reference, it is a number.
+    """
+    if wikidata:
+        return wikidata
+    return f"{CDL_NAMESPACE}/geography/{tier.lower()}/{object_id}"
+
 
 def build_geographies(fetcher: Fetcher, sources_dir: str) -> List[VocabRecord]:
     records: List[VocabRecord] = []
@@ -469,6 +551,7 @@ def build_geographies(fetcher: Fetcher, sources_dir: str) -> List[VocabRecord]:
                 key=f"country:{iso2}",
                 label=label,
                 code=iso2,
+                object_id=iso2,
                 uri=wd,
                 scheme="iso3166-1",
                 tier="COUNTRY",
@@ -477,20 +560,22 @@ def build_geographies(fetcher: Fetcher, sources_dir: str) -> List[VocabRecord]:
         )
 
     # 2. LGD states / UTs --------------------------------------------------
-    # lgdirectory.gov.in has no public API. Download the state and district
-    # masters once and commit them; this reads them as-is.
+    # Generated by fetch-india-geographies.py (Wikidata's LGD code properties),
+    # or pasted from the lgdirectory.gov.in master, which has no public API.
     for row in read_csv(os.path.join(sources_dir, "lgd_states.csv")):
         code = row.get("lgd_state_code", "")
         if not code:
             continue
         tier = "UT" if as_bool(row.get("is_union_territory")) else "STATE"
+        object_id = row.get("object_id") or code
         records.append(
             VocabRecord(
                 vocabulary="geography",
                 key=f"state:{code}",
                 label=row.get("state_name", ""),
                 code=code,
-                uri=row.get("wikidata_uri", ""),
+                object_id=object_id,
+                uri=_geo_uri(tier, object_id, row.get("wikidata_uri", "")),
                 scheme="lgd",
                 tier=tier,
                 parent_key="country:IN",
@@ -511,17 +596,20 @@ def build_geographies(fetcher: Fetcher, sources_dir: str) -> List[VocabRecord]:
         code = row.get("lgd_district_code", "")
         if not code:
             continue
+        state = row.get("lgd_state_code", "")
         valid_to = row.get("valid_to", "")
+        object_id = row.get("object_id") or (f"{state}-{code}" if state else code)
         records.append(
             VocabRecord(
                 vocabulary="geography",
                 key=f"district:{code}",
                 label=row.get("district_name", ""),
                 code=code,
-                uri=row.get("wikidata_uri", ""),
+                object_id=object_id,
+                uri=_geo_uri("DISTRICT", object_id, row.get("wikidata_uri", "")),
                 scheme="lgd",
                 tier="DISTRICT",
-                parent_key=f"state:{row.get('lgd_state_code', '')}",
+                parent_key=f"state:{state}" if state else "",
                 sources=["lgd"],
                 alt_codes={
                     "census_2011": row.get("census_2011_code", ""),
@@ -529,12 +617,47 @@ def build_geographies(fetcher: Fetcher, sources_dir: str) -> List[VocabRecord]:
                     "valid_to": valid_to,
                 },
                 deprecated=bool(valid_to),
-                notes="superseded unit; retained for historical references"
-                if valid_to else "",
+                notes=row.get("notes", "") or ("superseded unit; retained for "
+                                               "historical references" if valid_to else ""),
             )
         )
 
-    # 4. CDL regional groupings (no external authority covers these) -------
+    # 4. LGD subdistricts --------------------------------------------------
+    # Optional tier: ~7,200 rows, never offered in the picker, loaded so that
+    # block/tehsil-level datasets have something to point at.
+    for row in read_csv(os.path.join(sources_dir, "lgd_subdistricts.csv")):
+        code = row.get("lgd_subdistrict_code", "")
+        if not code:
+            continue
+        state = row.get("lgd_state_code", "")
+        district = row.get("lgd_district_code", "")
+        valid_to = row.get("valid_to", "")
+        object_id = row.get("object_id") or "-".join(
+            p for p in (state, district, code) if p
+        )
+        records.append(
+            VocabRecord(
+                vocabulary="geography",
+                key=f"subdistrict:{code}",
+                label=row.get("subdistrict_name", ""),
+                code=code,
+                object_id=object_id,
+                uri=_geo_uri("SUBDISTRICT", object_id, row.get("wikidata_uri", "")),
+                scheme="lgd",
+                tier="SUBDISTRICT",
+                parent_key=f"district:{district}" if district else "",
+                sources=["lgd"],
+                alt_codes={
+                    "census_2011": row.get("census_2011_code", ""),
+                    "valid_from": row.get("valid_from", ""),
+                    "valid_to": valid_to,
+                },
+                deprecated=bool(valid_to),
+                notes=row.get("notes", ""),
+            )
+        )
+
+    # 5. CDL regional groupings (no external authority covers these) -------
     for row in read_csv(os.path.join(sources_dir, "cdl_regions.csv")):
         slug = row.get("slug", "")
         if not slug:
@@ -545,6 +668,7 @@ def build_geographies(fetcher: Fetcher, sources_dir: str) -> List[VocabRecord]:
                 key=f"region:{slug}",
                 label=row.get("label", ""),
                 code=slug,
+                object_id=slug,
                 uri=f"{CDL_NAMESPACE}/geography/region/{slug}",
                 scheme="cdl",
                 tier="REGION",
@@ -554,13 +678,35 @@ def build_geographies(fetcher: Fetcher, sources_dir: str) -> List[VocabRecord]:
             )
         )
 
-    # 5. Wikidata backfill for rows still missing a spatial URI -----------
+    # 6. Wikidata backfill for rows still missing a spatial URI -----------
     _backfill_wikidata(fetcher, records)
 
-    # 6. What the platform holds today ------------------------------------
+    # 7. What the platform holds today ------------------------------------
     _mark_platform_geographies(records, sources_dir)
 
+    # 8. Orphan check ------------------------------------------------------
+    _check_hierarchy(records)
+
     return records
+
+
+def _check_hierarchy(records: List[VocabRecord]) -> None:
+    """A unit whose parent_key is missing or dangling cannot be drilled into."""
+    keys = {r.key for r in records}
+    orphans = 0
+    for rec in records:
+        if rec.tier in {"COUNTRY", "REGION"}:
+            continue
+        if not rec.parent_key or rec.parent_key not in keys:
+            rec.needs_review = True
+            rec.review_reason = _append(
+                rec.review_reason,
+                f"parent '{rec.parent_key}' not in list" if rec.parent_key
+                else "no parent",
+            )
+            orphans += 1
+    if orphans:
+        warn(f"{orphans} geography rows have a missing or dangling parent")
 
 
 WIKIDATA_BATCH_SIZE = 400
@@ -685,6 +831,7 @@ def build_sectors(fetcher: Fetcher, sources_dir: str) -> List[VocabRecord]:
             key=f"cdl:{slug}",
             label=row.get("name", ""),
             code=slug,
+            object_id=f"{row['parent_slug']}-{slug}" if row.get("parent_slug") else slug,
             uri=f"{CDL_NAMESPACE}/sector/{slug}",
             scheme="cdl",
             parent_key=f"cdl:{row['parent_slug']}" if row.get("parent_slug") else "",
@@ -748,11 +895,24 @@ def _report_theme_collapse(records: List[VocabRecord]) -> None:
 # --------------------------------------------------------------------------
 
 
+# Alphabetical tier ordering would interleave DISTRICT between COUNTRY and
+# REGION. Order the file the way the hierarchy reads instead.
+TIER_ORDER = {
+    "REGION": 0, "COUNTRY": 1, "STATE": 2, "UT": 2, "DISTRICT": 3,
+    "SUBDISTRICT": 4, "": 5,
+}
+
+
+def sort_key(rec: VocabRecord) -> tuple:
+    return (TIER_ORDER.get(rec.tier, 9), rec.scheme, rec.object_id or rec.label,
+            rec.label)
+
+
 def write_csv(path: str, records: List[VocabRecord]) -> None:
     with open(path, "w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=COLUMNS, extrasaction="ignore")
         writer.writeheader()
-        for rec in sorted(records, key=lambda r: (r.scheme, r.tier, r.label)):
+        for rec in sorted(records, key=sort_key):
             writer.writerow(rec.to_row())
 
 
@@ -777,9 +937,7 @@ def write_xlsx(path: str, groups: Dict[str, List[VocabRecord]]) -> bool:
         for i, col in enumerate(COLUMNS, start=1):
             c = ws.cell(row=1, column=i, value=col)
             c.font, c.fill = bold, head_fill
-        for r_i, rec in enumerate(
-            sorted(records, key=lambda r: (r.scheme, r.tier, r.label)), start=2
-        ):
+        for r_i, rec in enumerate(sorted(records, key=sort_key), start=2):
             row = rec.to_row()
             for c_i, col in enumerate(COLUMNS, start=1):
                 c = ws.cell(row=r_i, column=c_i, value=row.get(col))
@@ -787,7 +945,7 @@ def write_xlsx(path: str, groups: Dict[str, List[VocabRecord]]) -> bool:
                 c.alignment = Alignment(wrap_text=True, vertical="top")
                 if rec.needs_review:
                     c.fill = review_fill
-                elif rec.visible_on_platform:
+                elif rec.visible_on_dataspace:
                     c.fill = pick_fill
         ws.freeze_panes = "C2"
         for i, col in enumerate(COLUMNS, start=1):
@@ -802,11 +960,10 @@ def write_xlsx(path: str, groups: Dict[str, List[VocabRecord]]) -> bool:
 def write_load_manifest(path: str, groups: Dict[str, List[VocabRecord]]) -> None:
     """Payload a Django management command can consume directly.
 
-    HIDDEN rows (deprecated codes, superseded districts, ...) are still
-    written here: the whole point of HIDDEN is that they stay "known to
-    the system" and resolvable by URI, just never offered or auto-applied.
-    Dropping them would break resolution for federated records or
-    historical datasets that still carry those codes.
+    Rows flagged visible_on_dataspace=no are still written here: the point of
+    the flag is that they stay known to the system and resolvable by URI, just
+    never offered or auto-applied. Dropping them would break resolution for
+    federated records or historical datasets that still carry those codes.
     """
     payload = {
         "generated_at": _now(),
@@ -817,12 +974,12 @@ def write_load_manifest(path: str, groups: Dict[str, List[VocabRecord]]) -> None
                     "key": r.key,
                     "label": r.label,
                     "code": r.code,
+                    "object_id": r.object_id,
                     "uri": r.uri,
                     "scheme": r.scheme,
                     "tier": r.tier,
                     "parent_key": r.parent_key,
-                    "visibility": r.visibility,
-                    "visible_on_platform": r.visible_on_platform,
+                    "visible_on_dataspace": r.visible_on_dataspace,
                     "is_active": r.is_active,
                     "is_open": r.is_open,
                     "deprecated": r.deprecated,
@@ -851,15 +1008,22 @@ TEMPLATES = {
         "OPEN_DATABASE_LICENSE,ODbL-1.0,,Open Database License 1.0,true,\n"
     ),
     "lgd_states.csv": (
-        "lgd_state_code,state_name,is_union_territory,iso_3166_2,census_2011_code,"
-        "wikidata_uri,deprecated,notes\n"
-        "# download the State master from lgdirectory.gov.in and paste rows here\n"
+        "lgd_state_code,state_name,object_id,is_union_territory,iso_3166_2,"
+        "census_2011_code,wikidata_uri,deprecated,notes\n"
+        "# run fetch-india-geographies.py to fill this, or paste the State\n"
+        "# master from lgdirectory.gov.in\n"
     ),
     "lgd_districts.csv": (
-        "lgd_district_code,district_name,lgd_state_code,census_2011_code,"
-        "wikidata_uri,valid_from,valid_to,notes\n"
-        "# download the District master from lgdirectory.gov.in and paste rows here\n"
+        "lgd_district_code,district_name,lgd_state_code,object_id,"
+        "census_2011_code,wikidata_uri,valid_from,valid_to,notes\n"
+        "# run fetch-india-geographies.py to fill this, or paste the District\n"
+        "# master from lgdirectory.gov.in\n"
         "# set valid_to on districts that have since been split or merged\n"
+    ),
+    "lgd_subdistricts.csv": (
+        "lgd_subdistrict_code,subdistrict_name,lgd_district_code,lgd_state_code,"
+        "object_id,census_2011_code,wikidata_uri,valid_from,valid_to,notes\n"
+        "# optional tier: run fetch-india-geographies.py --tier subdistrict\n"
     ),
     "cdl_regions.csv": (
         "slug,label,un_m49,notes\n"
@@ -929,6 +1093,15 @@ def main(argv: Optional[List[str]] = None) -> int:
         "--only", choices=sorted(BUILDERS), action="append",
         help="build a subset (repeatable)",
     )
+    ap.add_argument(
+        "--xlsx", action="store_true",
+        help="also write superlists.xlsx (a review workbook; the CSVs remain "
+             "the files the platform loads and the ones you edit)",
+    )
+    ap.add_argument(
+        "--ignore-overrides", action="store_true",
+        help="rebuild visible_on_dataspace from the rules, discarding hand edits",
+    )
     args = ap.parse_args(argv)
 
     if args.init:
@@ -944,34 +1117,55 @@ def main(argv: Optional[List[str]] = None) -> int:
     groups: Dict[str, List[VocabRecord]] = {}
     for name in wanted:
         vocab, builder = BUILDERS[name]
+        path = os.path.join(args.out, f"{name}.csv")
         print(f"\nBuilding {name}…")
+
+        # Read hand edits off the previous run before overwriting it.
+        overrides = {} if args.ignore_overrides else load_overrides(path)
+
         records = merge(builder(fetcher, args.sources))
         apply_visibility(records)
+        applied = apply_overrides(records, overrides)
         groups[vocab] = records
 
-        write_csv(os.path.join(args.out, f"{name}.csv"), records)
-        pickable = [r for r in records if r.visible_on_platform]
-        write_csv(os.path.join(args.out, f"{name}_pickable.csv"), pickable)
+        write_csv(path, records)
 
+        visible = sum(1 for r in records if r.visible_on_dataspace)
         review = sum(1 for r in records if r.needs_review)
         print(
-            f"  {len(records)} rows | {len(pickable)} pickable | "
+            f"  {len(records)} rows | {visible} visible_on_dataspace | "
             f"{sum(1 for r in records if r.in_build)} in build | "
             f"{review} need review"
         )
+        if overrides:
+            info(
+                f"manual overrides: {applied} applied"
+                + (f", {len(overrides) - applied} stale (key gone or retired)"
+                   if applied < len(overrides) else "")
+            )
         if review:
-            warn(f"{review} rows flagged — see needs_review / review_reason")
+            warn(f"{review} rows flagged - see needs_review / review_reason")
 
     if groups:
-        write_xlsx(os.path.join(args.out, "superlists.xlsx"), groups)
         write_load_manifest(os.path.join(args.out, "load_manifest.json"), groups)
+        if args.xlsx:
+            write_xlsx(os.path.join(args.out, "superlists.xlsx"), groups)
 
     with open(os.path.join(args.out, "run_manifest.json"), "w", encoding="utf-8") as fh:
         json.dump(
             {
                 "generated_at": _now(),
                 "offline": args.offline,
-                "vocabularies": {k: len(v) for k, v in groups.items()},
+                "vocabularies": {
+                    k: {
+                        "rows": len(v),
+                        "visible_on_dataspace": sum(
+                            1 for r in v if r.visible_on_dataspace
+                        ),
+                        "needs_review": sum(1 for r in v if r.needs_review),
+                    }
+                    for k, v in groups.items()
+                },
                 "http": fetcher.log,
             },
             fh,

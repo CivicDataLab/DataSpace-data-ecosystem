@@ -1,0 +1,203 @@
+# Dublin Core (DCMI Metadata Terms)
+#
+# The element set DCAT itself builds on. Included because CivicDataSpace's
+# OGD-facing metadata is documented against dcterms:* directly in places, and
+# because a consumer may ask for plain Dublin Core rather than DCAT.
+#
+# Dublin Core is flat: it has no Distribution resource and no nesting. Where
+# DCAT would hang a property off a Distribution node, Dublin Core can only put
+# it on the dataset, which is lossy for a multi-file dataset. Those bindings
+# are marked partial and say so.
+
+id: dublin_core
+name: "Dublin Core Metadata Terms (DCMI)"
+version: "DCMI Metadata Terms 2020-01-20"
+url: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
+serialisation: json-ld
+uri_style: node   # how a URI value is written: node = {"@id": ...}, string = plain
+
+context:
+  dcterms: "http://purl.org/dc/terms/"
+
+node_types:
+  dataset: "dcterms:Dataset"
+
+bindings:
+  identifier:
+    property: "dcterms:identifier"
+    match: exact
+  title:
+    property: "dcterms:title"
+    match: exact
+  alternative_title:
+    property: "dcterms:alternative"
+    match: exact
+  description:
+    property: "dcterms:description"
+    match: exact
+  abstract:
+    property: "dcterms:abstract"
+    match: exact
+  keyword:
+    property: "dcterms:subject"
+    match: partial
+    notes: >-
+      Dublin Core has no free-text keyword element. subject is the nearest and
+      is meant to carry controlled terms, so round-tripping tags through it
+      loses the distinction between a tag and a theme.
+  theme:
+    property: "dcterms:subject"
+    match: partial
+    notes: >-
+      Shares dcterms:subject with keyword. On import from Dublin Core there is
+      no way to tell which concept a subject value belongs to; the workbook's
+      DCAT sheet maps Subject to both dcat:theme and dcat:keyword for the same
+      reason. Prefer DCAT when the distinction matters.
+  dataset_type:
+    property: "dcterms:type"
+    match: exact
+  language:
+    property: "dcterms:language"
+    match: exact
+  publisher:
+    property: "dcterms:publisher"
+    match: exact
+  creator:
+    property: "dcterms:creator"
+    match: exact
+  license:
+    property: "dcterms:license"
+    match: exact
+  rights:
+    property: "dcterms:rights"
+    match: exact
+  access_rights:
+    property: "dcterms:accessRights"
+    match: exact
+  issued:
+    property: "dcterms:issued"
+    match: exact
+  created:
+    property: "dcterms:created"
+    match: exact
+  modified:
+    property: "dcterms:modified"
+    match: exact
+  accrual_periodicity:
+    property: "dcterms:accrualPeriodicity"
+    match: exact
+  accrual_method:
+    property: "dcterms:accrualMethod"
+    match: exact
+  spatial_coverage:
+    property: "dcterms:spatial"
+    match: exact
+  temporal_coverage_start:
+    property: "dcterms:temporal"
+    match: partial
+    notes: >-
+      Dublin Core has no start/end structure - temporal takes a single literal
+      period. Serialise start and end as one DCMI Period string; parsing it
+      back into two dates is best-effort.
+  temporal_coverage_end:
+    property: "dcterms:temporal"
+    match: partial
+    notes: See temporal_coverage_start; both concepts share one property.
+  source:
+    property: "dcterms:source"
+    match: exact
+  conforms_to:
+    property: "dcterms:conformsTo"
+    match: exact
+  relation:
+    property: "dcterms:relation"
+    match: exact
+  has_part:
+    property: "dcterms:hasPart"
+    match: exact
+  is_part_of:
+    property: "dcterms:isPartOf"
+    match: exact
+  is_referenced_by:
+    property: "dcterms:isReferencedBy"
+    match: exact
+  replaces:
+    property: "dcterms:replaces"
+    match: exact
+  is_replaced_by:
+    property: "dcterms:isReplacedBy"
+    match: exact
+  is_version_of:
+    property: "dcterms:isVersionOf"
+    match: exact
+  has_version:
+    property: "dcterms:hasVersion"
+    match: exact
+  provenance:
+    property: "dcterms:provenance"
+    match: partial
+    notes: A free-text statement, not the structured PROV-O graph.
+  media_type:
+    property: "dcterms:format"
+    node: dataset
+    match: partial
+    notes: >-
+      Flattened onto the dataset, because Dublin Core has no Distribution. For
+      a multi-file dataset this collapses to the set of its formats.
+  byte_size:
+    property: "dcterms:extent"
+    node: dataset
+    match: partial
+    notes: Flattened onto the dataset; a literal, not a byte count.
+  download_url:
+    property: "dcterms:identifier"
+    node: dataset
+    match: partial
+    notes: >-
+      Dublin Core has no download link. The workbook's Identifier row maps to
+      dcat:landingPage and foaf:homePage for this reason. Lossy either way.
+
+  # --- declared gaps -----------------------------------------------------
+  distribution:
+    match: gap
+    notes: No Distribution resource. Every file-level fact flattens or is lost.
+  access_url:
+    match: gap
+  checksum:
+    match: gap
+  file_set:
+    match: gap
+  containment:
+    match: gap
+  record_set:
+    match: gap
+  field:
+    match: gap
+  data_type:
+    match: gap
+  transform:
+    match: gap
+  annotation:
+    match: gap
+  contact_point:
+    match: gap
+    notes: No contact structure; publisher is the only agent-ish element.
+  landing_page:
+    match: gap
+  spatial_resolution:
+    match: gap
+  temporal_resolution:
+    match: gap
+  status:
+    match: gap
+  version:
+    match: gap
+    notes: >-
+      No version element. dcterms:hasVersion points at a different resource
+      that is a version of this one, which is has_version, not this concept.
+  contact_street_address:
+    match: gap
+  contact_locality:
+    match: gap
+  contact_postal_code:
+    match: gap
