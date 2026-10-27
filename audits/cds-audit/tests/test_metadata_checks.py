@@ -24,7 +24,6 @@ def test_good_dataset_passes_all_metadata(rules):
 def test_title_rules(rules):
     r = m.check_title(ds(title="State Revenue & Receipts"), rules)
     assert any("special characters" in i for i in r.issues)
-    assert any("time period" in i for i in r.issues)
     r = m.check_title(ds(title="NFHS-5 indicators for districts 2019"), rules)
     assert any("abbreviations" in i and "NFHS" in i for i in r.issues)
     r = m.check_title(ds(title="x" * 70 + " 2020"), rules)
@@ -82,3 +81,40 @@ def test_individual_publisher_and_tags(rules):
     assert m.check_publisher(ds(organization="", user="A. Person"), rules).status == "warn"
     assert m.check_tags(ds(tags=[]), rules).status == "fail"
     assert m.check_tags(ds(tags=["Climate Action"], sectors=["Climate Action"]), rules).status == "warn"
+
+
+def test_title_without_period_or_place_is_not_penalised(rules):
+    assert m.check_title(ds(title="Pending court cases"), rules).status == "pass"
+
+
+def test_placeholder_title_fails_and_caps_grade(rules):
+    from cds_audit.scoring import audit_dataset
+    r = m.check_title(ds(title="New dataset 03 Jul 2026 - 10:01:00"), rules)
+    assert r.score == 0 and "placeholder" in r.issues[0]
+    for t in ("Untitled", "test dataset", "Dataset 3", "Copy of rainfall"):
+        assert m.check_title(ds(title=t), rules).evidence.get("placeholder"), t
+    assert not m.check_title(ds(title="Dataset Preparation Guidelines"), rules).evidence.get("placeholder")
+    a = audit_dataset(ds(title="New dataset 03 Jul 2026 - 10:01:00"), rules)
+    assert a.placeholder_title and a.grade == rules["grade_cap_on_placeholder_title"]
+
+
+LANG = dict(title="PahariLi Dataset", tags=["Text-Corpus", "Dogri", "Kumaoni"], geographies=[],
+            description=("This dataset is a text corpus of around 45000 sentences. "
+                         "It was compiled by the Example Language Lab for language identification."))
+
+
+def test_language_dataset_is_exempt_from_geography_and_period(rules):
+    from cds_audit.datasetkind import language_signals
+    d = ds(**LANG)
+    assert language_signals(d, rules)
+    assert m.check_geography(d, rules).score is None
+    desc = m.check_description(d, rules)
+    assert not any("time period" in i or "geographic" in i for i in desc.issues)
+
+
+def test_place_and_period_breakdown_is_not_a_language_dataset(rules):
+    from cds_audit.datasetkind import language_signals
+    d = ds(title="KCC Hindi Queries", tags=["Prompt Library"],
+           description="Queries asked by farmers in Hindi. It includes district wise - month wise details.")
+    assert not language_signals(d, rules)
+    assert m.check_geography(ds(**{**LANG, "tags": ["Rainfall"], "description": "Rainfall for Bihar."}), rules).score is not None

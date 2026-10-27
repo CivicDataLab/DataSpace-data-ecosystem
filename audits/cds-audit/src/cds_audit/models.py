@@ -117,6 +117,8 @@ class DatasetAudit:
     grade: str
     metadata_score: Optional[float]
     data_score: Optional[float]
+    language_dataset: List[str] = field(default_factory=list)   # signals that exempt it from geography/period
+    placeholder_title: bool = False
 
     def top_fixes(self, n: int = 5) -> List[str]:
         """Highest-impact fixes: failing checks with the largest weighted shortfall first."""

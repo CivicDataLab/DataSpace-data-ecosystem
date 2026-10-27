@@ -11,6 +11,7 @@ from datetime import date, datetime
 from typing import Any, Dict, List, Optional
 from urllib.parse import urlparse
 
+from ..datasetkind import language_signals
 from ..models import CheckResult, DatasetInfo
 from ..textutils import (
     contains_any,
@@ -65,6 +66,12 @@ def check_title(ds: DatasetInfo, rules: Rules) -> CheckResult:
         s.sub(0, 1, "Title is empty.", "Add a short, descriptive title.")
         return s.done(title="")
 
+    placeholder = next((p for p in cfg.get("placeholder_patterns", []) if re.search(p, title, re.I)), None)
+    if placeholder:
+        s.sub(0, 1, f"Title '{title}' is a placeholder — the platform's default name was never replaced.",
+              "Replace it with a descriptive title that says what the data is and what it covers.")
+        return s.done(title=title, placeholder=True)
+
     n = len(title)
     s.sub(n <= cfg["max_length"], 0.25,
           f"Title is {n} characters (limit {cfg['max_length']}).",
@@ -93,10 +100,7 @@ def check_title(ds: DatasetInfo, rules: Rules) -> CheckResult:
     s.sub(casing_ok, 0.10,
           "Title is not in sentence case or Title Case.",
           "Use sentence case for the title.")
-
-    s.sub(has_year(title), 0.25,
-          "Title does not mention the time period covered.",
-          "Add the period covered to the title, e.g. '(2000–2020)'.")
+    # The period and geography are optional in a title: the description and metadata carry them.
     return s.done(title=title, length=n)
 
 
@@ -127,15 +131,19 @@ def check_description(ds: DatasetInfo, rules: Rules) -> CheckResult:
     else:
         s.sub(1, 0.10)
 
-    s.sub(has_year(text), 0.20,
-          "Description does not state the time period covered.",
-          "State the years the data covers in the description.")
+    # Language datasets describe a language, not a place or a period.
+    language = language_signals(ds, rules)
+    geo_hits: List[str] = []
+    if not language:
+        s.sub(has_year(text), 0.20,
+              "Description does not state the time period covered.",
+              "State the years the data covers in the description.")
 
-    geo_terms = list(rules.get("geography_terms", [])) + [g.get("name", "") for g in ds.geographies if g.get("name")]
-    geo_hits = contains_any(text, geo_terms)
-    s.sub(bool(geo_hits), 0.20,
-          "Description does not state the geographic coverage.",
-          "Say which geography the data covers (country / state / district level).")
+        geo_terms = list(rules.get("geography_terms", [])) + [g.get("name", "") for g in ds.geographies if g.get("name")]
+        geo_hits = contains_any(text, geo_terms)
+        s.sub(bool(geo_hits), 0.20,
+              "Description does not state the geographic coverage.",
+              "Say which geography the data covers (country / state / district level).")
 
     # A source counts only when named as the source: "compiled by …", "from the Census…",
     # "by the X Department". A bare mention of "government" in a sentence does not count.
@@ -162,7 +170,7 @@ def check_description(ds: DatasetInfo, rules: Rules) -> CheckResult:
           "Add one line on what the dataset is intended to support.")
 
     return s.done(sentences=k, geography_found=geo_hits[:3], source_found=src_hits[:3],
-                  periodicity_found=per_hits[:3], excerpt=truncate(text, 160))
+                  periodicity_found=per_hits[:3], language_dataset=language[:3], excerpt=truncate(text, 160))
 
 
 # ------------------------------------------------------------ 1.3 Publisher
@@ -218,6 +226,12 @@ def check_sectors(ds: DatasetInfo, rules: Rules) -> CheckResult:
 def check_geography(ds: DatasetInfo, rules: Rules) -> CheckResult:
     s = _Scorer("1.7_geography", "1.7 Spatial Coverage / Geography")
     names = [g.get("name", "") for g in ds.geographies if g.get("name")]
+    language = language_signals(ds, rules)
+    if language:
+        s.result.score = None
+        s.result.evidence.update(geographies=names, language_dataset=language[:3],
+                                 not_assessed="Language dataset — geographic coverage is not required.")
+        return s.result
     if not names:
         s.sub(0, 1, "No geographic coverage recorded.", "Set the geography (country / state / district) in metadata.")
         return s.done(geographies=[])

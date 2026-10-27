@@ -79,6 +79,13 @@ def test_file_naming(rules):
     assert d.clean_file_name("resources/cases_2020_v2_aB3xYz1.csv") == "cases_2020_v2.csv"
 
 
+def test_language_dataset_file_name_needs_no_year(rules):
+    name = "resources/parallel_corpus_hindi_kangri_v1.0.csv"
+    assert d.check_file_naming(one(res([], [], file_name=name)), rules).status == "warn"
+    lang = one(res([], [], file_name=name), tags=["Parallel-Corpus"])
+    assert d.check_file_naming(lang, rules).status == "pass"
+
+
 def test_deep_inspection_encoding_and_crs(rules):
     r = ResourceInfo(id="r", format="CSV")
     inspect_bytes(r, "name,value\nBarpetá,1\n".encode("latin-1"), "x.csv", rules)

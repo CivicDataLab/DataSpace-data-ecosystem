@@ -42,6 +42,9 @@ weights:
 # A dataset with any outright failing check cannot be graded better than this band,
 # however high its weighted score (stops strong-on-average datasets hiding a hard failure).
 grade_cap_on_fail: "Fair"
+# A dataset still carrying the platform's placeholder title ("New dataset 03 Jul 2026 - 10:01:00")
+# is unfinished, whatever else it gets right.
+grade_cap_on_placeholder_title: "Needs improvement"
 
 grades:            # lower bound (inclusive) of each band, checked top-down
   - {min: 85, label: "Good"}
@@ -55,6 +58,12 @@ title:
   allowed_punctuation: "-–—(),.:'’"
   # Upper-case tokens that should not be flagged as abbreviations.
   abbreviation_allowlist: []
+  # Default or throwaway names that were never replaced. A match scores the whole title check 0.
+  placeholder_patterns:
+    - '^new dataset\b'
+    - '^untitled\b'
+    - '^copy of\b'
+    - '^(my |test |sample |dummy |draft )?(dataset|data|file|test|sample|dummy|draft)[\s_-]*\d*$'
 
 description:
   min_sentences: 2
@@ -128,6 +137,53 @@ geography_terms:   # used to detect a geography mention in titles/descriptions
   - Ladakh
   - Lakshadweep
   - Puducherry
+
+# Language datasets (text/speech corpora, dictionaries, NLP benchmarks, prompt libraries) describe a
+# language, not a place or a period. They are exempt from the geography and time-period requirements
+# (1.2 time period and geography, 1.7 geography, 2.8 year in the file name).
+language_datasets:
+  # Regexes matched (case-insensitive) against the title, tags and description. One match is enough.
+  patterns:
+    - '\b(text|speech|audio|parallel|monolingual|bilingual|asr|ocr)[ -]corp(us|ora)\b'
+    - '\bcorp(us|ora)\b'
+    - '\bnlp\b'
+    - 'natural language processing'
+    - '\bnmt\b'
+    - 'machine translation'
+    - '\btranslation models?\b'
+    - 'speech (and text )?(data|recognition|dataset)'
+    - 'text[ -]to[ -]speech'
+    - '\b(asr|tts)\b'
+    - 'named entity recognition'
+    - '\blarge language models?\b'
+    - '\blanguage models?\b'
+    - '\blow[ -]resource languages?\b'
+    - '\b(indian|indic) languages\b'
+    - '\b(multilingual|bilingual|monolingual)\b'
+    - '\b(sentence|word|phrase)(/phrase)? pairs\b'
+    - '\bparallel (text|sentences?)\b'
+    - '\btransliteration\b'
+    - '\blexic(al|on)\b'
+    - '(?<!data )\bdictionary\b'
+    - '\bsign language\b'
+    - '\blip reading\b'
+    - '\blanguage (datasets?|data|resources?)\b'
+    - '\b[a-z]+-language\b'
+    - '\bprompt library\b'
+    - '\b(adversarial )?prompts\b'
+    - '\bprompt (test|dataset)'
+    - '\bquestion[ -]answer(ing)?\b'
+    - '\bconversational ai\b'
+  # Matched against tags only: a tag naming a language ("Tamil language", "Low-Resource Language").
+  tag_patterns:
+    - '\blanguages?\b'
+  # A dataset that says it is broken down by place or period is not exempt, even if it is text
+  # (e.g. call-centre transcripts "with district-wise, month-wise details").
+  counter_patterns:
+    - '\b(state|state/ut|state/uts|district|block|village|ward|month|year)[ -]?wise\b'
+  # Force the classification for datasets the patterns get wrong.
+  include_ids: []
+  exclude_ids: []
 
 tags:
   # Optional: paste the platform's predefined tag list to flag free-text tags.

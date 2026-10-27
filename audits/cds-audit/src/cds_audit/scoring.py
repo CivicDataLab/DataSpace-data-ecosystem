@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Optional
 
 from .checks import ALL_DATA_CHECKS, ALL_METADATA_CHECKS
 from .checks.metadata import check_source_website
+from .datasetkind import language_signals
 from .models import CheckResult, DatasetAudit, DatasetInfo
 
 Rules = Dict[str, Any]
@@ -19,12 +20,13 @@ def _weighted(checks: List[CheckResult]) -> Optional[float]:
     return round(100 * sum(c.weight * c.score for c in applicable) / total, 1)
 
 
-def grade_for(score: float, rules: Rules, has_fail: bool = False) -> str:
+def grade_for(score: float, rules: Rules, has_fail: bool = False, placeholder_title: bool = False) -> str:
     bands = rules["grades"]
+    order = [b["label"] for b in bands]
     label = next((b["label"] for b in bands if score >= b["min"]), bands[-1]["label"])
-    cap = rules.get("grade_cap_on_fail")
-    if has_fail and cap:
-        order = [b["label"] for b in bands]
+    caps = [rules.get("grade_cap_on_fail") if has_fail else None,
+            rules.get("grade_cap_on_placeholder_title") if placeholder_title else None]
+    for cap in caps:
         if cap in order and order.index(label) < order.index(cap):
             label = cap
     return label
@@ -47,11 +49,14 @@ def audit_dataset(ds: DatasetInfo, rules: Rules, link_status: Optional[Dict[str,
     meta = [c for c in checks if c.check_id.startswith("1.")]
     data = [c for c in checks if c.check_id.startswith("2.")]
     score = _weighted(checks) or 0.0
+    placeholder = any(c.evidence.get("placeholder") for c in checks)
     return DatasetAudit(
         dataset=ds,
         checks=checks,
         score=score,
-        grade=grade_for(score, rules, any(c.status == "fail" for c in checks)),
+        grade=grade_for(score, rules, any(c.status == "fail" for c in checks), placeholder),
         metadata_score=_weighted(meta),
         data_score=_weighted(data),
+        language_dataset=language_signals(ds, rules),
+        placeholder_title=placeholder,
     )

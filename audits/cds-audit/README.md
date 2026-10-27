@@ -36,12 +36,12 @@ sub-check and its weight.
 
 | Guideline | Checked automatically |
 |---|---|
-| 1.1 Title | ≤ 60 characters, no special characters, no abbreviations, sentence/Title case, time period mentioned |
-| 1.2 Description | 2–5 sentences, and states time period, geography, who compiled it, periodicity, purpose |
+| 1.1 Title | Not a placeholder (`New dataset 03 Jul 2026 - …`), ≤ 60 characters, no special characters, no abbreviations, sentence/Title case. A period or place in the title is optional |
+| 1.2 Description | 2–5 sentences, and states time period, geography, who compiled it, periodicity, purpose (time period and geography not required for language datasets) |
 | 1.3 Publisher | Organisation recorded (individual publishers get partial credit) |
 | 1.5 Tags | Present, not just repeating sector names, no near-duplicates (or in the predefined list, if supplied) |
 | 1.6 Sectors | At least one assigned |
-| 1.7 Geography | Recorded, and includes any state named in the title |
+| 1.7 Geography | Recorded, and includes any state named in the title (not required for language datasets) |
 | 1.8 Date of creation | Present and ISO-8601 (`YYYY-MM-DD`), not in the future |
 | 1.9 License | Present; government-sourced data (`.gov.in`, `.nic.in`, `data.gov.in`) must use GODL |
 | 1.10 Source website | Present, valid `https://` URL, not pointing back at CivicDataSpace; optionally checked live |
@@ -74,7 +74,7 @@ All outputs are written to `--out` (default `reports/`):
 
 | File | For |
 |---|---|
-| `report.html` | Self-contained, offline report. It has a grid of every dataset against every guideline, where the catalogue loses points, a searchable dataset table with check-by-check fixes, and publisher averages. |
+| `report.html` | Self-contained, offline report for publishers. It opens with a short guide on how to use it, then a searchable, publisher-filterable list of datasets with their fixes ranked by points recovered. A grid of every dataset against every guideline, where the catalogue loses points, and publisher averages follow. |
 | `summary.md` | The same headline findings as Markdown, for pasting into an email or issue. |
 | `issues.csv` | One row per failing check, sorted by points lost. Works as a fix-it tracker to share with publishers. |
 | `scores.csv` | One row per dataset with every check score. |
@@ -86,7 +86,8 @@ All outputs are written to `--out` (default `reports/`):
 Each check scores 0–1, and the weights add up to 100: 60 for metadata (section 1) and 40 for the data
 itself (section 2). Grades are **Good** (85+), **Fair** (70–85), **Needs improvement** (50–70) and **Poor**
 (below 50). A dataset that fails any guideline outright is capped at *Fair*, so a strong average cannot hide a
-PDF-only upload or a missing licence. Weights, thresholds, vocabularies and the grade cap all live in
+PDF-only upload or a missing licence. A dataset still carrying the platform's placeholder title is capped at
+*Needs improvement*. Weights, thresholds, vocabularies and the grade cap all live in
 [`src/cds_audit/rules.yaml`](src/cds_audit/rules.yaml).
 
 ## Configuration
@@ -117,6 +118,11 @@ suite on every push.
 - **Heuristic checks are prompts, not verdicts.** Checks for abbreviations, units, purpose statements and
   source attribution are pattern-based, and will occasionally miss or over-flag. The report always shows the
   specific text that triggered a flag so a person can confirm it.
+- **Language datasets.** Text and speech corpora, dictionaries, NLP benchmarks and prompt datasets describe a
+  language, not a place or a period. They are detected from their title, tags and description
+  (`language_datasets` in `rules.yaml`) and exempted from the geography and time-period requirements. A dataset
+  that says it is broken down by district, state or month is never exempted. Correct a misclassification with
+  `language_datasets.include_ids` / `exclude_ids`.
 - **Interpretation choices.** Where the guidelines are ambiguous or self-contradictory, the choice made is
   listed in [`docs/scoring.md`](docs/scoring.md#interpretation-choices).
 - **Platform findings.** Some problems are better fixed at upload time than dataset by dataset. See

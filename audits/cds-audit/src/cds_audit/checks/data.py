@@ -16,6 +16,7 @@ from statistics import mean
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 from ..models import CheckResult, DatasetInfo, ResourceInfo
+from ..datasetkind import is_language_dataset
 from ..textutils import has_year, tokenize_identifier, truncate
 
 Rules = Dict[str, Any]
@@ -598,6 +599,11 @@ def clean_file_name(name: str) -> str:
 def check_file_naming(ds: DatasetInfo, rules: Rules) -> CheckResult:
     gid, gname = "2.8_file_naming", "2.8 File Naming"
     pattern = re.compile(rules["file_naming"]["pattern"])
+    # Language datasets cover a language, not a period, so their file names need no year.
+    language = is_language_dataset(ds, rules)
+    example = ("Rename files as {theme}_{language}_v{version}.{format}, e.g. parallel_corpus_hindi_kangri_v1.0.csv."
+               if language else
+               "Rename files as {theme}_{region}_{time_period}_v{version}.{format}, e.g. climate_bihar_precipitation_2000_2020_v1.0.csv.")
     per = []
     for r in ds.resources:
         name = clean_file_name(r.file_name)
@@ -613,6 +619,8 @@ def check_file_naming(ds: DatasetInfo, rules: Rules) -> CheckResult:
                                                        or {ext.lower(), r.format.lower()} <= {"xls", "xlsx"}
                                                        or {ext.lower(), r.format.lower()} <= {"shp", "zip", "shapefile"}),
         }
+        if language:
+            del subs["time_period"]
         if pattern.match(name) and all(subs.values()):
             per.append((r, 1.0, [], []))
             continue
@@ -620,7 +628,7 @@ def check_file_naming(ds: DatasetInfo, rules: Rules) -> CheckResult:
         human = {"lowercase_snake": "not lowercase snake_case", "time_period": "no time period",
                  "version": "no _v{version} suffix", "extension_matches_format": "extension does not match format"}
         issues.append(f"'{truncate(name, 60)}' — " + ", ".join(human[m] for m in missing) + ".")
-        fixes.append("Rename files as {theme}_{region}_{time_period}_v{version}.{format}, e.g. climate_bihar_precipitation_2000_2020_v1.0.csv.")
+        fixes.append(example)
         per.append((r, round(sum(subs.values()) / len(subs), 3), issues, fixes))
     return _aggregate(gid, gname, per, "File names not exposed by the API.")
 

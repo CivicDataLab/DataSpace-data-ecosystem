@@ -1,35 +1,35 @@
 {
   "summary": {
-    "generated_at": "2026-09-14 13:28 UTC",
+    "generated_at": "2026-10-23 12:26 UTC",
     "datasets": 8,
-    "avg_score": 76.5,
-    "median_score": 87.9,
+    "avg_score": 77.4,
+    "median_score": 89.1,
     "grades": {
       "Good": 1,
-      "Fair": 5,
-      "Needs improvement": 1,
+      "Fair": 4,
+      "Needs improvement": 2,
       "Poor": 1
     },
     "needs_work": 7,
     "top_grade": "Good",
     "with_fail": 7,
-    "below_70": 2,
+    "language_datasets": 0,
+    "placeholder_titles": 0,
+    "grade_cap_on_fail": "Fair",
+    "grade_cap_on_placeholder_title": "Needs improvement",
+    "below_70": 3,
     "checks": {
       "1.1_title": {
         "guideline": "1.1 Dataset Title",
         "weight": 8.0,
-        "pass": 3,
-        "warn": 4,
+        "pass": 4,
+        "warn": 3,
         "fail": 1,
         "na": 0,
         "assessed": 8,
-        "avg_score": 76.9,
-        "points_lost": 14.8,
+        "avg_score": 85.8,
+        "points_lost": 9.1,
         "common_issues": [
-          [
-            "Title does not mention the time period covered",
-            4
-          ],
           [
             "Title is not in sentence case or Title Case",
             2
@@ -40,6 +40,10 @@
           ],
           [
             "Title is n characters",
+            1
+          ],
+          [
+            "Title uses abbreviations",
             1
           ]
         ]
@@ -388,20 +392,20 @@
       {
         "publisher": "Example Child Rights Trust",
         "datasets": 1,
-        "avg_score": 40.3,
+        "avg_score": 43.1,
         "below_70": 1
       },
       {
         "publisher": "A. Researcher",
         "datasets": 1,
-        "avg_score": 62.9,
+        "avg_score": 64.7,
         "below_70": 1
       },
       {
         "publisher": "Example Budget Lab",
         "datasets": 1,
-        "avg_score": 70.2,
-        "below_70": 0
+        "avg_score": 69.7,
+        "below_70": 1
       },
       {
         "publisher": "Example WASH Collective",
@@ -410,15 +414,15 @@
         "below_70": 0
       },
       {
-        "publisher": "Example Urban Observatory",
+        "publisher": "Example Health Data Lab",
         "datasets": 1,
-        "avg_score": 87.9,
+        "avg_score": 89.1,
         "below_70": 0
       },
       {
-        "publisher": "Example Health Data Lab",
+        "publisher": "Example Urban Observatory",
         "datasets": 1,
-        "avg_score": 88.3,
+        "avg_score": 89.7,
         "below_70": 0
       },
       {
@@ -459,10 +463,12 @@
       ],
       "resources": 1,
       "modified": "2026-09-01T00:00:00Z",
-      "score": 40.3,
+      "score": 43.1,
       "grade": "Poor",
-      "metadata_score": 42.3,
+      "metadata_score": 45.7,
       "data_score": 30.0,
+      "language_dataset": [],
+      "placeholder_title": false,
       "top_fixes": [
         "[1.2] Expand the description to 2–5 sentences.",
         "[1.7] Set the geography (country / state / district) in metadata.",
@@ -475,19 +481,15 @@
         {
           "check_id": "1.1_title",
           "guideline": "1.1 Dataset Title",
-          "score": 0.75,
-          "issues": [
-            "Title does not mention the time period covered."
-          ],
-          "fixes": [
-            "Add the period covered to the title, e.g. '(2000–2020)'."
-          ],
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
           "evidence": {
             "title": "Annual report on anganwadi centres",
             "length": 34
           },
           "weight": 8.0,
-          "status": "warn"
+          "status": "pass"
         },
         {
           "check_id": "1.2_description",
@@ -514,6 +516,7 @@
             "periodicity_found": [
               "annual"
             ],
+            "language_dataset": [],
             "excerpt": "Annual report on anganwadi centres."
           },
           "weight": 12.0,
@@ -742,30 +745,30 @@
       ],
       "resources": 1,
       "modified": "2026-09-01T00:00:00Z",
-      "score": 62.9,
+      "score": 64.7,
       "grade": "Needs improvement",
-      "metadata_score": 54.0,
+      "metadata_score": 56.9,
       "data_score": 77.8,
+      "language_dataset": [],
+      "placeholder_title": false,
       "top_fixes": [
         "[1.2] Expand the description to 2–5 sentences.",
         "[1.10] Add the official page of the organisation that publishes the source data.",
         "[1.8] Add the source's official creation date in YYYY-MM-DD format.",
         "[2.5] Document the unit of every measurement column (name suffix like _mm / _inr_crore, or column description).",
-        "[1.1] Use sentence case for the title."
+        "[1.3] Publish under the responsible organisation, or name the original data provider in the description."
       ],
       "fetch_errors": [],
       "checks": [
         {
           "check_id": "1.1_title",
           "guideline": "1.1 Dataset Title",
-          "score": 0.65,
+          "score": 0.867,
           "issues": [
-            "Title is not in sentence case or Title Case.",
-            "Title does not mention the time period covered."
+            "Title is not in sentence case or Title Case."
           ],
           "fixes": [
-            "Use sentence case for the title.",
-            "Add the period covered to the title, e.g. '(2000–2020)'."
+            "Use sentence case for the title."
           ],
           "evidence": {
             "title": "court cases pending",
@@ -799,6 +802,7 @@
             "geography_found": [],
             "source_found": [],
             "periodicity_found": [],
+            "language_dataset": [],
             "excerpt": "Pending cases by court."
           },
           "weight": 12.0,
@@ -1044,23 +1048,25 @@
       ],
       "resources": 1,
       "modified": "2026-09-01T00:00:00Z",
-      "score": 70.2,
-      "grade": "Fair",
-      "metadata_score": 71.5,
+      "score": 69.7,
+      "grade": "Needs improvement",
+      "metadata_score": 70.6,
       "data_score": 68.1,
+      "language_dataset": [],
+      "placeholder_title": false,
       "top_fixes": [
         "[1.2] State the years the data covers in the description.",
         "[2.3] Rename columns to snake_case (lowercase, words joined with underscores).",
         "[1.9] Set the license to Government Open Data License (GODL) for data sourced from government platforms.",
         "[2.8] Rename files as {theme}_{region}_{time_period}_v{version}.{format}, e.g. climate_bihar_precipitation_2000_2020_v1.0.csv.",
-        "[1.8] Record the creation date as YYYY-MM-DD."
+        "[1.1] Remove special characters from the title (write 'and' instead of '&')."
       ],
       "fetch_errors": [],
       "checks": [
         {
           "check_id": "1.1_title",
           "guideline": "1.1 Dataset Title",
-          "score": 0.8,
+          "score": 0.733,
           "issues": [
             "Title contains special characters: &"
           ],
@@ -1097,6 +1103,7 @@
             "geography_found": [],
             "source_found": [],
             "periodicity_found": [],
+            "language_dataset": [],
             "excerpt": "Revenue receipts include tax and non-tax revenues. Capital receipts include borrowings and loan recoveries. Together they form the total receipts of the govern…"
           },
           "weight": 12.0,
@@ -1344,6 +1351,8 @@
       "grade": "Fair",
       "metadata_score": 92.0,
       "data_score": 44.0,
+      "language_dataset": [],
+      "placeholder_title": false,
       "top_fixes": [
         "[2.3] Rename columns to snake_case (lowercase, words joined with underscores).",
         "[2.1] Add a CSV version alongside every Excel file.",
@@ -1390,6 +1399,7 @@
               "Example WASH Collective"
             ],
             "periodicity_found": [],
+            "language_dataset": [],
             "excerpt": "Household sanitation survey across districts of Assam in 2021. Data collected by field surveyors of the Example WASH Collective."
           },
           "weight": 12.0,
@@ -1628,286 +1638,6 @@
       ]
     },
     {
-      "id": "66666666-6666-4666-8666-666666666666",
-      "title": "GUWAHATI WARD BOUNDARIES",
-      "url": "https://civicdataspace.in/datasets/66666666-6666-4666-8666-666666666666",
-      "publisher": "Example Urban Observatory",
-      "sectors": [
-        "Urban Development"
-      ],
-      "formats": [
-        "GEOJSON"
-      ],
-      "resources": 1,
-      "modified": "2026-09-01T00:00:00Z",
-      "score": 87.9,
-      "grade": "Fair",
-      "metadata_score": 93.3,
-      "data_score": 78.9,
-      "top_fixes": [
-        "[2.1] State the spatial reference system; use WGS84 (EPSG:4326).",
-        "[1.1] Use sentence case for the title.",
-        "[2.7] Fix invalid geometries (closed rings, valid coordinates, no self-intersections).",
-        "[2.8] Rename files as {theme}_{region}_{time_period}_v{version}.{format}, e.g. climate_bihar_precipitation_2000_2020_v1.0.csv.",
-        "[1.2] Mention how often the data is recorded or updated (e.g. 'annual', 'daily')."
-      ],
-      "fetch_errors": [],
-      "checks": [
-        {
-          "check_id": "1.1_title",
-          "guideline": "1.1 Dataset Title",
-          "score": 0.65,
-          "issues": [
-            "Title is not in sentence case or Title Case.",
-            "Title does not mention the time period covered."
-          ],
-          "fixes": [
-            "Use sentence case for the title.",
-            "Add the period covered to the title, e.g. '(2000–2020)'."
-          ],
-          "evidence": {
-            "title": "GUWAHATI WARD BOUNDARIES",
-            "length": 24
-          },
-          "weight": 8.0,
-          "status": "warn"
-        },
-        {
-          "check_id": "1.2_description",
-          "guideline": "1.2 Description / Summary",
-          "score": 0.9,
-          "issues": [
-            "Description does not state the periodicity (daily, monthly, annual…)."
-          ],
-          "fixes": [
-            "Mention how often the data is recorded or updated (e.g. 'annual', 'daily')."
-          ],
-          "evidence": {
-            "sentences": 3,
-            "geography_found": [
-              "ward",
-              "city",
-              "municipal"
-            ],
-            "source_found": [
-              "Example Urban Observatory"
-            ],
-            "periodicity_found": [],
-            "excerpt": "Ward boundaries for Guwahati city. Digitised by the Example Urban Observatory from municipal maps in 2022. Useful for ward-level planning and service mapping."
-          },
-          "weight": 12.0,
-          "status": "warn"
-        },
-        {
-          "check_id": "1.3_publisher",
-          "guideline": "1.3 Publisher / Data Provider",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "publisher": "Example Urban Observatory"
-          },
-          "weight": 5.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "1.5_tags",
-          "guideline": "1.5 Tags",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "tags": [
-              "Boundaries",
-              "Wards"
-            ]
-          },
-          "weight": 5.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "1.6_sectors",
-          "guideline": "1.6 Sectors",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "sectors": [
-              "Urban Development"
-            ]
-          },
-          "weight": 5.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "1.7_geography",
-          "guideline": "1.7 Spatial Coverage / Geography",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "geographies": [
-              "Assam"
-            ]
-          },
-          "weight": 7.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "1.8_date_of_creation",
-          "guideline": "1.8 Date of Creation",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "label": "Date of Creation",
-            "value": "2022-08-30"
-          },
-          "weight": 5.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "1.9_license",
-          "guideline": "1.9 License and Terms of Use",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "license": "OPEN_DATA_COMMONS_BY_ATTRIBUTION",
-            "government_source": false
-          },
-          "weight": 7.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "1.10_source_website",
-          "guideline": "1.10 Source Website",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "urls": [
-              "https://urban-observatory.example.org/wards"
-            ],
-            "http_status": null
-          },
-          "weight": 6.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "2.1_file_format",
-          "guideline": "2.1 File Format",
-          "score": 0.6,
-          "issues": [
-            "GeoJSON declares CRS 'urn:ogc:def:crs:EPSG::32645', not WGS84 (EPSG:4326)."
-          ],
-          "fixes": [
-            "State the spatial reference system; use WGS84 (EPSG:4326)."
-          ],
-          "evidence": {
-            "formats": [
-              "GEOJSON"
-            ],
-            "resources_assessed": 1
-          },
-          "weight": 8.0,
-          "status": "warn"
-        },
-        {
-          "check_id": "2.2_encoding",
-          "guideline": "2.2 Encoding and Character Sets",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "resources_assessed": 1
-          },
-          "weight": 4.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "2.3_column_naming",
-          "guideline": "2.3 Column Naming",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "resources_assessed": 1
-          },
-          "weight": 7.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "2.4_data_types",
-          "guideline": "2.4 Data Types",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "resources_assessed": 1
-          },
-          "weight": 6.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "2.5_units",
-          "guideline": "2.5 Units of Measurement",
-          "score": null,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "not_assessed": "No numeric measurement columns identified."
-          },
-          "weight": 4.0,
-          "status": "na"
-        },
-        {
-          "check_id": "2.6_missing_values",
-          "guideline": "2.6 Missing Values",
-          "score": 1.0,
-          "issues": [],
-          "fixes": [],
-          "evidence": {
-            "resources_assessed": 1
-          },
-          "weight": 3.0,
-          "status": "pass"
-        },
-        {
-          "check_id": "2.7_data_quality",
-          "guideline": "2.7 Data Quality Checks",
-          "score": 0.4,
-          "issues": [
-            "1 polygon rings are not closed."
-          ],
-          "fixes": [
-            "Fix invalid geometries (closed rings, valid coordinates, no self-intersections)."
-          ],
-          "evidence": {
-            "resources_assessed": 1
-          },
-          "weight": 4.0,
-          "status": "fail"
-        },
-        {
-          "check_id": "2.8_file_naming",
-          "guideline": "2.8 File Naming",
-          "score": 0.5,
-          "issues": [
-            "'guwahati_wards.geojson' — no time period, no _v{version} suffix."
-          ],
-          "fixes": [
-            "Rename files as {theme}_{region}_{time_period}_v{version}.{format}, e.g. climate_bihar_precipitation_2000_2020_v1.0.csv."
-          ],
-          "evidence": {
-            "resources_assessed": 1
-          },
-          "weight": 4.0,
-          "status": "warn"
-        }
-      ]
-    },
-    {
       "id": "88888888-8888-4888-8888-888888888888",
       "title": "NFHS-5 district fact sheet indicators on maternal and child health for Uttar Pradesh",
       "url": "https://civicdataspace.in/datasets/88888888-8888-4888-8888-888888888888",
@@ -1921,10 +1651,12 @@
       ],
       "resources": 1,
       "modified": "2026-09-01T00:00:00Z",
-      "score": 88.3,
+      "score": 89.1,
       "grade": "Fair",
-      "metadata_score": 85.7,
+      "metadata_score": 87.0,
       "data_score": 92.6,
+      "language_dataset": [],
+      "placeholder_title": false,
       "top_fixes": [
         "[1.1] Shorten the title to 60 characters or fewer.",
         "[2.5] Document the unit of every measurement column (name suffix like _mm / _inr_crore, or column description).",
@@ -1937,16 +1669,14 @@
         {
           "check_id": "1.1_title",
           "guideline": "1.1 Dataset Title",
-          "score": 0.3,
+          "score": 0.4,
           "issues": [
             "Title is 84 characters (limit 60).",
-            "Title uses abbreviations: NFHS",
-            "Title does not mention the time period covered."
+            "Title uses abbreviations: NFHS"
           ],
           "fixes": [
             "Shorten the title to 60 characters or fewer.",
-            "Spell out abbreviations in the title (e.g. 'India Meteorological Department', not 'IMD').",
-            "Add the period covered to the title, e.g. '(2000–2020)'."
+            "Spell out abbreviations in the title (e.g. 'India Meteorological Department', not 'IMD')."
           ],
           "evidence": {
             "title": "NFHS-5 district fact sheet indicators on maternal and child health for Uttar Pradesh",
@@ -1978,6 +1708,7 @@
             "periodicity_found": [
               "every five years"
             ],
+            "language_dataset": [],
             "excerpt": "This dataset contains district fact sheet indicators from the National Family Health Survey round 5. It covers maternal health, child nutrition and immunisatio…"
           },
           "weight": 12.0,
@@ -2193,6 +1924,287 @@
       ]
     },
     {
+      "id": "66666666-6666-4666-8666-666666666666",
+      "title": "GUWAHATI WARD BOUNDARIES",
+      "url": "https://civicdataspace.in/datasets/66666666-6666-4666-8666-666666666666",
+      "publisher": "Example Urban Observatory",
+      "sectors": [
+        "Urban Development"
+      ],
+      "formats": [
+        "GEOJSON"
+      ],
+      "resources": 1,
+      "modified": "2026-09-01T00:00:00Z",
+      "score": 89.7,
+      "grade": "Fair",
+      "metadata_score": 96.2,
+      "data_score": 78.9,
+      "language_dataset": [],
+      "placeholder_title": false,
+      "top_fixes": [
+        "[2.1] State the spatial reference system; use WGS84 (EPSG:4326).",
+        "[2.7] Fix invalid geometries (closed rings, valid coordinates, no self-intersections).",
+        "[2.8] Rename files as {theme}_{region}_{time_period}_v{version}.{format}, e.g. climate_bihar_precipitation_2000_2020_v1.0.csv.",
+        "[1.2] Mention how often the data is recorded or updated (e.g. 'annual', 'daily').",
+        "[1.1] Use sentence case for the title."
+      ],
+      "fetch_errors": [],
+      "checks": [
+        {
+          "check_id": "1.1_title",
+          "guideline": "1.1 Dataset Title",
+          "score": 0.867,
+          "issues": [
+            "Title is not in sentence case or Title Case."
+          ],
+          "fixes": [
+            "Use sentence case for the title."
+          ],
+          "evidence": {
+            "title": "GUWAHATI WARD BOUNDARIES",
+            "length": 24
+          },
+          "weight": 8.0,
+          "status": "warn"
+        },
+        {
+          "check_id": "1.2_description",
+          "guideline": "1.2 Description / Summary",
+          "score": 0.9,
+          "issues": [
+            "Description does not state the periodicity (daily, monthly, annual…)."
+          ],
+          "fixes": [
+            "Mention how often the data is recorded or updated (e.g. 'annual', 'daily')."
+          ],
+          "evidence": {
+            "sentences": 3,
+            "geography_found": [
+              "ward",
+              "city",
+              "municipal"
+            ],
+            "source_found": [
+              "Example Urban Observatory"
+            ],
+            "periodicity_found": [],
+            "language_dataset": [],
+            "excerpt": "Ward boundaries for Guwahati city. Digitised by the Example Urban Observatory from municipal maps in 2022. Useful for ward-level planning and service mapping."
+          },
+          "weight": 12.0,
+          "status": "warn"
+        },
+        {
+          "check_id": "1.3_publisher",
+          "guideline": "1.3 Publisher / Data Provider",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "publisher": "Example Urban Observatory"
+          },
+          "weight": 5.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "1.5_tags",
+          "guideline": "1.5 Tags",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "tags": [
+              "Boundaries",
+              "Wards"
+            ]
+          },
+          "weight": 5.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "1.6_sectors",
+          "guideline": "1.6 Sectors",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "sectors": [
+              "Urban Development"
+            ]
+          },
+          "weight": 5.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "1.7_geography",
+          "guideline": "1.7 Spatial Coverage / Geography",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "geographies": [
+              "Assam"
+            ]
+          },
+          "weight": 7.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "1.8_date_of_creation",
+          "guideline": "1.8 Date of Creation",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "label": "Date of Creation",
+            "value": "2022-08-30"
+          },
+          "weight": 5.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "1.9_license",
+          "guideline": "1.9 License and Terms of Use",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "license": "OPEN_DATA_COMMONS_BY_ATTRIBUTION",
+            "government_source": false
+          },
+          "weight": 7.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "1.10_source_website",
+          "guideline": "1.10 Source Website",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "urls": [
+              "https://urban-observatory.example.org/wards"
+            ],
+            "http_status": null
+          },
+          "weight": 6.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "2.1_file_format",
+          "guideline": "2.1 File Format",
+          "score": 0.6,
+          "issues": [
+            "GeoJSON declares CRS 'urn:ogc:def:crs:EPSG::32645', not WGS84 (EPSG:4326)."
+          ],
+          "fixes": [
+            "State the spatial reference system; use WGS84 (EPSG:4326)."
+          ],
+          "evidence": {
+            "formats": [
+              "GEOJSON"
+            ],
+            "resources_assessed": 1
+          },
+          "weight": 8.0,
+          "status": "warn"
+        },
+        {
+          "check_id": "2.2_encoding",
+          "guideline": "2.2 Encoding and Character Sets",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "resources_assessed": 1
+          },
+          "weight": 4.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "2.3_column_naming",
+          "guideline": "2.3 Column Naming",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "resources_assessed": 1
+          },
+          "weight": 7.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "2.4_data_types",
+          "guideline": "2.4 Data Types",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "resources_assessed": 1
+          },
+          "weight": 6.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "2.5_units",
+          "guideline": "2.5 Units of Measurement",
+          "score": null,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "not_assessed": "No numeric measurement columns identified."
+          },
+          "weight": 4.0,
+          "status": "na"
+        },
+        {
+          "check_id": "2.6_missing_values",
+          "guideline": "2.6 Missing Values",
+          "score": 1.0,
+          "issues": [],
+          "fixes": [],
+          "evidence": {
+            "resources_assessed": 1
+          },
+          "weight": 3.0,
+          "status": "pass"
+        },
+        {
+          "check_id": "2.7_data_quality",
+          "guideline": "2.7 Data Quality Checks",
+          "score": 0.4,
+          "issues": [
+            "1 polygon rings are not closed."
+          ],
+          "fixes": [
+            "Fix invalid geometries (closed rings, valid coordinates, no self-intersections)."
+          ],
+          "evidence": {
+            "resources_assessed": 1
+          },
+          "weight": 4.0,
+          "status": "fail"
+        },
+        {
+          "check_id": "2.8_file_naming",
+          "guideline": "2.8 File Naming",
+          "score": 0.5,
+          "issues": [
+            "'guwahati_wards.geojson' — no time period, no _v{version} suffix."
+          ],
+          "fixes": [
+            "Rename files as {theme}_{region}_{time_period}_v{version}.{format}, e.g. climate_bihar_precipitation_2000_2020_v1.0.csv."
+          ],
+          "evidence": {
+            "resources_assessed": 1
+          },
+          "weight": 4.0,
+          "status": "warn"
+        }
+      ]
+    },
+    {
       "id": "77777777-7777-4777-8777-777777777777",
       "title": "Literacy by district in Assam, Census 2011",
       "url": "https://civicdataspace.in/datasets/77777777-7777-4777-8777-777777777777",
@@ -2209,6 +2221,8 @@
       "grade": "Fair",
       "metadata_score": 100.0,
       "data_score": 74.4,
+      "language_dataset": [],
+      "placeholder_title": false,
       "top_fixes": [
         "[2.2] Re-save the file as UTF-8.",
         "[2.3] Rename columns to snake_case (lowercase, words joined with underscores).",
@@ -2252,6 +2266,7 @@
             "periodicity_found": [
               "decadal"
             ],
+            "language_dataset": [],
             "excerpt": "District-wise literacy rates for Assam from the Census of India 2011. Figures are decadal census counts compiled by the Example Education Forum. The data helps…"
           },
           "weight": 12.0,
@@ -2488,6 +2503,8 @@
       "grade": "Good",
       "metadata_score": 100.0,
       "data_score": 100.0,
+      "language_dataset": [],
+      "placeholder_title": false,
       "top_fixes": [],
       "fetch_errors": [],
       "checks": [
@@ -2525,6 +2542,7 @@
             "periodicity_found": [
               "daily"
             ],
+            "language_dataset": [],
             "excerpt": "This dataset provides daily rainfall and minimum temperature for all districts of Bihar from 2000 to 2020. It was compiled by the Example Climate Institute fro…"
           },
           "weight": 12.0,
